@@ -1,14 +1,13 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 import Validator from 'validator';
 import PropTypes from 'prop-types';
 import { Header, Message, Segment, Grid, Form, Button } from 'semantic-ui-react';
-import { StyledLink } from './Styled';
 
-class LoginForm extends Component {
+class ResetPasswordForm extends Component {
   state = {
     data: {
       email: '',
-      password: '',
     },
     loading: false,
     errors: {},
@@ -25,22 +24,19 @@ class LoginForm extends Component {
     const errors = this.validate(this.state.data);
     this.setState({ errors });
     if (Object.keys(errors).length === 0) {
-      this.props.submit(this.state.data).catch(err => {
-        this.setState({ errors: err.response.data.errors });
-      });
+      this.props.submit(this.state.data);
     }
   };
 
   validate = data => {
     const errors = {};
     if (!Validator.isEmail(data.email)) errors.email = 'Invalid Email';
-    if (!data.password) errors.password = 'Cannot be blank';
 
     return errors;
   };
 
   render() {
-    const { data, errors, loading } = this.state;
+    const { data, errors } = this.state;
     return (
       <div className="login-form">
         <style>{`
@@ -52,16 +48,11 @@ class LoginForm extends Component {
       `}</style>
         <Grid textAlign="center" style={{ height: '100%' }} verticalAlign="middle">
           <Grid.Column style={{ maxWidth: 450 }}>
-            <Form size="large" onSubmit={this.onSubmit} loading={loading}>
+            <Form size="large" onSubmit={this.onSubmit}>
               <Header as="h2" color="blue" textAlign="center">
-                Welcome Back
+                Enter your email address
               </Header>
               <Segment stacked>
-                {errors.global && (
-                  <Message negative>
-                    <p>{errors.global}</p>
-                  </Message>
-                )}
                 <Form.Input
                   icon="user"
                   iconPosition="left"
@@ -70,26 +61,15 @@ class LoginForm extends Component {
                   placeholder="example@example.com"
                   value={data.email}
                   onChange={this.onChange}
-                  error={!!errors.email}
-                />
-                <Form.Input
-                  icon="lock"
-                  iconPosition="left"
-                  type="password"
-                  name="password"
-                  placeholder="password"
-                  value={data.password}
-                  onChange={this.onChange}
-                  error={!!errors.password}
+                  error={errors.email}
                 />
                 <Button fluid color="blue">
                   Login
                 </Button>
-                <StyledLink to="/reset-password">Forgot password?</StyledLink>
               </Segment>
             </Form>
             <Message>
-              New to us? <a href="#">Sign Up</a>
+              Know your password? <Link to="/login">Login</Link>
             </Message>
           </Grid.Column>
         </Grid>
@@ -99,8 +79,8 @@ class LoginForm extends Component {
 }
 
 const { func } = PropTypes;
-LoginForm.propTypes = {
+ResetPasswordForm.propTypes = {
   submit: func.isRequired,
 };
 
-export default LoginForm;
+export default ResetPasswordForm;
