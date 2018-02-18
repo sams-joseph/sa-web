@@ -28,3 +28,9 @@ export const logout = () => dispatch => {
 
 export const resetPassword = credentials => dispatch =>
   api.user.resetPassword(credentials).then(user => dispatch(userResetPassword(user)));
+
+export const confirm = token => dispatch =>
+  api.user.confirm(token).then(user => {
+    localStorage.sepsisJWT = user.token;
+    dispatch(userLoggedIn(user));
+  });

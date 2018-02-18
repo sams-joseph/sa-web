@@ -8,6 +8,8 @@ export default {
           credentials,
         })
         .then(res => res.data.user),
+    confirm: token =>
+      axios.post(`${process.env.REACT_APP_API_HOST}/api/auth/confirmation`, { token }).then(res => res.data.user),
     resetPassword: credentials =>
       axios
         .post(`${process.env.REACT_APP_API_HOST}/api/auth/forgot-password`, {
