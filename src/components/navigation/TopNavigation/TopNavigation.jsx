@@ -28,8 +28,12 @@ class TopNavigation extends Component {
       <Container>
         <MainNavigation>
           <NavigationGroupLeft>
-            <MainNavigationLink to="/">Home</MainNavigationLink>
+            <MainNavigationLink exact to="/">
+              Home
+            </MainNavigationLink>
             {isAuthenticated && <MainNavigationLink to="/dashboard">Dashboard</MainNavigationLink>}
+            {isAuthenticated && <MainNavigationLink to="/products">Products</MainNavigationLink>}
+            {isAuthenticated && <MainNavigationLink to="/designs">Designs</MainNavigationLink>}
           </NavigationGroupLeft>
           {isAuthenticated ? (
             <NavigationGroupRight>

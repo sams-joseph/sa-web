@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Icon, UserMenuBtn, UserMenuToggle } from './Styled';
-import chevronDown from './chevron-down.svg';
+import chevronDown from './images/chevron-down.svg';
 
 class UserIcon extends Component {
   state = {
@@ -19,11 +19,11 @@ class UserIcon extends Component {
     const { firstName, lastName } = this.props;
     return (
       <UserMenuBtn onClick={this.onToggle}>
+        <UserMenuToggle src={chevronDown} alt="User Menu" />
         <Icon>
           {firstName[0]}
           {lastName[0]}
         </Icon>
-        <UserMenuToggle src={chevronDown} alt="User Menu" />
       </UserMenuBtn>
     );
   }

@@ -1,25 +1,53 @@
-import React from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
+import { Container, Heading } from './Styled';
+import AlertMessage from '../messages/AlertMessage';
 import * as actions from '../../actions/auth';
 
-const HomePage = ({ isAuthenticated, logout }) => (
-  <div>
-    <h1>Homepage</h1>
-    {isAuthenticated ? <button onClick={() => logout()}>Logout</button> : <Link to="/login">Login</Link>}
-  </div>
-);
+class HomePage extends Component {
+  state = {
+    showMessage: true,
+  };
+  toggleMessage = showMessage => {
+    this.setState({
+      showMessage,
+    });
+  };
+  render() {
+    const { isConfirmed, isAuthenticated } = this.props;
+    const { showMessage } = this.state;
+    return (
+      <div>
+        {!isConfirmed &&
+          showMessage &&
+          isAuthenticated && (
+            <AlertMessage
+              closable
+              type="info"
+              text="Your email has not been verified"
+              toggleMessage={this.toggleMessage}
+            />
+          )}
+        <Container>
+          <Heading>Home Page</Heading>
+        </Container>
+      </div>
+    );
+  }
+}
 
-const { bool, func } = PropTypes;
+const { bool } = PropTypes;
 HomePage.propTypes = {
   isAuthenticated: bool.isRequired,
-  logout: func.isRequired,
+  isConfirmed: bool.isRequired,
 };
 
 function mapStateToProps(state) {
   return {
     isAuthenticated: !!state.user.token,
+    isConfirmed: !!state.user.isConfirmed,
   };
 }
 

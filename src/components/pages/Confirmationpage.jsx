@@ -2,8 +2,8 @@ import React, { Component } from 'react';
 import { Message, Icon } from 'semantic-ui-react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { Link } from 'react-router-dom';
 import { confirm } from '../../actions/auth';
+import AlertMessage from '../messages/AlertMessage';
 
 class ConfirmationPage extends Component {
   state = {
@@ -29,26 +29,10 @@ class ConfirmationPage extends Component {
           </Message>
         )}
 
-        {!loading &&
-          success && (
-            <Message success icon>
-              <Icon name="checkmark" />
-              <Message.Content>
-                <Message.Header>Your email has been verified successfuly</Message.Header>
-                <Link to="/dashboard">Go to Dashboard</Link>
-              </Message.Content>
-            </Message>
-          )}
+        {!loading && success && <AlertMessage type="success" text="Your email has been verified successfuly" />}
 
         {!loading &&
-          !success && (
-            <Message negative icon>
-              <Icon name="warning sign" />
-              <Message.Content>
-                <Message.Header>This link has either already been used or is not valid</Message.Header>
-              </Message.Content>
-            </Message>
-          )}
+          !success && <AlertMessage type="danger" text="This link has either already been used or is not valid" />}
       </div>
     );
   }

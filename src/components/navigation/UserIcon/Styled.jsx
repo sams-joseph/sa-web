@@ -3,7 +3,7 @@ import constants from '../../constants';
 
 export const Icon = styled.span`
   display: block;
-  background: ${constants.colorBlueOne};
+  background: #3f4a75;
   color: #ffffff;
   height: 35px;
   line-height: 35px;
@@ -19,6 +19,6 @@ export const UserMenuBtn = styled.div`
 `;
 
 export const UserMenuToggle = styled.img`
-  margin-left: 10px;
+  margin-right: 10px;
   width: 15px;
 `;

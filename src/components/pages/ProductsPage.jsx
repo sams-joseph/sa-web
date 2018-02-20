@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import AlertMessage from '../messages/AlertMessage';
 import { Container, Heading } from './Styled';
 
-class DashboardPage extends Component {
+class ProductsPage extends Component {
   state = {
     showMessage: true,
   };
@@ -30,7 +30,7 @@ class DashboardPage extends Component {
             />
           )}
         <Container>
-          <Heading>Dashboard</Heading>
+          <Heading>Products</Heading>
         </Container>
       </div>
     );
@@ -38,7 +38,7 @@ class DashboardPage extends Component {
 }
 
 const { bool } = PropTypes;
-DashboardPage.propTypes = {
+ProductsPage.propTypes = {
   isConfirmed: bool.isRequired,
 };
 
@@ -48,4 +48,4 @@ function mapStateToProps(state) {
   };
 }
 
-export default connect(mapStateToProps)(DashboardPage);
+export default connect(mapStateToProps)(ProductsPage);

@@ -1,13 +1,12 @@
 import styled from 'styled-components';
-import { Link } from 'react-router-dom';
+import { Link, NavLink } from 'react-router-dom';
 import constants from '../../constants';
 
 export const Container = styled.div`
   font-family: ${constants.fontFamily};
   width: 100%;
-  border-bottom: 1px solid #e3e3e3;
-  padding: 30px 20px;
-  margin-bottom: 70px;
+  border-bottom: 1px solid ${constants.almostWhite};
+  padding: 20px 20px;
   position: relative;
 `;
 
@@ -34,24 +33,29 @@ export const UserName = styled.span`
   padding: 0 20px;
 `;
 
-export const MainNavigationLink = styled(Link)`
+export const MainNavigationLink = styled(NavLink)`
   border-bottom: 2px solid transparent;
   margin-right: 20px;
-  color: ${constants.colorBlueOne};
+  color: ${constants.almostBlack};
   font-size: 14px;
   font-weight: 600;
   text-decoration: none;
   padding: 10px 0;
+  transition: border 0.125s, color 0.125s;
 
   &:hover {
-    color: #018cff;
-    border-bottom: 2px solid rgba(0, 105, 255, 0.2);
+    color: ${constants.defaultPrimaryColor};
+    border-bottom: 2px solid ${constants.defaultPrimaryColorMuted};
+  }
+
+  &.active {
+    color: ${constants.defaultPrimaryColor};
   }
 `;
 
 export const CreateOrderBtn = styled.button`
   border: 1px solid ${constants.colorBlueOne};
-  border-radius: 30px;
+  border-radius: 2px;
   color: ${constants.colorBlueOne};
   background: transparent;
   height: 35px;
@@ -72,7 +76,7 @@ export const CreateOrderBtn = styled.button`
 
 export const LoginBtn = styled(Link)`
   border: none;
-  border-radius: 30px;
+  border-radius: 2px;
   color: #ffffff;
   background: ${constants.colorBlueOne};
   height: 35px;
