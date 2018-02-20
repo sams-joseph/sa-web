@@ -88,9 +88,6 @@ class LoginForm extends Component {
                 <StyledLink to="/reset-password">Forgot password?</StyledLink>
               </Segment>
             </Form>
-            <Message>
-              New to us? <a href="#">Sign Up</a>
-            </Message>
           </Grid.Column>
         </Grid>
       </div>

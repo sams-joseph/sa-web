@@ -3,13 +3,14 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
 import ConfirmEmailMessage from '../messages/ConfirmEmailMessage';
+import { Container } from './Styled';
 
 function DashboardPage({ isConfirmed }) {
   return (
-    <div>
+    <Container>
       {!isConfirmed && <ConfirmEmailMessage />}
       <h1>Dashboard</h1>
-    </div>
+    </Container>
   );
 }
 

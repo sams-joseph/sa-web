@@ -6,7 +6,6 @@ import { Provider } from 'react-redux';
 import thunk from 'redux-thunk';
 import { composeWithDevTools } from 'redux-devtools-extension';
 import decode from 'jwt-decode';
-import 'semantic-ui-css/semantic.min.css';
 import { userLoggedIn } from './actions/auth';
 
 import App from './App';
