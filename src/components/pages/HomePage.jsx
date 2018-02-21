@@ -47,7 +47,7 @@ HomePage.propTypes = {
 function mapStateToProps(state) {
   return {
     isAuthenticated: !!state.user.token,
-    isConfirmed: !!state.user.isConfirmed,
+    isConfirmed: !!state.user.confirmed,
   };
 }
 
