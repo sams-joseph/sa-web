@@ -17,4 +17,8 @@ export default {
         })
         .then(res => res.data.user),
   },
+  product: {
+    retreiveProducts: () =>
+      axios.get(`${process.env.REACT_APP_API_HOST}/api/products`, {}).then(res => res.data.products),
+  },
 };
