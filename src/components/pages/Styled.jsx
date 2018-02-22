@@ -18,7 +18,8 @@ export const Heading = styled.h1`
   color: ${constants.almostBlack};
   font-size: 2em;
   font-weight: ${constants.fontWeightLight};
-  margin-bottom: 40px;
+  font-family: ${constants.fontFamily};
+  margin-bottom: 50px;
 `;
 
 export const Hero = styled.div`

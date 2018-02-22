@@ -6,7 +6,7 @@ export const productsRetreived = products => ({
   products,
 });
 
-export const retreiveProducts = () => dispatch =>
-  api.product.retreiveProducts().then(products => {
+export const getProducts = () => dispatch =>
+  api.product.getProducts().then(products => {
     dispatch(productsRetreived(products));
   });

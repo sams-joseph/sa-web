@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import AlertMessage from '../messages/AlertMessage';
 import Product from '../Product';
 import { Container, Heading, FlexContainer, Hero } from './Styled';
-import { retreiveProducts } from '../../actions/product';
+import { getProducts } from '../../actions/product';
 
 class ProductsPage extends Component {
   state = {
@@ -13,7 +13,7 @@ class ProductsPage extends Component {
   };
 
   componentDidMount() {
-    this.props.retreiveProducts();
+    this.props.getProducts();
   }
 
   toggleMessage = showMessage => {
@@ -60,7 +60,7 @@ class ProductsPage extends Component {
 const { bool, func, arrayOf, shape, string } = PropTypes;
 ProductsPage.propTypes = {
   isConfirmed: bool.isRequired,
-  retreiveProducts: func.isRequired,
+  getProducts: func.isRequired,
   products: arrayOf(
     shape({
       name: string,
@@ -77,4 +77,4 @@ function mapStateToProps(state) {
   };
 }
 
-export default connect(mapStateToProps, { retreiveProducts })(ProductsPage);
+export default connect(mapStateToProps, { getProducts })(ProductsPage);

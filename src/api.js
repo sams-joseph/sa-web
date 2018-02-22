@@ -18,7 +18,10 @@ export default {
         .then(res => res.data.user),
   },
   product: {
-    retreiveProducts: () =>
-      axios.get(`${process.env.REACT_APP_API_HOST}/api/products`, {}).then(res => res.data.products),
+    getProducts: () => axios.get(`${process.env.REACT_APP_API_HOST}/api/products`, {}).then(res => res.data.products),
+  },
+  size: {
+    getSizeByProduct: id =>
+      axios.get(`${process.env.REACT_APP_API_HOST}/api/sizes`, { params: { id } }).then(res => res.data.sizes),
   },
 };

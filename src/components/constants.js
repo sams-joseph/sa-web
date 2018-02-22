@@ -2,7 +2,7 @@ export default {
   colorBlueOne: '#3776D8',
   colorBlueTwo: '#3F4A75',
   defaultPrimaryColor: '#3776D8',
-  defaultPrimaryColorMuted: 'rgba(0, 105, 255, 0.6)',
+  defaultPrimaryColorMuted: '#5b9bff',
   darkColor: '#3F4A75',
   darkPrimaryColor: '#235bb2',
   darkPrimaryHoverColor: '#1b4b96',
@@ -36,4 +36,5 @@ export default {
   fontSizeMedium: '14px',
   fontSizeSmall: '12px',
   fontSizeTiny: '10px',
+  lineHeight: '24px',
 };
