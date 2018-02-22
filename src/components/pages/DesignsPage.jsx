@@ -2,21 +2,37 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import Select from 'react-select';
-import 'react-select/dist/react-select.css';
 
 import AlertMessage from '../messages/AlertMessage';
+import Sidebar from '../navigation/Sidebar';
+import InputGroup from '../inputs/InputGroup';
+import Input from '../inputs/Input';
+import CanvasStage from '../Canvas';
 import { getSizeByProduct } from '../../actions/size';
-import { Container, Heading, Hero } from './Styled';
+import { getDesignsByProduct } from '../../actions/design';
+import { getProducts } from '../../actions/product';
+import { Container, FlexContainer } from './Styled';
 import constants from '../constants';
 
 class DesignsPage extends Component {
   state = {
     showMessage: true,
+    text: {
+      name: '',
+      date: '',
+    },
   };
 
-  componentDidMount() {
-    this.props.getSizeByProduct(this.props.productID).then(sizes => console.log(sizes));
+  componentWillMount() {
+    this.props.getSizeByProduct(this.props.productID);
+    this.props.getDesignsByProduct(this.props.productID);
+    this.props.getProducts();
   }
+
+  onChange = e =>
+    this.setState({
+      text: { ...this.state.text, [e.target.name]: e.target.value },
+    });
 
   toggleMessage = showMessage => {
     this.setState({
@@ -25,10 +41,11 @@ class DesignsPage extends Component {
   };
 
   render() {
-    const { isConfirmed, sizes } = this.props;
+    const { isConfirmed, sizes, products, designs, productID } = this.props;
     const { showMessage } = this.state;
-
-    const options = sizes.map(size => ({ value: size.height, label: `${size.height} x ${size.width}` }));
+    const productOptions = products.map(product => ({ value: product.id, label: product.name }));
+    const sizeOptions = sizes.map(size => ({ value: size.id, label: size.displayName }));
+    const designOptions = designs.map(design => ({ value: design.id, label: design.name }));
 
     return (
       <div>
@@ -41,36 +58,107 @@ class DesignsPage extends Component {
               toggleMessage={this.toggleMessage}
             />
           )}
-        <Hero img="https://images.unsplash.com/photo-1476357471311-43c0db9fb2b4?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=8b7966ac7d2736e7be92801b4d2f43ed&auto=format&fit=crop&w=2550&q=80" />
-        <Container>
-          <Heading>Designs</Heading>
-          <Select
-            style={{
-              borderColor: constants.almostWhite,
-              borderRadius: '2px',
-            }}
-            name="form-field-name"
-            options={options}
-          />
+        <Container padding="0 20px">
+          <FlexContainer>
+            <Sidebar>
+              <InputGroup label="Product">
+                <Select
+                  style={{
+                    borderColor: constants.almostWhite,
+                    borderRadius: '2px',
+                    marginTop: '5px',
+                  }}
+                  value={productID}
+                  id="product"
+                  name="product"
+                  options={productOptions}
+                />
+              </InputGroup>
+              <InputGroup label="Size">
+                <Select
+                  style={{
+                    borderColor: constants.almostWhite,
+                    borderRadius: '2px',
+                    marginTop: '5px',
+                  }}
+                  id="product-size"
+                  name="product-size"
+                  value={sizes.length > 0 ? sizes[0].id : 0}
+                  options={sizeOptions}
+                />
+              </InputGroup>
+              <InputGroup label="Design">
+                <Select
+                  style={{
+                    borderColor: constants.almostWhite,
+                    borderRadius: '2px',
+                    marginTop: '5px',
+                  }}
+                  id="design"
+                  name="design"
+                  value={designs.length > 0 ? designs[0].id : 0}
+                  options={designOptions}
+                />
+              </InputGroup>
+              <InputGroup label="Name">
+                <Input
+                  type="text"
+                  id="name"
+                  name="name"
+                  placeholder="John Doe"
+                  value={this.state.text.name}
+                  onChange={this.onChange}
+                />
+              </InputGroup>
+              <InputGroup label="Date">
+                <Input
+                  type="text"
+                  id="date"
+                  name="date"
+                  placeholder="1987-2018"
+                  value={this.state.text.date}
+                  onChange={this.onChange}
+                />
+              </InputGroup>
+            </Sidebar>
+            <Container padding="0 0 0 20px">
+              <CanvasStage
+                img={designs.length > 0 ? designs[0].imageUrl : ''}
+                name={this.state.text.name}
+                date={this.state.text.date}
+              />
+            </Container>
+          </FlexContainer>
         </Container>
       </div>
     );
   }
 }
 
-const { bool, func, number } = PropTypes;
+const { bool, func, number, arrayOf, shape } = PropTypes;
 DesignsPage.propTypes = {
   isConfirmed: bool.isRequired,
   getSizeByProduct: func.isRequired,
-  productID: number.isRequired,
+  getDesignsByProduct: func.isRequired,
+  getProducts: func.isRequired,
+  productID: number,
+  products: arrayOf(shape({})).isRequired,
+  sizes: arrayOf(shape({})).isRequired,
+  designs: arrayOf(shape({})).isRequired,
+};
+
+DesignsPage.defaultProps = {
+  productID: 1,
 };
 
 function mapStateToProps(state) {
   return {
     isConfirmed: !!state.user.confirmed,
     productID: state.order.productID,
+    products: state.product,
+    designs: state.design,
     sizes: state.size,
   };
 }
 
-export default connect(mapStateToProps, { getSizeByProduct })(DesignsPage);
+export default connect(mapStateToProps, { getSizeByProduct, getProducts, getDesignsByProduct })(DesignsPage);

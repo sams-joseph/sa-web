@@ -12,7 +12,7 @@ class ProductsPage extends Component {
     showMessage: true,
   };
 
-  componentDidMount() {
+  componentWillMount() {
     this.props.getProducts();
   }
 

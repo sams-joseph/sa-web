@@ -6,7 +6,9 @@ import { Provider } from 'react-redux';
 import thunk from 'redux-thunk';
 import { composeWithDevTools } from 'redux-devtools-extension';
 import decode from 'jwt-decode';
+import 'react-select/dist/react-select.css';
 import { userLoggedIn } from './actions/auth';
+import ScrollToTop from './components/routes/ScrollToTop';
 
 import App from './App';
 import registerServiceWorker from './registerServiceWorker';
@@ -28,9 +30,11 @@ if (localStorage.sepsisJWT) {
 
 ReactDOM.render(
   <BrowserRouter>
-    <Provider store={store}>
-      <Route component={App} />
-    </Provider>
+    <ScrollToTop>
+      <Provider store={store}>
+        <Route component={App} />
+      </Provider>
+    </ScrollToTop>
   </BrowserRouter>,
   document.getElementById('root')
 );

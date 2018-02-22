@@ -33,11 +33,10 @@ class TopNavigation extends Component {
             </MainNavigationLink>
             {isAuthenticated && <MainNavigationLink to="/dashboard">Dashboard</MainNavigationLink>}
             {isAuthenticated && <MainNavigationLink to="/products">Products</MainNavigationLink>}
-            {isAuthenticated && <MainNavigationLink to="/designs">Designs</MainNavigationLink>}
           </NavigationGroupLeft>
           {isAuthenticated ? (
             <NavigationGroupRight>
-              <CreateOrderBtn>Order</CreateOrderBtn>
+              <CreateOrderBtn to="/select-design">Order</CreateOrderBtn>
               <UserIcon onToggle={this.onToggle} firstName={firstName} lastName={lastName} />
             </NavigationGroupRight>
           ) : (

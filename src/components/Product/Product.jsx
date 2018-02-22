@@ -11,7 +11,7 @@ function Product({ id, name, description, imageUrl, setOrderProduct }) {
       <ProductMeta>
         <ProductHeading>{name}</ProductHeading>
         <ProductDescription>{description}</ProductDescription>
-        <ProductButton onClick={() => setOrderProduct(id)} to="/designs">
+        <ProductButton onClick={() => setOrderProduct(id)} to="/select-design">
           Get Started
         </ProductButton>
       </ProductMeta>

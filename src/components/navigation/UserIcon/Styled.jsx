@@ -3,7 +3,7 @@ import constants from '../../constants';
 
 export const Icon = styled.span`
   display: block;
-  background: #3f4a75;
+  background: ${constants.darkColor};
   color: #ffffff;
   height: 35px;
   line-height: 35px;

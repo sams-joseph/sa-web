@@ -3,9 +3,10 @@ import constants from '../constants';
 
 export const Container = styled.div`
   font-family: ${constants.fontFamily};
-  max-width: 1100px;
+  max-width: 1140px;
   min-height: calc(100vh - 180px);
-  margin: 70px auto 0 auto;
+  margin: 0 auto;
+  padding: ${props => props.padding};
   width: 100%;
 `;
 
@@ -20,6 +21,7 @@ export const Heading = styled.h1`
   font-weight: ${constants.fontWeightLight};
   font-family: ${constants.fontFamily};
   margin-bottom: 50px;
+  margin-top: 70px;
 `;
 
 export const Hero = styled.div`

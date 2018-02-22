@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { Container, Heading } from './Styled';
 import AlertMessage from '../messages/AlertMessage';

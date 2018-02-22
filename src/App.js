@@ -22,7 +22,7 @@ const App = ({ location }) => (
     <GuestRoute location={location} path="/login" exact component={LoginPage} />
     <UserRoute location={location} path="/dashboard" exact component={DashboardPage} />
     <UserRoute location={location} path="/products" exact component={ProductsPage} />
-    <UserRoute location={location} path="/designs" exact component={DesignsPage} />
+    <UserRoute location={location} path="/select-design" exact component={DesignsPage} />
     <Route location={location} path="/reset-password" exact component={ResetPasswordPage} />
     <Footer />
   </div>

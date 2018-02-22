@@ -53,7 +53,7 @@ export const MainNavigationLink = styled(NavLink)`
   }
 `;
 
-export const CreateOrderBtn = styled.button`
+export const CreateOrderBtn = styled(Link)`
   border: 1px solid ${constants.colorBlueOne};
   border-radius: 2px;
   color: ${constants.colorBlueOne};
@@ -62,6 +62,8 @@ export const CreateOrderBtn = styled.button`
   padding: 0 20px;
   margin-right: 20px;
   cursor: pointer;
+  text-decoration: none;
+  line-height: 35px;
   transition: color 0.125s, background 0.125s;
 
   &:hover {

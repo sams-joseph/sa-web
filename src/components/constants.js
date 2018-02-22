@@ -7,7 +7,7 @@ export default {
   darkPrimaryColor: '#235bb2',
   darkPrimaryHoverColor: '#1b4b96',
   almostBlack: '#424756',
-  almostWhite: '#DDE5F4',
+  almostWhite: '#e6eaf2',
   colorInfo: '#3776D8',
   colorDanger: '#EA233F',
   colorDangerDark: '#b21328',
