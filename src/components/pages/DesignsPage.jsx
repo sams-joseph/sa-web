@@ -11,7 +11,7 @@ import CanvasStage from '../Canvas';
 import { getSizeByProduct } from '../../actions/size';
 import { getDesignsByProduct } from '../../actions/design';
 import { getProducts } from '../../actions/product';
-import { Container, FlexContainer } from './Styled';
+import { Container, FlexContainer, CanvasControls } from './Styled';
 import constants from '../constants';
 
 class DesignsPage extends Component {
@@ -126,7 +126,14 @@ class DesignsPage extends Component {
                 img={designs.length > 0 ? designs[0].imageUrl : ''}
                 name={this.state.text.name}
                 date={this.state.text.date}
+                width="787"
+                height="227"
               />
+              <CanvasControls>
+                <button>Font</button>
+                <button>Font</button>
+                <button>Font</button>
+              </CanvasControls>
             </Container>
           </FlexContainer>
         </Container>

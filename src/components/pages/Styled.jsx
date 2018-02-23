@@ -31,3 +31,22 @@ export const Hero = styled.div`
   height: 400px;
   width: 100%;
 `;
+
+export const CanvasControls = styled.div`
+  background: ${constants.almostWhite};
+  width: 100%;
+  margin-top: 20px;
+  height: 50px;
+
+  & button {
+    border: none;
+    border-right: 1px solid #d0d4dd;
+    background: transparent;
+    height: 50px;
+    transition: background 0.125s;
+
+    &:hover {
+      background: #d0d4dd;
+    }
+  }
+`;
