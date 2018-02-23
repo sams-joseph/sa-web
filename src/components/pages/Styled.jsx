@@ -34,6 +34,7 @@ export const Hero = styled.div`
 
 export const CanvasControls = styled.div`
   background: ${constants.almostWhite};
+  display: flex;
   width: 100%;
   margin-top: 20px;
   height: 50px;
@@ -44,6 +45,12 @@ export const CanvasControls = styled.div`
     background: transparent;
     height: 50px;
     transition: background 0.125s;
+    padding: 5px 15px 0 15px;
+    cursor: pointer;
+
+    & img {
+      height: 18px;
+    }
 
     &:hover {
       background: #d0d4dd;

@@ -14,6 +14,11 @@ import { getProducts } from '../../actions/product';
 import { Container, FlexContainer, CanvasControls } from './Styled';
 import constants from '../constants';
 
+import crop from './images/crop.svg';
+import move from './images/move.svg';
+import italic from './images/italic.svg';
+import type from './images/type.svg';
+
 class DesignsPage extends Component {
   state = {
     showMessage: true,
@@ -38,6 +43,14 @@ class DesignsPage extends Component {
     this.setState({
       showMessage,
     });
+  };
+
+  search = (key, arr) => {
+    for (let i = 0; i < arr.length; i++) {
+      if (arr[i].id === key) {
+        return arr[i];
+      }
+    }
   };
 
   render() {
@@ -126,13 +139,22 @@ class DesignsPage extends Component {
                 img={designs.length > 0 ? designs[0].imageUrl : ''}
                 name={this.state.text.name}
                 date={this.state.text.date}
-                width="787"
-                height="227"
+                width={sizes.length > 0 ? sizes[0].width : 0}
+                height={sizes.length > 0 ? sizes[0].height : 0}
               />
               <CanvasControls>
-                <button>Font</button>
-                <button>Font</button>
-                <button>Font</button>
+                <button>
+                  <img src={move} alt="" />
+                </button>
+                <button>
+                  <img src={crop} alt="" />
+                </button>
+                <button>
+                  <img src={type} alt="" />
+                </button>
+                <button>
+                  <img src={italic} alt="" />
+                </button>
               </CanvasControls>
             </Container>
           </FlexContainer>
