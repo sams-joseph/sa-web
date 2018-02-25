@@ -1,58 +1,37 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Stage, Layer, Text, Image, Line } from 'react-konva';
+import Konva from 'konva';
 import { StageContainer } from './Styled';
 import constants from '../constants';
 
 class CanvasStage extends Component {
   state = {
+    image: new window.Image(200, 200),
     dims: {
       height: 300,
       width: 300,
     },
-    portrait: {
-      strokeEnabled: false,
-      shadowEnabled: false,
-      opacity: 1,
-    },
-    name: {
-      strokeEnabled: false,
-      shadowEnabled: false,
-    },
-    date: {
-      strokeEnabled: false,
-      shadowEnabled: false,
-    },
   };
 
   componentDidMount() {
+    this.state.image.src = 'https://www.fillmurray.com/600/600';
+    // eslint-disable-next-line
     this.setState({
-      ...this.state,
       dims: { width: this.divElement.clientWidth },
     });
   }
 
-  onMouseDown = e => {
-    this.canvasImage.moveUp();
-    this.setState({
-      ...this.state,
-      [e.target.attrs.name]: {
-        strokeEnabled: true,
-        shadowEnabled: true,
-        opacity: 0.5,
-      },
-    });
-  };
-
-  onMouseUp = e => {
-    this.setState({
-      ...this.state,
-      [e.target.attrs.name]: {
-        strokeEnabled: false,
-        shadowEnabled: false,
-        opacity: 1,
-      },
-    });
+  onClick = e => {
+    if (!e.target.hasName('stage')) {
+      const tr = new Konva.Transformer();
+      this.layer.add(tr);
+      tr.attachTo(e.target);
+      this.layer.draw();
+    } else if (e.target.hasName('stage')) {
+      this.stage._stage.find('Transformer').destroy();
+      this.layer.draw();
+    }
   };
 
   dragBoundFunc = pos => {
@@ -81,10 +60,8 @@ class CanvasStage extends Component {
 
   render() {
     const { name, date, img, width, height } = this.props;
-    const { dims, portrait } = this.state;
+    const { dims, image } = this.state;
     const scaledHeight = dims.width * (height / width);
-    const image = new window.Image(300, 229);
-    image.src = 'https://www.fillmurray.com/300/229';
 
     return (
       <StageContainer
@@ -93,35 +70,48 @@ class CanvasStage extends Component {
         }}
         img={img}
         width="100%"
-        height={scaledHeight}
+        height={isNaN(scaledHeight) ? 0 : scaledHeight}
       >
         <Stage
+          name="stage"
           ref={node => {
             this.stage = node;
           }}
           width={dims.width}
           height={scaledHeight}
+          onClick={this.onClick}
         >
-          <Layer onMouseEnter={this.mouseEnter} onMouseOut={this.mouseLeave}>
+          <Layer
+            ref={node => {
+              this.layer = node;
+            }}
+            onMouseEnter={this.mouseEnter}
+            onMouseOut={this.mouseLeave}
+          >
             <Image
               name="portrait"
               ref={node => {
                 this.canvasImage = node;
               }}
-              opacity={portrait.opacity}
-              stroke="cyan"
-              strokeWidth="2"
-              strokeEnabled={portrait.strokeEnabled}
-              shadowEnabled={portrait.shadowEnabled}
-              shadowColor="black"
-              shadowBlur="20"
               image={image}
-              onMouseDown={this.onMouseDown}
-              onMouseUp={this.onMouseUp}
               draggable
             />
-            <Text name="name" fill="white" text={name} fontSize="30" fontFamily={constants.fontFamily} draggable />
-            <Text name="date" fill="white" text={date} fontSize="20" fontFamily={constants.fontFamily} draggable />
+            <Text
+              name="name"
+              fill={this.props.color}
+              text={name}
+              fontSize="30"
+              fontFamily={constants.fontFamily}
+              draggable
+            />
+            <Text
+              name="date"
+              fill={this.props.color}
+              text={date}
+              fontSize="20"
+              fontFamily={constants.fontFamily}
+              draggable
+            />
           </Layer>
           <Layer>
             <Line
@@ -139,13 +129,14 @@ class CanvasStage extends Component {
   }
 }
 
-const { string } = PropTypes;
+const { string, number } = PropTypes;
 CanvasStage.propTypes = {
   name: string.isRequired,
   date: string.isRequired,
   img: string,
-  width: string.isRequired,
-  height: string.isRequired,
+  width: number.isRequired,
+  height: number.isRequired,
+  color: string.isRequired,
 };
 
 CanvasStage.defaultProps = {

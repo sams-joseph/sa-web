@@ -57,3 +57,19 @@ export const CanvasControls = styled.div`
     }
   }
 `;
+
+export const ColorInput = styled.input`
+  height: 50px;
+  border: none;
+  border-right: 1px solid #d0d4dd;
+  background: transparent;
+  cursor: pointer;
+
+  &:hover {
+    background: #d0d4dd;
+  }
+
+  &:focus {
+    outline: none;
+  }
+`;

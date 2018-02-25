@@ -11,7 +11,7 @@ import CanvasStage from '../Canvas';
 import { getSizeByProduct } from '../../actions/size';
 import { getDesignsByProduct } from '../../actions/design';
 import { getProducts } from '../../actions/product';
-import { Container, FlexContainer, CanvasControls } from './Styled';
+import { Container, FlexContainer, CanvasControls, ColorInput } from './Styled';
 import constants from '../constants';
 
 import crop from './images/crop.svg';
@@ -26,6 +26,7 @@ class DesignsPage extends Component {
       name: '',
       date: '',
     },
+    fontColor: '#000000',
   };
 
   componentWillMount() {
@@ -51,6 +52,12 @@ class DesignsPage extends Component {
         return arr[i];
       }
     }
+  };
+
+  setColor = e => {
+    this.setState({
+      fontColor: this.color.value,
+    });
   };
 
   render() {
@@ -141,6 +148,7 @@ class DesignsPage extends Component {
                 date={this.state.text.date}
                 width={sizes.length > 0 ? sizes[0].width : 0}
                 height={sizes.length > 0 ? sizes[0].height : 0}
+                color={this.state.fontColor}
               />
               <CanvasControls>
                 <button>
@@ -155,6 +163,13 @@ class DesignsPage extends Component {
                 <button>
                   <img src={italic} alt="" />
                 </button>
+                <ColorInput
+                  type="color"
+                  innerRef={input => {
+                    this.color = input;
+                  }}
+                  onChange={this.setColor}
+                />
               </CanvasControls>
             </Container>
           </FlexContainer>
