@@ -5,7 +5,7 @@ import { SidebarContainer, SidebarHeading } from './Styled';
 function Sidebar({ children }) {
   return (
     <SidebarContainer>
-      <SidebarHeading>Product Features</SidebarHeading>
+      <SidebarHeading>Product Customization</SidebarHeading>
       {children}
     </SidebarContainer>
   );

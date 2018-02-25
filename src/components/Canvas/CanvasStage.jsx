@@ -7,7 +7,7 @@ import constants from '../constants';
 
 class CanvasStage extends Component {
   state = {
-    image: new window.Image(200, 200),
+    image: new window.Image(),
     dims: {
       height: 300,
       width: 300,
@@ -24,6 +24,7 @@ class CanvasStage extends Component {
 
   onClick = e => {
     if (!e.target.hasName('stage')) {
+      this.stage._stage.find('Transformer').destroy();
       const tr = new Konva.Transformer();
       this.layer.add(tr);
       tr.attachTo(e.target);
@@ -59,9 +60,10 @@ class CanvasStage extends Component {
   };
 
   render() {
-    const { name, date, img, width, height } = this.props;
+    const { name, date, img, width, height, bleed } = this.props;
     const { dims, image } = this.state;
     const scaledHeight = dims.width * (height / width);
+    const safety = bleed * (height / width);
 
     return (
       <StageContainer
@@ -78,7 +80,7 @@ class CanvasStage extends Component {
             this.stage = node;
           }}
           width={dims.width}
-          height={scaledHeight}
+          height={isNaN(scaledHeight) ? 0 : scaledHeight}
           onClick={this.onClick}
         >
           <Layer
@@ -116,7 +118,16 @@ class CanvasStage extends Component {
           <Layer>
             <Line
               fillEnabled={false}
-              points={[10, 10, dims.width - 10, 10, dims.width - 10, scaledHeight - 10, 10, scaledHeight - 10]}
+              points={[
+                safety,
+                safety,
+                dims.width - safety,
+                safety,
+                dims.width - safety,
+                scaledHeight - safety,
+                safety,
+                scaledHeight - safety,
+              ]}
               stroke="lightgrey"
               dash={[10, 5]}
               strokeWidth="1"

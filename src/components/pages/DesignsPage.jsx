@@ -149,6 +149,7 @@ class DesignsPage extends Component {
                 width={sizes.length > 0 ? sizes[0].width : 0}
                 height={sizes.length > 0 ? sizes[0].height : 0}
                 color={this.state.fontColor}
+                bleed={12}
               />
               <CanvasControls>
                 <button>
