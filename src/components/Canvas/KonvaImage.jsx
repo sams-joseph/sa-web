@@ -1,29 +1,21 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { Image } from 'react-konva';
 
-export default class KonvaImage extends Component {
+class KonvaImage extends Component {
   state = {};
   render() {
-    const { portrait, image } = this.props;
+    const { image, name, setRef } = this.props;
 
-    return (
-      <Image
-        name="portrait"
-        ref={node => {
-          this.canvasImage = node;
-        }}
-        opacity={portrait.opacity}
-        stroke="cyan"
-        strokeWidth="2"
-        strokeEnabled={portrait.strokeEnabled}
-        shadowEnabled={portrait.shadowEnabled}
-        shadowColor="black"
-        shadowBlur="20"
-        image={image}
-        onMouseDown={this.onMouseDown}
-        onMouseUp={this.onMouseUp}
-        draggable
-      />
-    );
+    return <Image name={name} ref={setRef} image={image} draggable />;
   }
 }
+
+const { string, func, shape } = PropTypes;
+KonvaImage.propTypes = {
+  image: shape({}).isRequired,
+  setRef: func.isRequired,
+  name: string.isRequired,
+};
+
+export default KonvaImage;

@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Stage, Layer, Text, Image, Line } from 'react-konva';
+import { Stage, Layer, Text, Line } from 'react-konva';
 import Konva from 'konva';
 import { StageContainer } from './Styled';
+import KonvaImage from './KonvaImage';
 import constants from '../constants';
 
 class CanvasStage extends Component {
@@ -15,40 +16,36 @@ class CanvasStage extends Component {
   };
 
   componentDidMount() {
-    this.state.image.src = 'https://www.fillmurray.com/600/600';
+    const tempImage = new window.Image();
+    tempImage.src = 'https://www.fillmurray.com/600/600';
     // eslint-disable-next-line
     this.setState({
+      image: tempImage,
       dims: { width: this.divElement.clientWidth },
     });
   }
 
   onClick = e => {
-    if (!e.target.hasName('stage')) {
-      this.stage._stage.find('Transformer').destroy();
-      const tr = new Konva.Transformer();
-      this.layer.add(tr);
-      tr.attachTo(e.target);
-      this.layer.draw();
-    } else if (e.target.hasName('stage')) {
+    if (e.target.hasName('stage')) {
       this.stage._stage.find('Transformer').destroy();
       this.layer.draw();
+      return;
     }
+
+    if (!e.target.hasName('selectable')) {
+      return;
+    }
+
+    this.stage._stage.find('Transformer').destroy();
+
+    const tr = new Konva.Transformer();
+    this.layer.add(tr);
+    tr.attachTo(e.target);
+    this.layer.draw();
   };
 
-  dragBoundFunc = pos => {
-    const stageWidth = this.stage.props.width;
-    const stageHeight = this.stage.props.height;
-    const imageWidth = this.canvasImage.width();
-    const imageHeight = this.canvasImage.height();
-    // eslint-disable-next-line
-    const newY = pos.y < 0 ? 0 : pos.y > stageHeight - imageHeight ? stageHeight - imageHeight : pos.y;
-    // eslint-disable-next-line
-    const newX = pos.x < 0 ? 0 : pos.x > stageWidth - imageWidth ? stageWidth - imageWidth : pos.x;
-
-    return {
-      x: newX,
-      y: newY,
-    };
+  setRefImage = node => {
+    this.canvasImage = node;
   };
 
   mouseEnter = () => {
@@ -90,16 +87,9 @@ class CanvasStage extends Component {
             onMouseEnter={this.mouseEnter}
             onMouseOut={this.mouseLeave}
           >
-            <Image
-              name="portrait"
-              ref={node => {
-                this.canvasImage = node;
-              }}
-              image={image}
-              draggable
-            />
+            <KonvaImage name="selectable" setRef={this.setRefImage} image={image} />
             <Text
-              name="name"
+              name="selectable"
               fill={this.props.color}
               text={name}
               fontSize="30"
@@ -107,7 +97,7 @@ class CanvasStage extends Component {
               draggable
             />
             <Text
-              name="date"
+              name="selectable"
               fill={this.props.color}
               text={date}
               fontSize="20"
@@ -148,6 +138,7 @@ CanvasStage.propTypes = {
   width: number.isRequired,
   height: number.isRequired,
   color: string.isRequired,
+  bleed: number.isRequired,
 };
 
 CanvasStage.defaultProps = {

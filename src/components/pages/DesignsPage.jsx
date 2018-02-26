@@ -11,6 +11,7 @@ import CanvasStage from '../Canvas';
 import { getSizeByProduct } from '../../actions/size';
 import { getDesignsByProduct } from '../../actions/design';
 import { getProducts } from '../../actions/product';
+import { setOrderProduct, setOrderSize } from '../../actions/order';
 import { Container, FlexContainer, CanvasControls, ColorInput } from './Styled';
 import constants from '../constants';
 
@@ -22,6 +23,8 @@ import type from './images/type.svg';
 class DesignsPage extends Component {
   state = {
     showMessage: true,
+    selectedProduct: '',
+    selectedSize: '',
     text: {
       name: '',
       date: '',
@@ -35,10 +38,47 @@ class DesignsPage extends Component {
     this.props.getProducts();
   }
 
+  componentDidMount() {
+    this.props.setOrderProduct(this.props.productID);
+    this.props.setOrderSize(this.props.sizeID);
+  }
+
   onChange = e =>
     this.setState({
       text: { ...this.state.text, [e.target.name]: e.target.value },
     });
+
+  setColor = () => {
+    this.setState({
+      fontColor: this.color.value,
+    });
+  };
+
+  getSelectedSize = id => {
+    const sizePosition = this.props.sizes.map(size => size.id).indexOf(id);
+    return this.props.sizes[sizePosition];
+  };
+
+  handleSelectChange = selectedOption => {
+    this.props.setOrderProduct(selectedOption.value);
+    this.props.getSizeByProduct(selectedOption.value);
+    this.props.getDesignsByProduct(selectedOption.value);
+    this.props.getProducts();
+    this.setState({ selectedProduct: selectedOption, selectedSize: { value: this.props.sizeID } });
+  };
+
+  handleSizeSelectChange = selectedOption => {
+    this.setState({ selectedSize: selectedOption });
+    this.props.setOrderSize(selectedOption.value);
+  };
+
+  search = (key, arr) => {
+    for (let i = 0; i < arr.length; i += 1) {
+      if (arr[i].id === key) {
+        return arr[i];
+      }
+    }
+  };
 
   toggleMessage = showMessage => {
     this.setState({
@@ -46,26 +86,16 @@ class DesignsPage extends Component {
     });
   };
 
-  search = (key, arr) => {
-    for (let i = 0; i < arr.length; i++) {
-      if (arr[i].id === key) {
-        return arr[i];
-      }
-    }
-  };
-
-  setColor = e => {
-    this.setState({
-      fontColor: this.color.value,
-    });
-  };
-
   render() {
-    const { isConfirmed, sizes, products, designs, productID } = this.props;
-    const { showMessage } = this.state;
+    const { isConfirmed, sizes, products, designs, productID, sizeID } = this.props;
+    const { showMessage, selectedProduct, selectedSize } = this.state;
     const productOptions = products.map(product => ({ value: product.id, label: product.name }));
     const sizeOptions = sizes.map(size => ({ value: size.id, label: size.displayName }));
     const designOptions = designs.map(design => ({ value: design.id, label: design.name }));
+    const productValue = selectedProduct ? selectedProduct.value : productID;
+    const sizeValue = selectedSize ? selectedSize.value : sizeID;
+
+    const selectedSizeObject = this.getSelectedSize(sizeValue);
 
     return (
       <div>
@@ -88,7 +118,8 @@ class DesignsPage extends Component {
                     borderRadius: '2px',
                     marginTop: '5px',
                   }}
-                  value={productID}
+                  onChange={this.handleSelectChange}
+                  value={productValue}
                   id="product"
                   name="product"
                   options={productOptions}
@@ -101,9 +132,10 @@ class DesignsPage extends Component {
                     borderRadius: '2px',
                     marginTop: '5px',
                   }}
+                  onChange={this.handleSizeSelectChange}
                   id="product-size"
                   name="product-size"
-                  value={sizes.length > 0 ? sizes[0].id : 0}
+                  value={sizeValue}
                   options={sizeOptions}
                 />
               </InputGroup>
@@ -146,8 +178,8 @@ class DesignsPage extends Component {
                 img={designs.length > 0 ? designs[0].imageUrl : ''}
                 name={this.state.text.name}
                 date={this.state.text.date}
-                width={sizes.length > 0 ? sizes[0].width : 0}
-                height={sizes.length > 0 ? sizes[0].height : 0}
+                width={selectedSizeObject ? selectedSizeObject.width : 48}
+                height={selectedSizeObject ? selectedSizeObject.height : 14}
                 color={this.state.fontColor}
                 bleed={12}
               />
@@ -186,7 +218,10 @@ DesignsPage.propTypes = {
   getSizeByProduct: func.isRequired,
   getDesignsByProduct: func.isRequired,
   getProducts: func.isRequired,
+  setOrderProduct: func.isRequired,
+  setOrderSize: func.isRequired,
   productID: number,
+  sizeID: number,
   products: arrayOf(shape({})).isRequired,
   sizes: arrayOf(shape({})).isRequired,
   designs: arrayOf(shape({})).isRequired,
@@ -194,16 +229,24 @@ DesignsPage.propTypes = {
 
 DesignsPage.defaultProps = {
   productID: 1,
+  sizeID: 1,
 };
 
 function mapStateToProps(state) {
   return {
     isConfirmed: !!state.user.confirmed,
     productID: state.order.productID,
+    sizeID: state.order.sizeID,
     products: state.product,
     designs: state.design,
     sizes: state.size,
   };
 }
 
-export default connect(mapStateToProps, { getSizeByProduct, getProducts, getDesignsByProduct })(DesignsPage);
+export default connect(mapStateToProps, {
+  setOrderSize,
+  setOrderProduct,
+  getSizeByProduct,
+  getProducts,
+  getDesignsByProduct,
+})(DesignsPage);
