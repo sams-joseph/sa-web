@@ -16,11 +16,8 @@ class CanvasStage extends Component {
   };
 
   componentDidMount() {
-    const tempImage = new window.Image();
-    tempImage.src = 'https://www.fillmurray.com/600/600';
     // eslint-disable-next-line
     this.setState({
-      image: tempImage,
       dims: { width: this.divElement.clientWidth },
     });
   }
@@ -58,9 +55,11 @@ class CanvasStage extends Component {
 
   render() {
     const { name, date, img, width, height, bleed } = this.props;
-    const { dims, image } = this.state;
+    const { dims } = this.state;
     const scaledHeight = dims.width * (height / width);
     const safety = bleed * (height / width);
+    const image = new window.Image();
+    image.src = this.props.portraitImage;
 
     return (
       <StageContainer
@@ -139,6 +138,7 @@ CanvasStage.propTypes = {
   height: number.isRequired,
   color: string.isRequired,
   bleed: number.isRequired,
+  portraitImage: string.isRequired,
 };
 
 CanvasStage.defaultProps = {

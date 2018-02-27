@@ -73,3 +73,11 @@ export const ColorInput = styled.input`
     outline: none;
   }
 `;
+
+export const DropzoneText = styled.p`
+  color: ${constants.almostBlack};
+  line-height: 100px;
+  margin: 0;
+  padding: 0;
+  text-align: center;
+`;

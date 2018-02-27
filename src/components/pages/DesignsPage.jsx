@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import Select from 'react-select';
+import Dropzone from 'react-dropzone';
 
 import AlertMessage from '../messages/AlertMessage';
 import Sidebar from '../navigation/Sidebar';
@@ -12,7 +13,7 @@ import { getSizeByProduct } from '../../actions/size';
 import { getDesignsByProduct } from '../../actions/design';
 import { getProducts } from '../../actions/product';
 import { setOrderProduct, setOrderSize } from '../../actions/order';
-import { Container, FlexContainer, CanvasControls, ColorInput } from './Styled';
+import { Container, FlexContainer, CanvasControls, ColorInput, DropzoneText } from './Styled';
 import constants from '../constants';
 
 import crop from './images/crop.svg';
@@ -51,6 +52,26 @@ class DesignsPage extends Component {
     this.setState({
       text: { ...this.state.text, [e.target.name]: e.target.value },
     });
+
+  onDrop = (acceptedFiles, rejectedFiles) => {
+    if (rejectedFiles.length > 0) {
+      console.log(rejectedFiles);
+      return;
+    }
+    acceptedFiles.forEach(file => {
+      const reader = new FileReader();
+      reader.onload = () => {
+        const fileAsBinaryString = reader.result;
+        this.setState({
+          image: `data:${file.type};base64,${btoa(fileAsBinaryString)}`,
+        });
+      };
+      reader.onabort = () => console.log('file reading was aborted');
+      reader.onerror = () => console.log('file reading has failed');
+
+      reader.readAsBinaryString(file);
+    });
+  };
 
   setColor = () => {
     this.setState({
@@ -177,9 +198,26 @@ class DesignsPage extends Component {
                   onChange={this.onChange}
                 />
               </InputGroup>
+              <InputGroup label="Image">
+                <Dropzone
+                  accept="image/bmp, image/gif, image/jpeg, image/png"
+                  onDrop={this.onDrop}
+                  multiple={false}
+                  style={{
+                    marginTop: '5px',
+                    width: '100%',
+                    height: '100px',
+                    border: `2px dashed ${constants.almostWhite}`,
+                    borderRadius: '2px',
+                  }}
+                >
+                  <DropzoneText>Drop image or click to browse</DropzoneText>
+                </Dropzone>
+              </InputGroup>
             </Sidebar>
             <Container padding="0 0 0 20px">
               <CanvasStage
+                portraitImage={this.state.image ? this.state.image : ''}
                 img={designs.length > 0 ? designs[0].imageUrl : ''}
                 name={this.state.text.name}
                 date={this.state.text.date}

@@ -10,4 +10,7 @@ export const Container = styled.div`
   & > input {
     margin-top: 5px;
   }
+
+  & input[type='file'] {
+  }
 `;
