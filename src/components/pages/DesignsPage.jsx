@@ -23,8 +23,6 @@ import type from './images/type.svg';
 class DesignsPage extends Component {
   state = {
     showMessage: true,
-    selectedProduct: '',
-    selectedSize: '',
     text: {
       name: '',
       date: '',
@@ -33,14 +31,20 @@ class DesignsPage extends Component {
   };
 
   componentWillMount() {
-    this.props.getSizeByProduct(this.props.productID);
-    this.props.getDesignsByProduct(this.props.productID);
+    this.props.getSizeByProduct(this.props.order.productID);
+    this.props.getDesignsByProduct(this.props.order.productID);
     this.props.getProducts();
   }
 
   componentDidMount() {
-    this.props.setOrderProduct(this.props.productID);
-    this.props.setOrderSize(this.props.sizeID);
+    this.props.setOrderProduct(this.props.order.productID);
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.sizes !== this.props.sizes) {
+      const firstAvailableSizeId = nextProps.sizes.length > 0 ? nextProps.sizes[0].id : 0;
+      this.props.setOrderSize(firstAvailableSizeId);
+    }
   }
 
   onChange = e =>
@@ -64,7 +68,7 @@ class DesignsPage extends Component {
     this.props.getSizeByProduct(selectedOption.value);
     this.props.getDesignsByProduct(selectedOption.value);
     this.props.getProducts();
-    this.setState({ selectedProduct: selectedOption, selectedSize: { value: this.props.sizeID } });
+    this.setState({ selectedProduct: selectedOption, selectedSize: { value: this.props.order.sizeID } });
   };
 
   handleSizeSelectChange = selectedOption => {
@@ -87,15 +91,13 @@ class DesignsPage extends Component {
   };
 
   render() {
-    const { isConfirmed, sizes, products, designs, productID, sizeID } = this.props;
-    const { showMessage, selectedProduct, selectedSize } = this.state;
+    const { isConfirmed, sizes, products, designs, order } = this.props;
+    const { showMessage } = this.state;
     const productOptions = products.map(product => ({ value: product.id, label: product.name }));
     const sizeOptions = sizes.map(size => ({ value: size.id, label: size.displayName }));
     const designOptions = designs.map(design => ({ value: design.id, label: design.name }));
-    const productValue = selectedProduct ? selectedProduct.value : productID;
-    const sizeValue = selectedSize ? selectedSize.value : sizeID;
 
-    const selectedSizeObject = this.getSelectedSize(sizeValue);
+    const selectedSizeObject = this.getSelectedSize(order.sizeID);
 
     return (
       <div>
@@ -119,7 +121,7 @@ class DesignsPage extends Component {
                     marginTop: '5px',
                   }}
                   onChange={this.handleSelectChange}
-                  value={productValue}
+                  value={order.productID}
                   id="product"
                   name="product"
                   options={productOptions}
@@ -135,7 +137,7 @@ class DesignsPage extends Component {
                   onChange={this.handleSizeSelectChange}
                   id="product-size"
                   name="product-size"
-                  value={sizeValue}
+                  value={order.sizeID}
                   options={sizeOptions}
                 />
               </InputGroup>
@@ -220,23 +222,26 @@ DesignsPage.propTypes = {
   getProducts: func.isRequired,
   setOrderProduct: func.isRequired,
   setOrderSize: func.isRequired,
-  productID: number,
-  sizeID: number,
+  order: shape({
+    sizeID: number,
+    productID: number,
+  }),
   products: arrayOf(shape({})).isRequired,
   sizes: arrayOf(shape({})).isRequired,
   designs: arrayOf(shape({})).isRequired,
 };
 
 DesignsPage.defaultProps = {
-  productID: 1,
-  sizeID: 1,
+  order: {
+    productID: 0,
+    sizeID: 0,
+  },
 };
 
 function mapStateToProps(state) {
   return {
     isConfirmed: !!state.user.confirmed,
-    productID: state.order.productID,
-    sizeID: state.order.sizeID,
+    order: state.order,
     products: state.product,
     designs: state.design,
     sizes: state.size,
