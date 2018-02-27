@@ -210,6 +210,20 @@ class DesignsPage extends Component {
                     border: `2px dashed ${constants.almostWhite}`,
                     borderRadius: '2px',
                   }}
+                  acceptStyle={{
+                    marginTop: '5px',
+                    width: '100%',
+                    height: '100px',
+                    border: `2px dashed ${constants.colorSuccess}`,
+                    borderRadius: '2px',
+                  }}
+                  rejectStyle={{
+                    marginTop: '5px',
+                    width: '100%',
+                    height: '100px',
+                    border: `2px dashed ${constants.colorDanger}`,
+                    borderRadius: '2px',
+                  }}
                 >
                   <DropzoneText>Drop image or click to browse</DropzoneText>
                 </Dropzone>
