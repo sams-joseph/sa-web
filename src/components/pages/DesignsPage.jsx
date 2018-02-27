@@ -125,6 +125,7 @@ class DesignsPage extends Component {
                   id="product"
                   name="product"
                   options={productOptions}
+                  resetValue="0"
                 />
               </InputGroup>
               <InputGroup label="Size">
@@ -139,6 +140,7 @@ class DesignsPage extends Component {
                   name="product-size"
                   value={order.sizeID}
                   options={sizeOptions}
+                  resetValue="0"
                 />
               </InputGroup>
               <InputGroup label="Design">
@@ -152,6 +154,7 @@ class DesignsPage extends Component {
                   name="design"
                   value={designs.length > 0 ? designs[0].id : 0}
                   options={designOptions}
+                  resetValue="0"
                 />
               </InputGroup>
               <InputGroup label="Name">
