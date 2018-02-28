@@ -54,12 +54,12 @@ class CanvasStage extends Component {
   };
 
   render() {
-    const { name, date, img, width, height, bleed } = this.props;
+    const { name, date, img, width, height, bleed, portraitImage } = this.props;
     const { dims } = this.state;
     const scaledHeight = dims.width * (height / width);
     const safety = bleed * (height / width);
     const image = new window.Image();
-    image.src = this.props.portraitImage;
+    image.src = portraitImage;
 
     return (
       <StageContainer
@@ -113,11 +113,11 @@ class CanvasStage extends Component {
                 dims.width - safety,
                 safety,
                 dims.width - safety,
-                scaledHeight - safety,
+                scaledHeight - safety - 3,
                 safety,
-                scaledHeight - safety,
+                scaledHeight - safety - 3,
               ]}
-              stroke="lightgrey"
+              stroke="cyan"
               dash={[10, 5]}
               strokeWidth="1"
               closed
@@ -133,7 +133,7 @@ const { string, number } = PropTypes;
 CanvasStage.propTypes = {
   name: string.isRequired,
   date: string.isRequired,
-  img: string,
+  img: string.isRequired,
   width: number.isRequired,
   height: number.isRequired,
   color: string.isRequired,
@@ -142,7 +142,8 @@ CanvasStage.propTypes = {
 };
 
 CanvasStage.defaultProps = {
-  img: '',
+  name: '',
+  date: '',
 };
 
 export default CanvasStage;

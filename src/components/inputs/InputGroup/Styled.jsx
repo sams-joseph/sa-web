@@ -2,7 +2,7 @@ import styled from 'styled-components';
 import constants from '../../constants';
 
 export const Container = styled.div`
-  color: rgba(0, 0, 0, 0.54);
+  color: rgb(181, 181, 181);
   font-family: ${constants.fontFamily};
   font-size: 12px;
   margin-top: 15px;

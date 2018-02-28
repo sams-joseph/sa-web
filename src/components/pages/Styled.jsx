@@ -2,7 +2,7 @@ import styled from 'styled-components';
 import constants from '../constants';
 
 export const Wrapper = styled.div`
-  margin-top: 64px;
+  margin-top: ${props => (props.alertMessage ? '114px' : '64px')};
 `;
 
 export const Container = styled.div`
@@ -12,6 +12,7 @@ export const Container = styled.div`
   margin: 0 auto;
   padding: ${props => props.padding};
   width: 100%;
+  background: ${props => (props.bkg ? props.bkg : '')};
 `;
 
 export const FlexContainer = styled.div`
@@ -20,7 +21,7 @@ export const FlexContainer = styled.div`
 `;
 
 export const Heading = styled.h1`
-  color: ${constants.almostBlack};
+  color: ${constants.almostWhite};
   font-size: 2em;
   font-weight: ${constants.fontWeightLight};
   font-family: ${constants.fontFamily};
@@ -74,7 +75,7 @@ export const ColorInput = styled.input`
 `;
 
 export const DropzoneText = styled.p`
-  color: ${constants.almostBlack};
+  color: ${constants.almostWhite};
   line-height: 100px;
   margin: 0;
   padding: 0;

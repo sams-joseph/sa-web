@@ -1,9 +1,11 @@
 import React, { Component } from 'react';
 import Validator from 'validator';
 import PropTypes from 'prop-types';
-import InlineError from '../../messages/InlineError';
+import TextField from 'material-ui/TextField';
+import { FormControl } from 'material-ui/Form';
+import Button from 'material-ui/Button';
 import AlertMessage from '../../messages/AlertMessage';
-import { StyledLink, Form, Heading, Input, Button } from './Styled';
+import { StyledLink, Form, Heading } from './Styled';
 
 class LoginForm extends Component {
   state = {
@@ -15,9 +17,9 @@ class LoginForm extends Component {
     errors: {},
   };
 
-  onChange = e =>
+  onChange = name => e =>
     this.setState({
-      data: { ...this.state.data, [e.target.name]: e.target.value },
+      data: { ...this.state.data, [name]: e.target.value },
       errors: { ...this.state.errors, [e.target.name]: '' },
     });
 
@@ -49,25 +51,37 @@ class LoginForm extends Component {
         </Heading>
         <div>
           {errors.global && <AlertMessage margin type="danger" text={errors.global} />}
-          {!!errors.email && <InlineError text={errors.email} />}
-          <Input
-            type="email"
-            name="email"
-            placeholder="example@example.com"
-            value={data.email}
-            onChange={this.onChange}
-            error={!!errors.email}
-          />
-          {!!errors.password && <InlineError text={errors.password} />}
-          <Input
-            type="password"
-            name="password"
-            placeholder="password"
-            value={data.password}
-            onChange={this.onChange}
-            error={!!errors.password}
-          />
-          <Button>Login</Button>
+          <FormControl fullWidth margin="normal">
+            <TextField
+              label={errors.email ? errors.email : 'Email'}
+              type="email"
+              name="email"
+              placeholder="example@example.com"
+              value={data.email}
+              onChange={this.onChange('email')}
+              error={!!errors.email}
+              InputLabelProps={{
+                shrink: true,
+              }}
+            />
+          </FormControl>
+          <FormControl fullWidth margin="normal">
+            <TextField
+              label={errors.password ? errors.password : 'Password'}
+              type="password"
+              name="password"
+              placeholder="**********"
+              value={data.password}
+              onChange={this.onChange('password')}
+              error={!!errors.password}
+              InputLabelProps={{
+                shrink: true,
+              }}
+            />
+          </FormControl>
+          <Button style={{ marginTop: '20px' }} variant="raised" color="primary" type="submit" fullWidth>
+            Login
+          </Button>
           <StyledLink to="/reset-password">Forgot password?</StyledLink>
         </div>
       </Form>

@@ -33,10 +33,11 @@ if (localStorage.sepsisJWT) {
 
 const theme = createMuiTheme({
   palette: {
+    type: 'dark',
     primary: {
       light: '#757ce8',
       main: constants.defaultPrimaryColor,
-      dark: constants.defaultPrimaryColorMuted,
+      dark: constants.defaultPrimaryColor,
       contrastText: '#fff',
     },
     secondary: {
@@ -48,9 +49,6 @@ const theme = createMuiTheme({
   },
   overrides: {
     MuiInput: {
-      root: {
-        background: '#FAFAFA',
-      },
       input: {
         padding: '8px 5px 8px 5px',
       },
@@ -65,7 +63,7 @@ const theme = createMuiTheme({
         position: 'relative',
         width: '300px',
         zIndex: '1',
-        background: 'transparent',
+        background: 'rgb(55, 55, 55)',
       },
     },
     MuiAppBar: {

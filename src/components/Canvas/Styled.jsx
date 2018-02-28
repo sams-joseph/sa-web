@@ -11,4 +11,5 @@ export const StageContainer = styled.div`
   background-size: cover;
   background-position: center;
   border: 1px solid ${constants.almostBlack};
+  box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.25);
 `;

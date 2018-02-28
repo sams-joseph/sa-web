@@ -2,34 +2,15 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
-import AlertMessage from '../messages/AlertMessage';
 import { Wrapper, Container, Heading } from './Styled';
 
 class DashboardPage extends Component {
-  state = {
-    showMessage: true,
-  };
-  toggleMessage = showMessage => {
-    this.setState({
-      showMessage,
-    });
-  };
+  state = {};
 
   render() {
-    const { isConfirmed } = this.props;
-    const { showMessage } = this.state;
+    const { showMessage } = this.props;
     return (
-      <Wrapper>
-        {!isConfirmed &&
-          showMessage && (
-            <AlertMessage
-              closable
-              type="info"
-              text="Your email has not been verified"
-              toggleMessage={this.toggleMessage}
-              topMargin
-            />
-          )}
+      <Wrapper alertMessage={showMessage}>
         <Container>
           <Heading>Dashboard</Heading>
         </Container>
@@ -40,12 +21,13 @@ class DashboardPage extends Component {
 
 const { bool } = PropTypes;
 DashboardPage.propTypes = {
-  isConfirmed: bool.isRequired,
+  showMessage: bool.isRequired,
 };
 
 function mapStateToProps(state) {
   return {
-    isConfirmed: !!state.user.confirmed,
+    showMessage: state.message,
+    isAuthenticated: !!state.user.token,
   };
 }
 

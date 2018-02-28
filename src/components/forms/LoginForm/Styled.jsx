@@ -12,7 +12,7 @@ export const Form = styled.form`
 `;
 
 export const StyledLink = styled(Link)`
-  color: ${constants.defaultPrimaryColor};
+  color: ${constants.almostWhite};
   margin-top: 20px;
   display: block;
   text-align: center;
@@ -25,6 +25,7 @@ export const StyledLink = styled(Link)`
 `;
 
 export const Heading = styled.h1`
+  color: ${constants.almostWhite};
   text-align: center;
   margin-bottom: 40px;
 `;

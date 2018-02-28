@@ -12,7 +12,7 @@ class LoginPage extends Component {
   render() {
     return (
       <Wrapper>
-        <Container>
+        <Container padding="30px 0">
           <LoginForm submit={this.submit} />
         </Container>
       </Wrapper>

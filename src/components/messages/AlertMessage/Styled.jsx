@@ -26,6 +26,9 @@ export const StyledMessage = styled.div`
   font-family: ${constants.fontFamily};
   font-size: ${constants.fontSizeMedium};
   margin-bottom: ${props => (props.margin ? '20px' : '0')};
+  position: fixed;
+  top: 64px;
+  z-index: 6;
 `;
 
 export const MessageHeading = styled.header`

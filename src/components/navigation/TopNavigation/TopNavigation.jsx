@@ -13,6 +13,12 @@ import { ListItemIcon, ListItemText } from 'material-ui/List';
 import { logout } from '../../../actions/auth';
 import { NavigationGroupRight, MainNavigationLink, CreateOrderBtn, LoginBtn } from './Styled';
 
+const style = {
+  appBar: {
+    background: '#fafafa',
+  },
+};
+
 class TopNavigation extends Component {
   state = {
     toggled: false,
@@ -42,7 +48,7 @@ class TopNavigation extends Component {
     const open = Boolean(anchorEl);
 
     return (
-      <AppBar color="default">
+      <AppBar style={style.appBar}>
         <ToolBar>
           <div style={{ flex: 1 }}>
             <MainNavigationLink exact to="/">
@@ -66,7 +72,7 @@ class TopNavigation extends Component {
                 aria-owns={open ? 'menu-appbar' : null}
                 aria-haspopup="true"
                 onClick={this.handleMenu}
-                color="default"
+                style={{ color: 'rgb(75,75,75)' }}
               >
                 <AccountCircle />
               </IconButton>
@@ -74,24 +80,24 @@ class TopNavigation extends Component {
                 id="menu-appbar"
                 anchorEl={anchorEl}
                 anchorOrigin={{
-                  vertical: 'center',
+                  vertical: 'top',
                   horizontal: 'right',
                 }}
                 transformOrigin={{
-                  vertical: 'center',
+                  vertical: -50,
                   horizontal: 'right',
                 }}
                 open={open}
                 onClose={this.handleClose}
               >
                 <MenuItem onClick={this.handleClose}>
-                  <ListItemIcon>
+                  <ListItemIcon style={{ width: '18px', height: '18px' }}>
                     <Settings />
                   </ListItemIcon>
                   <ListItemText inset primary="My account" />
                 </MenuItem>
                 <MenuItem onClick={this.logout}>
-                  <ListItemIcon>
+                  <ListItemIcon style={{ width: '18px', height: '18px' }}>
                     <PowerSettingsNew />
                   </ListItemIcon>
                   <ListItemText inset primary="Logout" />

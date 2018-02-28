@@ -11,10 +11,7 @@ import AppBar from 'material-ui/AppBar';
 import Button from 'material-ui/Button';
 import IconButton from 'material-ui/IconButton';
 import FormatColorFill from 'material-ui-icons/FormatColorFill';
-
 import Dropzone from 'react-dropzone';
-
-import AlertMessage from '../messages/AlertMessage';
 import Sidebar from '../navigation/Sidebar';
 import InputGroup from '../inputs/InputGroup';
 import CanvasStage from '../Canvas';
@@ -24,6 +21,8 @@ import { getProducts } from '../../actions/product';
 import { setOrderProduct, setOrderSize } from '../../actions/order';
 import { Wrapper, Container, FlexContainer, ColorInput, DropzoneText } from './Styled';
 import constants from '../constants';
+
+import placeholderImage from './images/placeholder.jpg';
 
 class DesignsPage extends Component {
   state = {
@@ -55,6 +54,7 @@ class DesignsPage extends Component {
   onChange = name => event => {
     this.setState({
       text: {
+        ...this.state.text,
         [name]: event.target.value,
       },
     });
@@ -112,15 +112,8 @@ class DesignsPage extends Component {
     }
   };
 
-  toggleMessage = showMessage => {
-    this.setState({
-      showMessage,
-    });
-  };
-
   render() {
-    const { isConfirmed, sizes, products, designs, order } = this.props;
-    const { showMessage } = this.state;
+    const { showMessage, sizes, products, designs, order } = this.props;
     const productOptions = products.map(product => (
       <MenuItem key={product.id} value={product.id}>
         {product.name}
@@ -140,16 +133,7 @@ class DesignsPage extends Component {
     const selectedSizeObject = this.getSelectedSize(order.sizeID);
 
     return (
-      <Wrapper>
-        {!isConfirmed &&
-          showMessage && (
-            <AlertMessage
-              closable
-              type="info"
-              text="Your email has not been verified"
-              toggleMessage={this.toggleMessage}
-            />
-          )}
+      <Wrapper alertMessage={showMessage}>
         <FlexContainer>
           <Sidebar>
             <FormControl fullWidth margin="normal">
@@ -218,9 +202,9 @@ class DesignsPage extends Component {
                   marginTop: '10px',
                   width: '100%',
                   height: '100px',
-                  border: `1px dashed rgba(0,0,0,0.54)`,
+                  border: `1px dashed rgb(181, 181, 181)`,
                   borderRadius: '2px',
-                  background: '#FAFAFA',
+                  background: 'rgb(65,65,65)',
                 }}
                 acceptStyle={{
                   marginTop: '10px',
@@ -228,7 +212,7 @@ class DesignsPage extends Component {
                   height: '100px',
                   border: `1px dashed ${constants.colorSuccess}`,
                   borderRadius: '2px',
-                  background: '#FAFAFA',
+                  background: 'rgba(51, 178, 87, 0.25)',
                 }}
                 rejectStyle={{
                   marginTop: '10px',
@@ -236,17 +220,17 @@ class DesignsPage extends Component {
                   height: '100px',
                   border: `1px dashed ${constants.colorDanger}`,
                   borderRadius: '2px',
-                  background: constants.colorDangerMuted,
+                  background: 'rgba(234, 35, 63, 0.25)',
                 }}
               >
                 <DropzoneText>Drop image or click to browse</DropzoneText>
               </Dropzone>
             </InputGroup>
           </Sidebar>
-          <Container padding="0 20px 0 20px">
+          <Container padding="0 20px 0 20px" bkg="rgb(70, 70, 70)">
             <CanvasStage
               portraitImage={this.state.image ? this.state.image : ''}
-              img={designs.length > 0 ? designs[0].imageUrl : ''}
+              img={designs.length > 0 ? designs[0].imageUrl : placeholderImage}
               name={this.state.text.name}
               date={this.state.text.date}
               width={selectedSizeObject ? selectedSizeObject.width : 48}
@@ -254,7 +238,7 @@ class DesignsPage extends Component {
               color={this.state.fontColor}
               bleed={12}
             />
-            <AppBar position="static" color="default" elevation="1" square>
+            <AppBar position="static" color="default" elevation={1} square>
               <Toolbar>
                 <div style={{ flex: 1 }}>
                   <IconButton>
@@ -268,7 +252,7 @@ class DesignsPage extends Component {
                     onChange={this.setColor}
                   />
                 </div>
-                <Button variant="raised" color="default">
+                <Button variant="raised" color="primary">
                   Preview
                 </Button>
               </Toolbar>
@@ -282,7 +266,6 @@ class DesignsPage extends Component {
 
 const { bool, func, number, arrayOf, shape } = PropTypes;
 DesignsPage.propTypes = {
-  isConfirmed: bool.isRequired,
   getSizeByProduct: func.isRequired,
   getDesignsByProduct: func.isRequired,
   getProducts: func.isRequired,
@@ -295,6 +278,7 @@ DesignsPage.propTypes = {
   products: arrayOf(shape({})).isRequired,
   sizes: arrayOf(shape({})).isRequired,
   designs: arrayOf(shape({})).isRequired,
+  showMessage: bool.isRequired,
 };
 
 DesignsPage.defaultProps = {
@@ -302,6 +286,7 @@ DesignsPage.defaultProps = {
     productID: 0,
     sizeID: 0,
   },
+  showMessage: true,
 };
 
 function mapStateToProps(state) {
@@ -311,6 +296,7 @@ function mapStateToProps(state) {
     products: state.product,
     designs: state.design,
     sizes: state.size,
+    showMessage: state.message,
   };
 }
 
