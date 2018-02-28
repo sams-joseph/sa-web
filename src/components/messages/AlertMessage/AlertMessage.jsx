@@ -14,9 +14,9 @@ class AlertMessage extends Component {
   };
 
   render() {
-    const { type, text, closable, margin } = this.props;
+    const { type, text, closable, margin, topMargin } = this.props;
     return (
-      <StyledMessage type={type} margin={margin}>
+      <StyledMessage type={type} margin={margin} topMargin={topMargin}>
         <MessageContainer>
           <MessageHeading>
             {type === 'success' ? (
@@ -44,11 +44,13 @@ AlertMessage.propTypes = {
   text: string.isRequired,
   closable: bool.isRequired,
   margin: bool.isRequired,
+  topMargin: bool.isRequired,
 };
 
 AlertMessage.defaultProps = {
   closable: false,
   margin: false,
+  topMargin: true,
 };
 
 export default AlertMessage;

@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import { Link, NavLink } from 'react-router-dom';
+import AppBar from 'material-ui/AppBar';
 import constants from '../../constants';
 
 export const Container = styled.div`
@@ -11,6 +12,7 @@ export const Container = styled.div`
 `;
 
 export const MainNavigation = styled.header`
+  font-family: ${constants.fontFamily};
   display: flex;
   justify-content: space-between;
   width: 100%;
@@ -20,11 +22,13 @@ export const MainNavigation = styled.header`
 `;
 
 export const NavigationGroupLeft = styled.div`
+  font-family: ${constants.fontFamily};
   display: flex;
   align-items: center;
 `;
 
 export const NavigationGroupRight = styled.div`
+  font-family: ${constants.fontFamily};
   display: flex;
   align-items: center;
 `;
@@ -34,6 +38,7 @@ export const UserName = styled.span`
 `;
 
 export const MainNavigationLink = styled(NavLink)`
+  font-family: ${constants.fontFamily};
   border-bottom: 2px solid transparent;
   margin-right: 20px;
   color: ${constants.almostBlack};
@@ -94,5 +99,11 @@ export const LoginBtn = styled(Link)`
 
   &:focus {
     outline: none;
+  }
+`;
+
+export const MaterialAppBar = styled(AppBar)`
+  & > header {
+    box-shadow: none;
   }
 `;

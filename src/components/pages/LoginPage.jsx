@@ -4,16 +4,18 @@ import { connect } from 'react-redux';
 import LoginForm from '../forms/LoginForm';
 import { login } from '../../actions/auth';
 
-import { Container } from './Styled';
+import { Wrapper, Container } from './Styled';
 
 class LoginPage extends Component {
   submit = data => this.props.login(data).then(() => this.props.history.push('/dashboard'));
 
   render() {
     return (
-      <Container>
-        <LoginForm submit={this.submit} />
-      </Container>
+      <Wrapper>
+        <Container>
+          <LoginForm submit={this.submit} />
+        </Container>
+      </Wrapper>
     );
   }
 }

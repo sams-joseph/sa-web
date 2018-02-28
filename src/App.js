@@ -1,6 +1,7 @@
 import React from 'react';
 import { Route } from 'react-router-dom';
 import PropTypes from 'prop-types';
+import Reboot from 'material-ui/Reboot';
 import HomePage from './components/pages/HomePage';
 import LoginPage from './components/pages/LoginPage';
 import DashboardPage from './components/pages/DashboardPage';
@@ -16,6 +17,7 @@ import GuestRoute from './components/routes/GuestRoute';
 
 const App = ({ location }) => (
   <div>
+    <Reboot />
     <TopNavigation location={location} />
     <Route location={location} path="/" exact component={HomePage} />
     <Route location={location} path="/confirmation/:token" exact component={ConfirmationPage} />
@@ -24,7 +26,6 @@ const App = ({ location }) => (
     <UserRoute location={location} path="/products" exact component={ProductsPage} />
     <UserRoute location={location} path="/select-design" exact component={DesignsPage} />
     <Route location={location} path="/reset-password" exact component={ResetPasswordPage} />
-    <Footer />
   </div>
 );
 

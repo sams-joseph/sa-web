@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
 import AlertMessage from '../messages/AlertMessage';
-import { Container, Heading } from './Styled';
+import { Wrapper, Container, Heading } from './Styled';
 
 class DashboardPage extends Component {
   state = {
@@ -19,7 +19,7 @@ class DashboardPage extends Component {
     const { isConfirmed } = this.props;
     const { showMessage } = this.state;
     return (
-      <div>
+      <Wrapper>
         {!isConfirmed &&
           showMessage && (
             <AlertMessage
@@ -27,12 +27,13 @@ class DashboardPage extends Component {
               type="info"
               text="Your email has not been verified"
               toggleMessage={this.toggleMessage}
+              topMargin
             />
           )}
         <Container>
           <Heading>Dashboard</Heading>
         </Container>
-      </div>
+      </Wrapper>
     );
   }
 }

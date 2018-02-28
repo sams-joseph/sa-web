@@ -7,12 +7,15 @@ import thunk from 'redux-thunk';
 import { composeWithDevTools } from 'redux-devtools-extension';
 import decode from 'jwt-decode';
 import 'react-select/dist/react-select.css';
+import { MuiThemeProvider, createMuiTheme } from 'material-ui/styles';
 import { userLoggedIn } from './actions/auth';
 import ScrollToTop from './components/routes/ScrollToTop';
 
 import App from './App';
 import registerServiceWorker from './registerServiceWorker';
 import rootReducer from './rootReducer';
+
+import constants from './components/constants';
 
 const store = createStore(rootReducer, composeWithDevTools(applyMiddleware(thunk)));
 
@@ -28,14 +31,58 @@ if (localStorage.sepsisJWT) {
   store.dispatch(userLoggedIn(user));
 }
 
+const theme = createMuiTheme({
+  palette: {
+    primary: {
+      light: '#757ce8',
+      main: constants.defaultPrimaryColor,
+      dark: constants.defaultPrimaryColorMuted,
+      contrastText: '#fff',
+    },
+    secondary: {
+      light: '#ff7961',
+      main: '#f44336',
+      dark: '#ba000d',
+      contrastText: '#000',
+    },
+  },
+  overrides: {
+    MuiDrawer: {
+      paper: {
+        position: 'relative',
+        width: '300px',
+        zIndex: '1',
+      },
+    },
+    MuiInkBar: {
+      root: {
+        background: 'pink',
+      },
+    },
+    MuiAppBar: {
+      root: {},
+      positionStatic: {
+        boxShadow: 'none',
+      },
+    },
+    MuiMenu: {
+      paper: {
+        zIndex: '5001',
+      },
+    },
+  },
+});
+
 ReactDOM.render(
-  <BrowserRouter>
-    <ScrollToTop>
-      <Provider store={store}>
-        <Route component={App} />
-      </Provider>
-    </ScrollToTop>
-  </BrowserRouter>,
+  <MuiThemeProvider theme={theme}>
+    <BrowserRouter>
+      <ScrollToTop>
+        <Provider store={store}>
+          <Route component={App} />
+        </Provider>
+      </ScrollToTop>
+    </BrowserRouter>
+  </MuiThemeProvider>,
   document.getElementById('root')
 );
 registerServiceWorker();

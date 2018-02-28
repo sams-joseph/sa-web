@@ -5,6 +5,7 @@ export const StageContainer = styled.div`
   color: white;
   width: ${props => props.width}px;
   margin-top: 40px;
+  margin-bottom: 40px;
   height: ${props => props.height}px;
   background: ${props => (props.img ? `url(${props.img})` : constants.almostWhite)};
   background-size: cover;

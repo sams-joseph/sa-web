@@ -1,10 +1,14 @@
 import styled from 'styled-components';
 import constants from '../constants';
 
+export const Wrapper = styled.div`
+  margin-top: 64px;
+`;
+
 export const Container = styled.div`
   font-family: ${constants.fontFamily};
   max-width: 1140px;
-  min-height: calc(100vh - 180px);
+  // min-height: calc(100vh - 180px);
   margin: 0 auto;
   padding: ${props => props.padding};
   width: 100%;
@@ -59,15 +63,10 @@ export const CanvasControls = styled.div`
 `;
 
 export const ColorInput = styled.input`
-  height: 50px;
+  height: 30px;
   border: none;
-  border-right: 1px solid #d0d4dd;
   background: transparent;
   cursor: pointer;
-
-  &:hover {
-    background: #d0d4dd;
-  }
 
   &:focus {
     outline: none;

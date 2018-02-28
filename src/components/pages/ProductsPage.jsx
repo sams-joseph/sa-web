@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 
 import AlertMessage from '../messages/AlertMessage';
 import Product from '../Product';
-import { Container, Heading, FlexContainer, Hero } from './Styled';
+import { Wrapper, Container, Heading, FlexContainer, Hero } from './Styled';
 import { getProducts } from '../../actions/product';
 
 class ProductsPage extends Component {
@@ -37,7 +37,7 @@ class ProductsPage extends Component {
     ));
 
     return (
-      <div>
+      <Wrapper>
         {!isConfirmed &&
           showMessage && (
             <AlertMessage
@@ -52,7 +52,7 @@ class ProductsPage extends Component {
           <Heading>Products</Heading>
           <FlexContainer>{productElements}</FlexContainer>
         </Container>
-      </div>
+      </Wrapper>
     );
   }
 }

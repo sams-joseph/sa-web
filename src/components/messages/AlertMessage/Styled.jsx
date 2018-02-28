@@ -2,9 +2,7 @@ import styled from 'styled-components';
 import constants from '../../constants';
 
 export const MessageContainer = styled.div`
-  max-width: 1100px;
   width: 100%;
-  margin: 0 auto;
   display: flex;
   justify-content: space-between;
 `;
@@ -63,15 +61,15 @@ export const CloseMessageBtn = styled.button`
 
   &: hover {
     background: ${props => {
-      if (props.type === 'success') {
-        return constants.colorSuccessHover;
-      } else if (props.type === 'info') {
-        return constants.darkPrimaryHoverColor;
-      } else if (props.type === 'danger') {
-        return constants.colorDangerHover;
-      }
-      return constants.colorDefaultHover;
-    }};
+    if (props.type === 'success') {
+      return constants.colorSuccessHover;
+    } else if (props.type === 'info') {
+      return constants.darkPrimaryHoverColor;
+    } else if (props.type === 'danger') {
+      return constants.colorDangerHover;
+    }
+    return constants.colorDefaultHover;
+  }};
   }
 
   &: focus {

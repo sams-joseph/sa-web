@@ -1,13 +1,15 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { SidebarContainer, SidebarHeading } from './Styled';
+import Drawer from 'material-ui/Drawer';
+import { Spacer, SidebarForm, SidebarHeading } from './Styled';
 
 function Sidebar({ children }) {
   return (
-    <SidebarContainer>
-      <SidebarHeading>Product Customization</SidebarHeading>
-      {children}
-    </SidebarContainer>
+    <Drawer variant="permanent">
+      <SidebarHeading>Product Features</SidebarHeading>
+      <SidebarForm>{children}</SidebarForm>
+      <Spacer />
+    </Drawer>
   );
 }
 

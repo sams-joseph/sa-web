@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { Container, Heading } from './Styled';
+import { Wrapper, Container, Heading } from './Styled';
 import AlertMessage from '../messages/AlertMessage';
 import * as actions from '../../actions/auth';
 
@@ -18,7 +18,7 @@ class HomePage extends Component {
     const { isConfirmed, isAuthenticated } = this.props;
     const { showMessage } = this.state;
     return (
-      <div>
+      <Wrapper>
         {!isConfirmed &&
           showMessage &&
           isAuthenticated && (
@@ -32,7 +32,7 @@ class HomePage extends Component {
         <Container>
           <Heading>Home Page</Heading>
         </Container>
-      </div>
+      </Wrapper>
     );
   }
 }

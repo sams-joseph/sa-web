@@ -2,13 +2,13 @@ import styled from 'styled-components';
 import constants from '../../constants';
 
 export const Container = styled.div`
-  color: ${constants.almostBlack};
+  color: rgba(0, 0, 0, 0.54);
   font-family: ${constants.fontFamily};
-  font-size: ${constants.fontSizeMedium};
-  margin-bottom: 20px;
+  font-size: 12px;
+  margin-top: 15px;
 
   & > input {
-    margin-top: 5px;
+    margin-top: 10px;
   }
 
   & input[type='file'] {

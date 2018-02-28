@@ -1,25 +1,26 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import Select from 'react-select';
+import Select from 'material-ui/Select';
+import { MenuItem } from 'material-ui/Menu';
+import { InputLabel } from 'material-ui/Input';
+import { FormControl } from 'material-ui/Form';
+import TextField from 'material-ui/TextField';
+import Toolbar from 'material-ui/Toolbar';
+import AppBar from 'material-ui/AppBar';
+
 import Dropzone from 'react-dropzone';
 
 import AlertMessage from '../messages/AlertMessage';
 import Sidebar from '../navigation/Sidebar';
 import InputGroup from '../inputs/InputGroup';
-import Input from '../inputs/Input';
 import CanvasStage from '../Canvas';
 import { getSizeByProduct } from '../../actions/size';
 import { getDesignsByProduct } from '../../actions/design';
 import { getProducts } from '../../actions/product';
 import { setOrderProduct, setOrderSize } from '../../actions/order';
-import { Container, FlexContainer, CanvasControls, ColorInput, DropzoneText } from './Styled';
+import { Wrapper, Container, FlexContainer, ColorInput, DropzoneText } from './Styled';
 import constants from '../constants';
-
-import crop from './images/crop.svg';
-import move from './images/move.svg';
-import italic from './images/italic.svg';
-import type from './images/type.svg';
 
 class DesignsPage extends Component {
   state = {
@@ -48,10 +49,13 @@ class DesignsPage extends Component {
     }
   }
 
-  onChange = e =>
+  onChange = name => event => {
     this.setState({
-      text: { ...this.state.text, [e.target.name]: e.target.value },
+      text: {
+        [name]: event.target.value,
+      },
     });
+  };
 
   onDrop = (acceptedFiles, rejectedFiles) => {
     if (rejectedFiles.length > 0) {
@@ -84,17 +88,17 @@ class DesignsPage extends Component {
     return this.props.sizes[sizePosition];
   };
 
-  handleSelectChange = selectedOption => {
-    this.props.setOrderProduct(selectedOption.value);
-    this.props.getSizeByProduct(selectedOption.value);
-    this.props.getDesignsByProduct(selectedOption.value);
+  handleSelectChange = e => {
+    this.props.setOrderProduct(e.target.value);
+    this.props.getSizeByProduct(e.target.value);
+    this.props.getDesignsByProduct(e.target.value);
     this.props.getProducts();
-    this.setState({ selectedProduct: selectedOption, selectedSize: { value: this.props.order.sizeID } });
+    this.setState({ selectedProduct: e.target, selectedSize: { value: this.props.order.sizeID } });
   };
 
-  handleSizeSelectChange = selectedOption => {
-    this.setState({ selectedSize: selectedOption });
-    this.props.setOrderSize(selectedOption.value);
+  handleSizeSelectChange = e => {
+    this.setState({ selectedSize: e.target });
+    this.props.setOrderSize(e.target.value);
   };
 
   search = (key, arr) => {
@@ -114,14 +118,26 @@ class DesignsPage extends Component {
   render() {
     const { isConfirmed, sizes, products, designs, order } = this.props;
     const { showMessage } = this.state;
-    const productOptions = products.map(product => ({ value: product.id, label: product.name }));
-    const sizeOptions = sizes.map(size => ({ value: size.id, label: size.displayName }));
-    const designOptions = designs.map(design => ({ value: design.id, label: design.name }));
+    const productOptions = products.map(product => (
+      <MenuItem key={product.id} value={product.id}>
+        {product.name}
+      </MenuItem>
+    ));
+    const sizeOptions = sizes.map(size => (
+      <MenuItem key={size.id} value={size.id}>
+        {size.displayName}
+      </MenuItem>
+    ));
+    const designOptions = designs.map(design => (
+      <MenuItem key={design.id} value={design.id}>
+        {design.name}
+      </MenuItem>
+    ));
 
     const selectedSizeObject = this.getSelectedSize(order.sizeID);
 
     return (
-      <div>
+      <Wrapper>
         {!isConfirmed &&
           showMessage && (
             <AlertMessage
@@ -131,128 +147,112 @@ class DesignsPage extends Component {
               toggleMessage={this.toggleMessage}
             />
           )}
-        <Container padding="0 20px">
-          <FlexContainer>
-            <Sidebar>
-              <InputGroup label="Product">
-                <Select
-                  style={{
-                    borderColor: constants.almostWhite,
-                    borderRadius: '2px',
-                    marginTop: '5px',
-                  }}
-                  onChange={this.handleSelectChange}
-                  value={order.productID}
-                  id="product"
-                  name="product"
-                  options={productOptions}
-                  resetValue="0"
-                />
-              </InputGroup>
-              <InputGroup label="Size">
-                <Select
-                  style={{
-                    borderColor: constants.almostWhite,
-                    borderRadius: '2px',
-                    marginTop: '5px',
-                  }}
-                  onChange={this.handleSizeSelectChange}
-                  id="product-size"
-                  name="product-size"
-                  value={order.sizeID}
-                  options={sizeOptions}
-                  resetValue="0"
-                />
-              </InputGroup>
-              <InputGroup label="Design">
-                <Select
-                  style={{
-                    borderColor: constants.almostWhite,
-                    borderRadius: '2px',
-                    marginTop: '5px',
-                  }}
-                  id="design"
-                  name="design"
-                  value={designs.length > 0 ? designs[0].id : 0}
-                  options={designOptions}
-                  resetValue="0"
-                />
-              </InputGroup>
-              <InputGroup label="Name">
-                <Input
-                  type="text"
-                  id="name"
-                  name="name"
-                  placeholder="John Doe"
-                  value={this.state.text.name}
-                  onChange={this.onChange}
-                />
-              </InputGroup>
-              <InputGroup label="Date">
-                <Input
-                  type="text"
-                  id="date"
-                  name="date"
-                  placeholder="1987-2018"
-                  value={this.state.text.date}
-                  onChange={this.onChange}
-                />
-              </InputGroup>
-              <InputGroup label="Image">
-                <Dropzone
-                  accept="image/bmp, image/gif, image/jpeg, image/png"
-                  onDrop={this.onDrop}
-                  multiple={false}
-                  style={{
-                    marginTop: '5px',
-                    width: '100%',
-                    height: '100px',
-                    border: `2px dashed ${constants.almostWhite}`,
-                    borderRadius: '2px',
-                  }}
-                  acceptStyle={{
-                    marginTop: '5px',
-                    width: '100%',
-                    height: '100px',
-                    border: `2px dashed ${constants.colorSuccess}`,
-                    borderRadius: '2px',
-                  }}
-                  rejectStyle={{
-                    marginTop: '5px',
-                    width: '100%',
-                    height: '100px',
-                    border: `2px dashed ${constants.colorDanger}`,
-                    borderRadius: '2px',
-                  }}
-                >
-                  <DropzoneText>Drop image or click to browse</DropzoneText>
-                </Dropzone>
-              </InputGroup>
-            </Sidebar>
-            <Container padding="0 0 0 20px">
-              <CanvasStage
-                portraitImage={this.state.image ? this.state.image : ''}
-                img={designs.length > 0 ? designs[0].imageUrl : ''}
-                name={this.state.text.name}
-                date={this.state.text.date}
-                width={selectedSizeObject ? selectedSizeObject.width : 48}
-                height={selectedSizeObject ? selectedSizeObject.height : 14}
-                color={this.state.fontColor}
-                bleed={12}
+        <FlexContainer>
+          <Sidebar>
+            <FormControl fullWidth margin="normal">
+              <InputLabel htmlFor="product">Product</InputLabel>
+              <Select
+                onChange={this.handleSelectChange}
+                value={order.productID ? order.productID : 0}
+                id="product"
+                name="product"
+              >
+                {productOptions}
+              </Select>
+            </FormControl>
+            <FormControl fullWidth margin="normal">
+              <InputLabel htmlFor="product-size">Size</InputLabel>
+              <Select
+                onChange={this.handleSizeSelectChange}
+                id="product-size"
+                name="product-size"
+                value={order.sizeID ? order.sizeID : 0}
+              >
+                {sizeOptions}
+              </Select>
+            </FormControl>
+            <FormControl fullWidth margin="normal">
+              <InputLabel htmlFor="design">Design</InputLabel>
+              <Select
+                onChange={this.handleSizeSelectChange}
+                id="design"
+                name="design"
+                value={designs.length > 0 ? designs[0].id : 0}
+              >
+                {designOptions}
+              </Select>
+            </FormControl>
+            <FormControl fullWidth margin="normal">
+              <TextField
+                id="name"
+                label="Name"
+                placeholder="John Doe"
+                value={this.state.text.name}
+                onChange={this.onChange('name')}
+                InputLabelProps={{
+                  shrink: true,
+                }}
               />
-              <CanvasControls>
-                <button>
-                  <img src={move} alt="" />
-                </button>
-                <button>
-                  <img src={crop} alt="" />
-                </button>
-                <button>
-                  <img src={type} alt="" />
-                </button>
-                <button>
-                  <img src={italic} alt="" />
-                </button>
+            </FormControl>
+            <FormControl fullWidth margin="normal">
+              <TextField
+                id="date"
+                label="Date"
+                placeholder="1987-2018"
+                value={this.state.text.date}
+                onChange={this.onChange('date')}
+                InputLabelProps={{
+                  shrink: true,
+                }}
+              />
+            </FormControl>
+            <InputGroup label="Image">
+              <Dropzone
+                accept="image/bmp, image/gif, image/jpeg, image/png"
+                onDrop={this.onDrop}
+                multiple={false}
+                style={{
+                  marginTop: '10px',
+                  width: '100%',
+                  height: '100px',
+                  border: `1px dashed rgba(0,0,0,0.54)`,
+                  borderRadius: '2px',
+                  background: '#FAFAFA',
+                }}
+                acceptStyle={{
+                  marginTop: '10px',
+                  width: '100%',
+                  height: '100px',
+                  border: `1px dashed ${constants.colorSuccess}`,
+                  borderRadius: '2px',
+                  background: '#FAFAFA',
+                }}
+                rejectStyle={{
+                  marginTop: '10px',
+                  width: '100%',
+                  height: '100px',
+                  border: `1px dashed ${constants.colorDanger}`,
+                  borderRadius: '2px',
+                  background: constants.colorDangerMuted,
+                }}
+              >
+                <DropzoneText>Drop image or click to browse</DropzoneText>
+              </Dropzone>
+            </InputGroup>
+          </Sidebar>
+          <Container padding="0 20px 0 20px">
+            <CanvasStage
+              portraitImage={this.state.image ? this.state.image : ''}
+              img={designs.length > 0 ? designs[0].imageUrl : ''}
+              name={this.state.text.name}
+              date={this.state.text.date}
+              width={selectedSizeObject ? selectedSizeObject.width : 48}
+              height={selectedSizeObject ? selectedSizeObject.height : 14}
+              color={this.state.fontColor}
+              bleed={12}
+            />
+            <AppBar position="static">
+              <Toolbar>
                 <ColorInput
                   type="color"
                   innerRef={input => {
@@ -260,11 +260,11 @@ class DesignsPage extends Component {
                   }}
                   onChange={this.setColor}
                 />
-              </CanvasControls>
-            </Container>
-          </FlexContainer>
-        </Container>
-      </div>
+              </Toolbar>
+            </AppBar>
+          </Container>
+        </FlexContainer>
+      </Wrapper>
     );
   }
 }

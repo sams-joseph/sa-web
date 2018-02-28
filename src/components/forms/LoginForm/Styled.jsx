@@ -8,6 +8,7 @@ export const Form = styled.form`
   color: ${constants.almostBlack};
   width: 350px;
   margin: 70px auto 70px auto;
+  display: block;
 `;
 
 export const StyledLink = styled(Link)`
