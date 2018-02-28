@@ -59,9 +59,9 @@ export const MainNavigationLink = styled(NavLink)`
 `;
 
 export const CreateOrderBtn = styled(Link)`
-  border: 1px solid ${constants.colorBlueOne};
+  border: 1px solid ${constants.defaultPrimaryColor};
   border-radius: 2px;
-  color: ${constants.colorBlueOne};
+  color: ${constants.defaultPrimaryColor};
   background: transparent;
   height: 35px;
   padding: 0 20px;
@@ -73,7 +73,7 @@ export const CreateOrderBtn = styled(Link)`
 
   &:hover {
     color: #ffffff;
-    background: ${constants.colorBlueOne};
+    background: ${constants.defaultPrimaryColor};
   }
 
   &:focus {
@@ -85,7 +85,7 @@ export const LoginBtn = styled(Link)`
   border: none;
   border-radius: 2px;
   color: #ffffff;
-  background: ${constants.colorBlueOne};
+  background: ${constants.defaultPrimaryColor};
   height: 35px;
   padding: 0 20px;
   margin-right: 20px;

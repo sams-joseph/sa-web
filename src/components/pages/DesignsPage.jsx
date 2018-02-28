@@ -8,6 +8,9 @@ import { FormControl } from 'material-ui/Form';
 import TextField from 'material-ui/TextField';
 import Toolbar from 'material-ui/Toolbar';
 import AppBar from 'material-ui/AppBar';
+import Button from 'material-ui/Button';
+import IconButton from 'material-ui/IconButton';
+import FormatColorFill from 'material-ui-icons/FormatColorFill';
 
 import Dropzone from 'react-dropzone';
 
@@ -251,15 +254,23 @@ class DesignsPage extends Component {
               color={this.state.fontColor}
               bleed={12}
             />
-            <AppBar position="static">
+            <AppBar position="static" color="default" elevation="1" square>
               <Toolbar>
-                <ColorInput
-                  type="color"
-                  innerRef={input => {
-                    this.color = input;
-                  }}
-                  onChange={this.setColor}
-                />
+                <div style={{ flex: 1 }}>
+                  <IconButton>
+                    <FormatColorFill />
+                  </IconButton>
+                  <ColorInput
+                    type="color"
+                    innerRef={input => {
+                      this.color = input;
+                    }}
+                    onChange={this.setColor}
+                  />
+                </div>
+                <Button variant="raised" color="default">
+                  Preview
+                </Button>
               </Toolbar>
             </AppBar>
           </Container>

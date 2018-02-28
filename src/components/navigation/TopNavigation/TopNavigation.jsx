@@ -5,8 +5,11 @@ import AppBar from 'material-ui/AppBar';
 import ToolBar from 'material-ui/Toolbar';
 import IconButton from 'material-ui/IconButton';
 import AccountCircle from 'material-ui-icons/AccountCircle';
-import Menu, { MenuItem } from 'material-ui/Menu';
+import Settings from 'material-ui-icons/Settings';
+import PowerSettingsNew from 'material-ui-icons/PowerSettingsNew';
+import { MenuItem } from 'material-ui/Menu';
 import Popover from 'material-ui/Popover';
+import { ListItemIcon, ListItemText } from 'material-ui/List';
 import { logout } from '../../../actions/auth';
 import { NavigationGroupRight, MainNavigationLink, CreateOrderBtn, LoginBtn } from './Styled';
 
@@ -81,8 +84,18 @@ class TopNavigation extends Component {
                 open={open}
                 onClose={this.handleClose}
               >
-                <MenuItem onClick={this.handleClose}>My account</MenuItem>
-                <MenuItem onClick={this.logout}>Logout</MenuItem>
+                <MenuItem onClick={this.handleClose}>
+                  <ListItemIcon>
+                    <Settings />
+                  </ListItemIcon>
+                  <ListItemText inset primary="My account" />
+                </MenuItem>
+                <MenuItem onClick={this.logout}>
+                  <ListItemIcon>
+                    <PowerSettingsNew />
+                  </ListItemIcon>
+                  <ListItemText inset primary="Logout" />
+                </MenuItem>
               </Popover>
             </div>
           )}

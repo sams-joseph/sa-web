@@ -7,7 +7,7 @@ export const SidebarContainer = styled.div`
 `;
 
 export const SidebarHeading = styled.h3`
-  background: ${constants.almostBlack};
+  background: #0d47a1;
   color: white;
   font-weight: ${constants.fontWeightLight};
   font-family: ${constants.fontFamily};

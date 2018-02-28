@@ -40,30 +40,37 @@ const theme = createMuiTheme({
       contrastText: '#fff',
     },
     secondary: {
-      light: '#ff7961',
-      main: '#f44336',
-      dark: '#ba000d',
-      contrastText: '#000',
+      light: '#64B5F6',
+      main: '#42A5F5',
+      dark: '#2196F3',
+      contrastText: '#fff',
     },
   },
   overrides: {
+    MuiInput: {
+      root: {
+        background: '#FAFAFA',
+      },
+      input: {
+        padding: '8px 5px 8px 5px',
+      },
+      underline: {
+        '&:hover:not($disabled):before': {
+          backgroundColor: constants.defaultPrimaryColor,
+        },
+      },
+    },
     MuiDrawer: {
-      paper: {
+      paperAnchorDockedLeft: {
         position: 'relative',
         width: '300px',
         zIndex: '1',
-      },
-    },
-    MuiInkBar: {
-      root: {
-        background: 'pink',
+        background: 'transparent',
       },
     },
     MuiAppBar: {
       root: {},
-      positionStatic: {
-        boxShadow: 'none',
-      },
+      positionStatic: {},
     },
     MuiMenu: {
       paper: {

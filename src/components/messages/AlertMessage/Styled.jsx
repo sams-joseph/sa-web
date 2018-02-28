@@ -61,15 +61,15 @@ export const CloseMessageBtn = styled.button`
 
   &: hover {
     background: ${props => {
-    if (props.type === 'success') {
-      return constants.colorSuccessHover;
-    } else if (props.type === 'info') {
-      return constants.darkPrimaryHoverColor;
-    } else if (props.type === 'danger') {
-      return constants.colorDangerHover;
-    }
-    return constants.colorDefaultHover;
-  }};
+      if (props.type === 'success') {
+        return constants.colorSuccessHover;
+      } else if (props.type === 'info') {
+        return constants.darkPrimaryHoverColor;
+      } else if (props.type === 'danger') {
+        return constants.colorDangerHover;
+      }
+      return constants.colorDefaultHover;
+    }};
   }
 
   &: focus {
