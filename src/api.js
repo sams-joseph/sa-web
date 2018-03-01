@@ -28,4 +28,11 @@ export default {
     getDesignsByProduct: id =>
       axios.get(`${process.env.REACT_APP_API_HOST}/api/designs`, { params: { id } }).then(res => res.data.designs),
   },
+  designSize: {
+    getDesignSizesById: (designID, sizeID) =>
+      axios
+        .get(`${process.env.REACT_APP_API_HOST}/api/design-sizes`, { params: { designID, sizeID } })
+        .then(res => res.data.designSize)
+        .catch(err => ''),
+  },
 };

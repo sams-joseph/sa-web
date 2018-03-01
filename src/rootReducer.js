@@ -6,6 +6,7 @@ import order from './reducers/order';
 import size from './reducers/size';
 import design from './reducers/design';
 import message from './reducers/message';
+import designSize from './reducers/designSize';
 
 export default combineReducers({
   user,
@@ -14,4 +15,5 @@ export default combineReducers({
   size,
   design,
   message,
+  designSize,
 });

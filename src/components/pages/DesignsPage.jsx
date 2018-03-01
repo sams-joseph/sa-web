@@ -19,6 +19,7 @@ import { getSizeByProduct } from '../../actions/size';
 import { getDesignsByProduct } from '../../actions/design';
 import { getProducts } from '../../actions/product';
 import { setOrderProduct, setOrderSize } from '../../actions/order';
+import { getDesignBySize } from '../../actions/designSize';
 import { Wrapper, Container, FlexContainer, ColorInput, DropzoneText } from './Styled';
 import constants from '../constants';
 
@@ -48,6 +49,12 @@ class DesignsPage extends Component {
     if (nextProps.sizes !== this.props.sizes) {
       const firstAvailableSizeId = nextProps.sizes.length > 0 ? nextProps.sizes[0].id : 0;
       this.props.setOrderSize(firstAvailableSizeId);
+    }
+
+    if (nextProps.designs !== this.props.designs) {
+      const designID = nextProps.designs.length > 0 ? nextProps.designs[this.designSelect.props.value].id : 0;
+
+      this.props.getDesignBySize(designID, 3);
     }
   }
 
@@ -97,6 +104,9 @@ class DesignsPage extends Component {
     this.props.getDesignsByProduct(e.target.value);
     this.props.getProducts();
     this.setState({ selectedProduct: e.target, selectedSize: { value: this.props.order.sizeID } });
+    const designID = this.props.designs > 0 ? this.props.designs[this.designSelect.props.value].id : 0;
+
+    this.props.getDesignBySize(designID, 3).catch(err => console.log(err));
   };
 
   handleSizeSelectChange = e => {
@@ -113,7 +123,7 @@ class DesignsPage extends Component {
   };
 
   render() {
-    const { showAlertMessage, sizes, products, designs, order } = this.props;
+    const { showAlertMessage, sizes, products, designs, order, designUrl } = this.props;
     const productOptions = products.map(product => (
       <MenuItem key={product.id} value={product.id}>
         {product.name}
@@ -165,6 +175,9 @@ class DesignsPage extends Component {
                 id="design"
                 name="design"
                 value={designs.length > 0 ? designs[0].id : 0}
+                ref={input => {
+                  this.designSelect = input;
+                }}
               >
                 {designOptions}
               </Select>
@@ -230,7 +243,7 @@ class DesignsPage extends Component {
           <Container padding="0 20px 0 20px" bkg="rgb(70, 70, 70)">
             <CanvasStage
               portraitImage={this.state.image ? this.state.image : ''}
-              img={designs.length > 0 ? designs[0].imageUrl : placeholderImage}
+              img={designUrl || placeholderImage}
               name={this.state.text.name}
               date={this.state.text.date}
               width={selectedSizeObject ? selectedSizeObject.width : 48}
@@ -264,7 +277,7 @@ class DesignsPage extends Component {
   }
 }
 
-const { bool, func, number, arrayOf, shape } = PropTypes;
+const { bool, func, number, arrayOf, shape, string } = PropTypes;
 DesignsPage.propTypes = {
   getSizeByProduct: func.isRequired,
   getDesignsByProduct: func.isRequired,
@@ -279,6 +292,8 @@ DesignsPage.propTypes = {
   sizes: arrayOf(shape({})).isRequired,
   designs: arrayOf(shape({})).isRequired,
   showAlertMessage: bool.isRequired,
+  getDesignBySize: func.isRequired,
+  designUrl: string.isRequired,
 };
 
 DesignsPage.defaultProps = {
@@ -297,6 +312,7 @@ function mapStateToProps(state) {
     designs: state.design,
     sizes: state.size,
     showAlertMessage: state.message.alert,
+    designUrl: state.designSize,
   };
 }
 
@@ -306,4 +322,5 @@ export default connect(mapStateToProps, {
   getSizeByProduct,
   getProducts,
   getDesignsByProduct,
+  getDesignBySize,
 })(DesignsPage);
