@@ -8,9 +8,9 @@ class DashboardPage extends Component {
   state = {};
 
   render() {
-    const { showMessage } = this.props;
+    const { showAlertMessage } = this.props;
     return (
-      <Wrapper alertMessage={showMessage}>
+      <Wrapper alertMessage={showAlertMessage}>
         <Container>
           <Heading>Dashboard</Heading>
         </Container>
@@ -21,12 +21,12 @@ class DashboardPage extends Component {
 
 const { bool } = PropTypes;
 DashboardPage.propTypes = {
-  showMessage: bool.isRequired,
+  showAlertMessage: bool.isRequired,
 };
 
 function mapStateToProps(state) {
   return {
-    showMessage: state.message,
+    showAlertMessage: state.message.alert,
     isAuthenticated: !!state.user.token,
   };
 }

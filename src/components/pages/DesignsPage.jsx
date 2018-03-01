@@ -113,7 +113,7 @@ class DesignsPage extends Component {
   };
 
   render() {
-    const { showMessage, sizes, products, designs, order } = this.props;
+    const { showAlertMessage, sizes, products, designs, order } = this.props;
     const productOptions = products.map(product => (
       <MenuItem key={product.id} value={product.id}>
         {product.name}
@@ -133,7 +133,7 @@ class DesignsPage extends Component {
     const selectedSizeObject = this.getSelectedSize(order.sizeID);
 
     return (
-      <Wrapper alertMessage={showMessage}>
+      <Wrapper alertMessage={showAlertMessage}>
         <FlexContainer>
           <Sidebar>
             <FormControl fullWidth margin="normal">
@@ -278,7 +278,7 @@ DesignsPage.propTypes = {
   products: arrayOf(shape({})).isRequired,
   sizes: arrayOf(shape({})).isRequired,
   designs: arrayOf(shape({})).isRequired,
-  showMessage: bool.isRequired,
+  showAlertMessage: bool.isRequired,
 };
 
 DesignsPage.defaultProps = {
@@ -286,7 +286,7 @@ DesignsPage.defaultProps = {
     productID: 0,
     sizeID: 0,
   },
-  showMessage: true,
+  showAlertMessage: true,
 };
 
 function mapStateToProps(state) {
@@ -296,7 +296,7 @@ function mapStateToProps(state) {
     products: state.product,
     designs: state.design,
     sizes: state.size,
-    showMessage: state.message,
+    showAlertMessage: state.message.alert,
   };
 }
 

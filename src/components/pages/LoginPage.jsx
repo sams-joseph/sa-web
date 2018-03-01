@@ -3,11 +3,17 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import LoginForm from '../forms/LoginForm';
 import { login } from '../../actions/auth';
+import { showLoginMessage, showAlertMessage } from '../../actions/message';
 
 import { Wrapper, Container } from './Styled';
 
 class LoginPage extends Component {
-  submit = data => this.props.login(data).then(() => this.props.history.push('/dashboard'));
+  submit = data =>
+    this.props.login(data).then(() => {
+      this.props.showLoginMessage(true);
+      this.props.showAlertMessage(true);
+      return this.props.history.push('/dashboard');
+    });
 
   render() {
     return (
@@ -26,6 +32,8 @@ LoginPage.propTypes = {
     push: func.isRequired,
   }).isRequired,
   login: func.isRequired,
+  showLoginMessage: func.isRequired,
+  showAlertMessage: func.isRequired,
 };
 
-export default connect(null, { login })(LoginPage);
+export default connect(null, { login, showLoginMessage, showAlertMessage })(LoginPage);

@@ -11,7 +11,7 @@ class ProductsPage extends Component {
   }
 
   render() {
-    const { showMessage, products } = this.props;
+    const { showAlertMessage, products } = this.props;
 
     const productElements = products.map(product => (
       <Product
@@ -24,7 +24,7 @@ class ProductsPage extends Component {
     ));
 
     return (
-      <Wrapper alertMessage={showMessage}>
+      <Wrapper alertMessage={showAlertMessage}>
         <Hero img="https://images.unsplash.com/photo-1496442226666-8d4d0e62e6e9?ixlib=rb-0.3.5&s=ce0f350894216f6c6f9218865b3db36d&auto=format&fit=crop&w=1350&q=80" />
         <Container>
           <Heading>Products</Heading>
@@ -45,14 +45,14 @@ ProductsPage.propTypes = {
       imageUrl: string,
     })
   ).isRequired,
-  showMessage: bool.isRequired,
+  showAlertMessage: bool.isRequired,
 };
 
 function mapStateToProps(state) {
   return {
     isConfirmed: !!state.user.confirmed,
     products: state.product,
-    showMessage: state.message,
+    showAlertMessage: state.message.alert,
   };
 }
 

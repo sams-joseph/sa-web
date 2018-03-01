@@ -1,9 +1,27 @@
-import { MESSAGE_CLOSED } from '../types';
+import { ALERT_MESSAGE_SHOWN, ALERT_MESSAGE_CLOSED, LOGIN_MESSAGE_SHOWN, LOGIN_MESSAGE_CLOSED } from '../types';
 
-export default function product(state = true, action = {}) {
+export default function product(state = { alert: true, login: false }, action = {}) {
   switch (action.type) {
-    case MESSAGE_CLOSED:
-      return action.bool;
+    case ALERT_MESSAGE_SHOWN:
+      return {
+        ...state,
+        alert: action.bool,
+      };
+    case ALERT_MESSAGE_CLOSED:
+      return {
+        ...state,
+        alert: action.bool,
+      };
+    case LOGIN_MESSAGE_SHOWN:
+      return {
+        ...state,
+        login: action.bool,
+      };
+    case LOGIN_MESSAGE_CLOSED:
+      return {
+        ...state,
+        login: action.bool,
+      };
     default:
       return state;
   }
