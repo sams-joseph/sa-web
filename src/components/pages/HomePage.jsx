@@ -30,7 +30,7 @@ class HomePage extends Component {
             />
           )}
         <Container>
-          <Heading>Home Page</Heading>
+          <Heading>Home</Heading>
         </Container>
       </Wrapper>
     );
