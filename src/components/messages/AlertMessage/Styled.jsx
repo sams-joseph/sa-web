@@ -27,7 +27,7 @@ export const StyledMessage = styled.div`
   font-size: ${constants.fontSizeMedium};
   margin-bottom: ${props => (props.margin ? '20px' : '0')};
   position: relative;
-  z-index: -1;
+  z-index: 0;
 `;
 
 export const MessageHeading = styled.header`
@@ -50,7 +50,7 @@ export const CloseMessageBtn = styled.button`
     if (props.type === 'success') {
       return constants.colorSuccessDark;
     } else if (props.type === 'info') {
-      return constants.darkPrimaryColor;
+      return constants.darkPrimaryHoverColor;
     } else if (props.type === 'danger') {
       return constants.colorDangerDark;
     }
@@ -63,15 +63,15 @@ export const CloseMessageBtn = styled.button`
 
   &: hover {
     background: ${props => {
-    if (props.type === 'success') {
-      return constants.colorSuccessHover;
-    } else if (props.type === 'info') {
-      return constants.darkPrimaryHoverColor;
-    } else if (props.type === 'danger') {
-      return constants.colorDangerHover;
-    }
-    return constants.colorDefaultHover;
-  }};
+      if (props.type === 'success') {
+        return constants.colorSuccessHover;
+      } else if (props.type === 'info') {
+        return constants.darkPrimaryColor;
+      } else if (props.type === 'danger') {
+        return constants.colorDangerHover;
+      }
+      return constants.colorDefaultHover;
+    }};
   }
 
   &: focus {

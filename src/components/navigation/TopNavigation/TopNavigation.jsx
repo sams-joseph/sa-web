@@ -18,6 +18,8 @@ import { NavigationGroupRight, MainNavigationLink, CreateOrderBtn, LoginBtn } fr
 const style = {
   appBar: {
     background: '#fafafa',
+    zIndex: 1,
+    position: 'relative',
   },
 };
 

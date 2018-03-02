@@ -36,6 +36,7 @@ class App extends Component {
 
     return (
       <div>
+        {isAuthenticated && <Alert />}
         {isAuthenticated && (
           <Snackbar
             anchorOrigin={{
@@ -58,7 +59,6 @@ class App extends Component {
         )}
         <Reboot />
         <TopNavigation location={location} />
-        <Alert />
         {!isConfirmed &&
           isAuthenticated &&
           alertMessage && (

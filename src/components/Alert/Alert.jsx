@@ -6,9 +6,12 @@ import constants from '../constants';
 
 const StyledDiv = styled.div`
   font-family: ${constants.fontFamily};
+  color: white;
   padding: 20px;
   width: 100%;
-  background: #1748d1;
+  background: #2979ff;
+  position: relative;
+  z-index: 0;
 `;
 
 const AlertContainer = styled.div`
@@ -20,15 +23,13 @@ const AlertContainer = styled.div`
   & h4 {
     margin: 0 0 5px 0;
     padding: 0;
-    color: white;
     font-weight: normal;
   }
 
   & ul {
     margin: 0;
-    padding: 0 15px;
+    padding: 0 18px;
     list-style-type: square;
-    color: white;
 
     & li {
       font-size: 12px;
