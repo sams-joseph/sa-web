@@ -9,7 +9,9 @@ import TextField from 'material-ui/TextField';
 import Toolbar from 'material-ui/Toolbar';
 import AppBar from 'material-ui/AppBar';
 import Button from 'material-ui/Button';
+import Snackbar from 'material-ui/Snackbar';
 import IconButton from 'material-ui/IconButton';
+import Error from 'material-ui-icons/Error';
 import FormatColorFill from 'material-ui-icons/FormatColorFill';
 import Dropzone from 'react-dropzone';
 import Sidebar from '../navigation/Sidebar';
@@ -33,6 +35,7 @@ class DesignsPage extends Component {
       date: '',
     },
     fontColor: '#000000',
+    error: '',
   };
 
   componentWillMount() {
@@ -75,7 +78,9 @@ class DesignsPage extends Component {
 
   onDrop = (acceptedFiles, rejectedFiles) => {
     if (rejectedFiles.length > 0) {
-      console.log(rejectedFiles);
+      this.setState({
+        error: 'This file type is not supported.',
+      });
       return;
     }
     acceptedFiles.forEach(file => {
@@ -102,6 +107,10 @@ class DesignsPage extends Component {
   getSelectedSize = id => {
     const sizePosition = this.props.sizes.map(size => size.id).indexOf(id);
     return this.props.sizes[sizePosition];
+  };
+
+  handleClose = () => {
+    this.setState({ error: '' });
   };
 
   handleSelectChange = e => {
@@ -152,6 +161,18 @@ class DesignsPage extends Component {
 
     return (
       <Wrapper alertMessage={showAlertMessage}>
+        <Snackbar
+          onClose={this.handleClose}
+          anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
+          open={!!this.state.error}
+          message={this.state.error}
+          autoHideDuration={5000}
+          action={
+            <IconButton>
+              <Error style={{ color: '#EA233F' }} />
+            </IconButton>
+          }
+        />
         <FlexContainer>
           <Sidebar>
             <FormControl fullWidth margin="normal">
@@ -218,6 +239,7 @@ class DesignsPage extends Component {
                 multiple={false}
                 style={{
                   marginTop: '10px',
+                  marginBottom: '10px',
                   width: '100%',
                   height: '100px',
                   border: `1px dashed rgb(181, 181, 181)`,
@@ -225,25 +247,22 @@ class DesignsPage extends Component {
                   background: 'rgb(65,65,65)',
                 }}
                 acceptStyle={{
-                  marginTop: '10px',
-                  width: '100%',
-                  height: '100px',
                   border: `1px dashed ${constants.colorSuccess}`,
-                  borderRadius: '2px',
                   background: 'rgba(51, 178, 87, 0.25)',
                 }}
                 rejectStyle={{
-                  marginTop: '10px',
-                  width: '100%',
-                  height: '100px',
                   border: `1px dashed ${constants.colorDanger}`,
-                  borderRadius: '2px',
                   background: 'rgba(234, 35, 63, 0.25)',
                 }}
               >
                 <DropzoneText>Drop image or click to browse</DropzoneText>
               </Dropzone>
             </InputGroup>
+            <FormControl fullWidth margin="normal">
+              <Button variant="raised" color="primary">
+                Next
+              </Button>
+            </FormControl>
           </Sidebar>
           <Container padding="0 20px 0 20px" bkg="rgb(70, 70, 70)">
             <CanvasStage

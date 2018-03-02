@@ -4,6 +4,8 @@ import { connect } from 'react-redux';
 import AppBar from 'material-ui/AppBar';
 import ToolBar from 'material-ui/Toolbar';
 import IconButton from 'material-ui/IconButton';
+import Button from 'material-ui/Button';
+import { Link } from 'react-router-dom';
 import AccountCircle from 'material-ui-icons/AccountCircle';
 import Settings from 'material-ui-icons/Settings';
 import PowerSettingsNew from 'material-ui-icons/PowerSettingsNew';
@@ -63,7 +65,9 @@ class TopNavigation extends Component {
             </NavigationGroupRight>
           ) : (
             <NavigationGroupRight>
-              <LoginBtn to="/login">Login</LoginBtn>
+              <Button variant="raised" color="primary" component={Link} to="/login">
+                Login
+              </Button>
             </NavigationGroupRight>
           )}
           {isAuthenticated && (
