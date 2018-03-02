@@ -10,8 +10,13 @@ export const getDesignBySize = (designID, sizeID) => dispatch =>
   api.designSize
     .getDesignSizesById(designID, sizeID)
     .then(design => {
-      dispatch(designUrlRetreived(design.imageUrl));
+      if (design !== null) {
+        dispatch(designUrlRetreived(design.imageUrl));
+      } else {
+        dispatch(designUrlRetreived(''));
+      }
     })
-    .catch(() => {
+    .catch(err => {
+      console.log(err);
       dispatch(designUrlRetreived(''));
     });

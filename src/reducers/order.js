@@ -1,4 +1,4 @@
-import { PRODUCT_SELECTED, SIZE_SELECTED } from '../types';
+import { DESIGN_SELECTED, PRODUCT_SELECTED, SIZE_SELECTED } from '../types';
 
 export default function product(state = {}, action = {}) {
   switch (action.type) {
@@ -11,6 +11,12 @@ export default function product(state = {}, action = {}) {
       return {
         ...state,
         sizeID: action.sizeID,
+      };
+
+    case DESIGN_SELECTED:
+      return {
+        ...state,
+        designID: action.designID,
       };
     default:
       return state;

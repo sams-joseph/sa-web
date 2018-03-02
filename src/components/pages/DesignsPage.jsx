@@ -18,7 +18,7 @@ import CanvasStage from '../Canvas';
 import { getSizeByProduct } from '../../actions/size';
 import { getDesignsByProduct } from '../../actions/design';
 import { getProducts } from '../../actions/product';
-import { setOrderProduct, setOrderSize } from '../../actions/order';
+import { setOrderProduct, setOrderSize, setOrderDesign } from '../../actions/order';
 import { getDesignBySize } from '../../actions/designSize';
 import { Wrapper, Container, FlexContainer, ColorInput, DropzoneText } from './Styled';
 import constants from '../constants';
@@ -43,6 +43,7 @@ class DesignsPage extends Component {
 
   componentDidMount() {
     this.props.setOrderProduct(this.props.order.productID);
+    this.props.getDesignBySize(this.props.order.designID, this.props.order.sizeID);
   }
 
   componentWillReceiveProps(nextProps) {
@@ -52,9 +53,14 @@ class DesignsPage extends Component {
     }
 
     if (nextProps.designs !== this.props.designs) {
-      const designID = nextProps.designs.length > 0 ? nextProps.designs[this.designSelect.props.value].id : 0;
+      const firstAvailableDesignId = nextProps.designs.length > 0 ? nextProps.designs[0].id : 0;
+      this.props.setOrderDesign(firstAvailableDesignId);
+    }
 
-      this.props.getDesignBySize(designID, 3);
+    if (nextProps.order.sizeID !== this.props.order.sizeID || nextProps.order.designID !== this.props.order.designID) {
+      if (nextProps.order.sizeID !== null && nextProps.order.designID !== null) {
+        this.props.getDesignBySize(nextProps.order.designID, nextProps.order.sizeID);
+      }
     }
   }
 
@@ -104,14 +110,16 @@ class DesignsPage extends Component {
     this.props.getDesignsByProduct(e.target.value);
     this.props.getProducts();
     this.setState({ selectedProduct: e.target, selectedSize: { value: this.props.order.sizeID } });
-    const designID = this.props.designs > 0 ? this.props.designs[this.designSelect.props.value].id : 0;
-
-    this.props.getDesignBySize(designID, 3).catch(err => console.log(err));
   };
 
   handleSizeSelectChange = e => {
     this.setState({ selectedSize: e.target });
     this.props.setOrderSize(e.target.value);
+  };
+
+  handleDesignSelectChange = e => {
+    this.setState({ selectedDesign: e.target });
+    this.props.setOrderDesign(e.target.value);
   };
 
   search = (key, arr) => {
@@ -171,13 +179,10 @@ class DesignsPage extends Component {
             <FormControl fullWidth margin="normal">
               <InputLabel htmlFor="design">Design</InputLabel>
               <Select
-                onChange={this.handleSizeSelectChange}
+                onChange={this.handleDesignSelectChange}
                 id="design"
                 name="design"
-                value={designs.length > 0 ? designs[0].id : 0}
-                ref={input => {
-                  this.designSelect = input;
-                }}
+                value={order.designID ? order.designID : 0}
               >
                 {designOptions}
               </Select>
@@ -287,12 +292,14 @@ DesignsPage.propTypes = {
   order: shape({
     sizeID: number,
     productID: number,
+    designID: number,
   }),
   products: arrayOf(shape({})).isRequired,
   sizes: arrayOf(shape({})).isRequired,
   designs: arrayOf(shape({})).isRequired,
   showAlertMessage: bool.isRequired,
   getDesignBySize: func.isRequired,
+  setOrderDesign: func.isRequired,
   designUrl: string.isRequired,
 };
 
@@ -300,6 +307,7 @@ DesignsPage.defaultProps = {
   order: {
     productID: 0,
     sizeID: 0,
+    designID: 0,
   },
   showAlertMessage: true,
 };
@@ -319,6 +327,7 @@ function mapStateToProps(state) {
 export default connect(mapStateToProps, {
   setOrderSize,
   setOrderProduct,
+  setOrderDesign,
   getSizeByProduct,
   getProducts,
   getDesignsByProduct,
