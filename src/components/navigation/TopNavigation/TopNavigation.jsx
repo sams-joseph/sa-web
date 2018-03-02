@@ -50,7 +50,7 @@ class TopNavigation extends Component {
     const open = Boolean(anchorEl);
 
     return (
-      <AppBar style={style.appBar}>
+      <AppBar style={style.appBar} position="static">
         <ToolBar>
           <div style={{ flex: 1 }}>
             <MainNavigationLink exact to="/">

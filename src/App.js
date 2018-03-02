@@ -7,6 +7,7 @@ import Snackbar from 'material-ui/Snackbar';
 import IconButton from 'material-ui/IconButton';
 import CheckCircle from 'material-ui-icons/CheckCircle';
 import AlertMessage from './components/messages/AlertMessage';
+import Alert from './components/Alert';
 import HomePage from './components/pages/HomePage';
 import LoginPage from './components/pages/LoginPage';
 import DashboardPage from './components/pages/DashboardPage';
@@ -57,6 +58,7 @@ class App extends Component {
         )}
         <Reboot />
         <TopNavigation location={location} />
+        <Alert />
         {!isConfirmed &&
           isAuthenticated &&
           alertMessage && (

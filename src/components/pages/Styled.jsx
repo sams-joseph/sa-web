@@ -1,9 +1,7 @@
 import styled from 'styled-components';
 import constants from '../constants';
 
-export const Wrapper = styled.div`
-  margin-top: ${props => (props.alertMessage ? '114px' : '64px')};
-`;
+export const Wrapper = styled.div``;
 
 export const Container = styled.div`
   font-family: ${constants.fontFamily};

@@ -26,9 +26,8 @@ export const StyledMessage = styled.div`
   font-family: ${constants.fontFamily};
   font-size: ${constants.fontSizeMedium};
   margin-bottom: ${props => (props.margin ? '20px' : '0')};
-  position: fixed;
-  top: 64px;
-  z-index: 6;
+  position: relative;
+  z-index: -1;
 `;
 
 export const MessageHeading = styled.header`
@@ -64,15 +63,15 @@ export const CloseMessageBtn = styled.button`
 
   &: hover {
     background: ${props => {
-      if (props.type === 'success') {
-        return constants.colorSuccessHover;
-      } else if (props.type === 'info') {
-        return constants.darkPrimaryHoverColor;
-      } else if (props.type === 'danger') {
-        return constants.colorDangerHover;
-      }
-      return constants.colorDefaultHover;
-    }};
+    if (props.type === 'success') {
+      return constants.colorSuccessHover;
+    } else if (props.type === 'info') {
+      return constants.darkPrimaryHoverColor;
+    } else if (props.type === 'danger') {
+      return constants.colorDangerHover;
+    }
+    return constants.colorDefaultHover;
+  }};
   }
 
   &: focus {
