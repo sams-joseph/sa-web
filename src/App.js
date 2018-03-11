@@ -16,6 +16,7 @@ import ConfirmationPage from './components/pages/ConfirmationPage';
 import TopNavigation from './components/navigation/TopNavigation';
 import ProductsPage from './components/pages/ProductsPage';
 import DesignsPage from './components/pages/DesignsPage';
+import Order from './components/Order';
 
 import UserRoute from './components/routes/UserRoute';
 import GuestRoute from './components/routes/GuestRoute';
@@ -36,7 +37,6 @@ class App extends Component {
 
     return (
       <div>
-        {isAuthenticated && <Alert />}
         {isAuthenticated && (
           <Snackbar
             anchorOrigin={{
@@ -59,6 +59,7 @@ class App extends Component {
         )}
         <Reboot />
         <TopNavigation location={location} />
+        {isAuthenticated && <Alert />}
         {!isConfirmed &&
           isAuthenticated &&
           alertMessage && (
@@ -75,6 +76,7 @@ class App extends Component {
         <UserRoute location={location} path="/dashboard" exact component={DashboardPage} />
         <UserRoute location={location} path="/products" exact component={ProductsPage} />
         <UserRoute location={location} path="/select-design" exact component={DesignsPage} />
+        <UserRoute location={location} path="/order" exact component={Order} />
         <Route location={location} path="/reset-password" exact component={ResetPasswordPage} />
       </div>
     );

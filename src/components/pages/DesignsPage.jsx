@@ -5,6 +5,7 @@ import Select from 'material-ui/Select';
 import { MenuItem } from 'material-ui/Menu';
 import { InputLabel } from 'material-ui/Input';
 import { FormControl } from 'material-ui/Form';
+import { Link } from 'react-router-dom';
 import TextField from 'material-ui/TextField';
 import Toolbar from 'material-ui/Toolbar';
 import AppBar from 'material-ui/AppBar';
@@ -259,7 +260,7 @@ class DesignsPage extends Component {
               </Dropzone>
             </InputGroup>
             <FormControl fullWidth margin="normal">
-              <Button variant="raised" color="primary">
+              <Button component={Link} to="/order" variant="raised" color="primary">
                 Next
               </Button>
             </FormControl>

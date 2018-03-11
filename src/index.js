@@ -10,6 +10,7 @@ import 'react-select/dist/react-select.css';
 import { MuiThemeProvider, createMuiTheme } from 'material-ui/styles';
 import { userLoggedIn } from './actions/auth';
 import ScrollToTop from './components/routes/ScrollToTop';
+import setAuthorizationHeader from './utils/setAuthorizationHeader';
 
 import App from './App';
 import registerServiceWorker from './registerServiceWorker';
@@ -21,6 +22,7 @@ const store = createStore(rootReducer, composeWithDevTools(applyMiddleware(thunk
 
 if (localStorage.sepsisJWT) {
   const payload = decode(localStorage.sepsisJWT);
+  setAuthorizationHeader(localStorage.sepsisJWT);
   const user = {
     token: localStorage.sepsisJWT,
     firstName: payload.firstName,

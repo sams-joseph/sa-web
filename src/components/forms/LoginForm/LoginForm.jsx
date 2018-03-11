@@ -44,6 +44,7 @@ class LoginForm extends Component {
 
   render() {
     const { data, errors } = this.state;
+
     return (
       <Form onSubmit={this.onSubmit}>
         <Heading as="h2" color="blue" textAlign="center">

@@ -52,7 +52,8 @@ class Alert extends Component {
   componentDidMount() {
     axios
       .get(
-        'https://api.github.com/search/issues?q=repo:sams-joseph/sa-web+type:pr+label:release&order=desc&page=1&per_page=1'
+        'https://api.github.com/search/issues?q=repo:sams-joseph/sa-web+type:pr+label:release&order=desc&page=1&per_page=1',
+        { headers: { authorization: null } }
       )
       .then(data => {
         this.setState({
