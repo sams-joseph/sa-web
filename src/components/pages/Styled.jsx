@@ -6,7 +6,6 @@ export const Wrapper = styled.div``;
 export const Container = styled.div`
   font-family: ${constants.fontFamily};
   max-width: 1140px;
-  // min-height: calc(100vh - 180px);
   margin: 0 auto;
   padding: ${props => props.padding};
   width: 100%;
@@ -78,4 +77,18 @@ export const DropzoneText = styled.p`
   margin: 0;
   padding: 0;
   text-align: center;
+`;
+
+export const SelectedFeatures = styled.ul`
+  display: flex;
+  color: white;
+  list-style-type: none;
+  padding: 0;
+  margin: 30px 0 0 0;
+
+  li {
+    display: flex;
+    line-height: 24px;
+    margin-right: 10px;
+  }
 `;

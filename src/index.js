@@ -5,6 +5,7 @@ import { createStore, applyMiddleware } from 'redux';
 import { Provider } from 'react-redux';
 import thunk from 'redux-thunk';
 import { composeWithDevTools } from 'redux-devtools-extension';
+import { injectGlobal } from 'styled-components';
 import decode from 'jwt-decode';
 import 'react-select/dist/react-select.css';
 import { MuiThemeProvider, createMuiTheme } from 'material-ui/styles';
@@ -32,6 +33,32 @@ if (localStorage.sepsisJWT) {
   };
   store.dispatch(userLoggedIn(user));
 }
+
+injectGlobal([
+  `
+  body {
+    background-color: initial;
+    text-align: initial;
+    display: initial;
+    justify-content: initial;
+    align-items: initial;
+    height: initial;
+    width: initial;
+    margin: 0;
+    font-family: ${constants.fontFamily};
+  }
+
+  #root {
+    height: 100%;
+    overflow-x: hidden;
+    min-height: 100vh;
+    background-color: #192023;
+    background-image: -webkit-linear-gradient(315deg, #2e2d45, #1c2127);
+    background-image: linear-gradient(135deg, #2e2d45, #1c2127);
+    color: ${constants.primaryTextColor};
+  }
+  `,
+]);
 
 const theme = createMuiTheme({
   palette: {
@@ -65,7 +92,7 @@ const theme = createMuiTheme({
         position: 'relative',
         width: '300px',
         zIndex: '1',
-        background: 'rgb(55, 55, 55)',
+        background: '#2b2b42',
       },
     },
     MuiAppBar: {

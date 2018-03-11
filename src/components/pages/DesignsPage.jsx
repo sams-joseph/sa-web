@@ -13,6 +13,11 @@ import Button from 'material-ui/Button';
 import Snackbar from 'material-ui/Snackbar';
 import IconButton from 'material-ui/IconButton';
 import Error from 'material-ui-icons/Error';
+import List, { ListItem, ListItemText } from 'material-ui/List';
+import Remove from 'material-ui-icons/Remove';
+import Add from 'material-ui-icons/Add';
+import ChevronRight from 'material-ui-icons/ChevronRight';
+import Collapse from 'material-ui/transitions/Collapse';
 import FormatColorFill from 'material-ui-icons/FormatColorFill';
 import Dropzone from 'react-dropzone';
 import Sidebar from '../navigation/Sidebar';
@@ -23,7 +28,7 @@ import { getDesignsByProduct } from '../../actions/design';
 import { getProducts } from '../../actions/product';
 import { setOrderProduct, setOrderSize, setOrderDesign } from '../../actions/order';
 import { getDesignBySize } from '../../actions/designSize';
-import { Wrapper, Container, FlexContainer, ColorInput, DropzoneText } from './Styled';
+import { Wrapper, Container, FlexContainer, ColorInput, DropzoneText, SelectedFeatures } from './Styled';
 import constants from '../constants';
 
 import placeholderImage from './images/placeholder.jpg';
@@ -37,6 +42,11 @@ class DesignsPage extends Component {
     },
     fontColor: '#000000',
     error: '',
+    collapse: {
+      product: false,
+      size: false,
+      design: false,
+    },
   };
 
   componentWillMount() {
@@ -110,10 +120,6 @@ class DesignsPage extends Component {
     return this.props.sizes[sizePosition];
   };
 
-  handleClose = () => {
-    this.setState({ error: '' });
-  };
-
   handleSelectChange = e => {
     this.props.setOrderProduct(e.target.value);
     this.props.getSizeByProduct(e.target.value);
@@ -140,6 +146,28 @@ class DesignsPage extends Component {
     }
   };
 
+  handleCollapse = name => () => {
+    this.setState({ collapse: { ...this.state.collapse, [name]: !this.state.collapse[name] } });
+  };
+
+  handleProductSelectClick = (productID, productName) => () => {
+    this.props.setOrderProduct(productID);
+    this.props.getSizeByProduct(productID);
+    this.props.getDesignsByProduct(productID);
+    this.props.getProducts();
+    this.setState({ productName });
+  };
+
+  handleSizeSelectClick = (sizeID, sizeName) => () => {
+    this.props.setOrderSize(sizeID);
+    this.setState({ sizeName });
+  };
+
+  handleDesignSelectClick = (designID, designName) => () => {
+    this.props.setOrderDesign(designID);
+    this.setState({ designName });
+  };
+
   render() {
     const { showAlertMessage, sizes, products, designs, order, designUrl } = this.props;
     const productOptions = products.map(product => (
@@ -147,15 +175,48 @@ class DesignsPage extends Component {
         {product.name}
       </MenuItem>
     ));
+    const productListOptions = products.map(product => (
+      <ListItem
+        value={product.id}
+        button
+        style={{ paddingLeft: '30px' }}
+        key={product.id}
+        onClick={this.handleProductSelectClick(product.id, product.name)}
+      >
+        <ListItemText primary={product.name} />
+      </ListItem>
+    ));
     const sizeOptions = sizes.map(size => (
       <MenuItem key={size.id} value={size.id}>
         {size.displayName}
       </MenuItem>
     ));
+    const sizeListOptions = sizes.map(size => (
+      <ListItem
+        value={size.id}
+        button
+        style={{ paddingLeft: '30px' }}
+        key={size.id}
+        onClick={this.handleSizeSelectClick(size.id, size.displayName)}
+      >
+        <ListItemText primary={size.displayName} />
+      </ListItem>
+    ));
     const designOptions = designs.map(design => (
       <MenuItem key={design.id} value={design.id}>
         {design.name}
       </MenuItem>
+    ));
+    const designListOptions = designs.map(design => (
+      <ListItem
+        value={design.id}
+        button
+        style={{ paddingLeft: '30px' }}
+        key={design.id}
+        onClick={this.handleDesignSelectClick(design.id, design.name)}
+      >
+        <ListItemText primary={design.name} />
+      </ListItem>
     ));
 
     const selectedSizeObject = this.getSelectedSize(order.sizeID);
@@ -176,7 +237,36 @@ class DesignsPage extends Component {
         />
         <FlexContainer>
           <Sidebar>
-            <FormControl fullWidth margin="normal">
+            <List component="nav">
+              <ListItem button onClick={this.handleCollapse('product')}>
+                <ListItemText primary="Products" />
+                {this.state.collapse.product ? <Remove style={{ fill: 'white' }} /> : <Add style={{ fill: 'white' }} />}
+              </ListItem>
+              <Collapse in={this.state.collapse.product} timeout="auto" unmountOnExit>
+                <List component="div" disablePadding>
+                  {productListOptions}
+                </List>
+              </Collapse>
+              <ListItem button onClick={this.handleCollapse('size')} disabled={sizeListOptions.length === 0}>
+                <ListItemText primary="Sizes" />
+                {this.state.collapse.size ? <Remove style={{ fill: 'white' }} /> : <Add style={{ fill: 'white' }} />}
+              </ListItem>
+              <Collapse in={this.state.collapse.size} timeout="auto" unmountOnExit>
+                <List component="div" disablePadding>
+                  {sizeListOptions}
+                </List>
+              </Collapse>
+              <ListItem button onClick={this.handleCollapse('design')} disabled={designListOptions.length === 0}>
+                <ListItemText primary="Designs" />
+                {this.state.collapse.design ? <Remove style={{ fill: 'white' }} /> : <Add style={{ fill: 'white' }} />}
+              </ListItem>
+              <Collapse in={this.state.collapse.design} timeout="auto" unmountOnExit>
+                <List component="div" disablePadding>
+                  {designListOptions}
+                </List>
+              </Collapse>
+            </List>
+            {/* <FormControl fullWidth margin="normal">
               <InputLabel htmlFor="product">Product</InputLabel>
               <Select
                 onChange={this.handleSelectChange}
@@ -208,8 +298,8 @@ class DesignsPage extends Component {
               >
                 {designOptions}
               </Select>
-            </FormControl>
-            <FormControl fullWidth margin="normal">
+            </FormControl> */}
+            <FormControl fullWidth margin="normal" style={{ padding: '0 16px' }}>
               <TextField
                 id="name"
                 label="Name"
@@ -221,7 +311,7 @@ class DesignsPage extends Component {
                 }}
               />
             </FormControl>
-            <FormControl fullWidth margin="normal">
+            <FormControl fullWidth margin="normal" style={{ padding: '0 16px' }}>
               <TextField
                 id="date"
                 label="Date"
@@ -245,7 +335,7 @@ class DesignsPage extends Component {
                   height: '100px',
                   border: `1px dashed rgb(181, 181, 181)`,
                   borderRadius: '2px',
-                  background: 'rgb(65,65,65)',
+                  background: '#383854',
                 }}
                 acceptStyle={{
                   border: `1px dashed ${constants.colorSuccess}`,
@@ -259,13 +349,30 @@ class DesignsPage extends Component {
                 <DropzoneText>Drop image or click to browse</DropzoneText>
               </Dropzone>
             </InputGroup>
-            <FormControl fullWidth margin="normal">
+            <FormControl fullWidth margin="normal" style={{ padding: '0 16px' }}>
               <Button component={Link} to="/order" variant="raised" color="primary">
                 Next
               </Button>
             </FormControl>
           </Sidebar>
-          <Container padding="0 20px 0 20px" bkg="rgb(70, 70, 70)">
+          <Container padding="0 20px 0 20px">
+            <SelectedFeatures>
+              {this.state.productName ? (
+                <li>
+                  {this.state.productName} <ChevronRight />
+                </li>
+              ) : (
+                ''
+              )}
+              {this.state.sizeName ? (
+                <li>
+                  {this.state.sizeName} <ChevronRight />
+                </li>
+              ) : (
+                ''
+              )}
+              {this.state.designName ? <li>{this.state.designName}</li> : ''}
+            </SelectedFeatures>
             <CanvasStage
               portraitImage={this.state.image ? this.state.image : ''}
               img={designUrl || placeholderImage}
@@ -276,7 +383,7 @@ class DesignsPage extends Component {
               color={this.state.fontColor}
               bleed={12}
             />
-            <AppBar position="static" color="default" elevation={1} square>
+            <AppBar style={{ background: '#181828' }} position="static" color="default" elevation={1} square>
               <Toolbar>
                 <div style={{ flex: 1 }}>
                   <IconButton>
