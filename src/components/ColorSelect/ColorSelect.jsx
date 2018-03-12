@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import IconButton from 'material-ui/IconButton';
 import FormatColorText from 'material-ui-icons/FormatColorText';
-import { Container, ColorBox } from './Styled';
+import { Container, ColorBox, SelectedColorBar, SelectedColor } from './Styled';
 
 const availableColors = ['#ffffff', '#000000', 'pink', 'magenta', 'blue'];
 
@@ -14,6 +14,7 @@ class ColorSelect extends Component {
 
     this.state = {
       open: false,
+      hex: availableColors[0],
     };
   }
 
@@ -30,6 +31,9 @@ class ColorSelect extends Component {
 
   onClick = hex => {
     this.props.onSelect(hex);
+    this.setState({
+      hex,
+    });
   };
 
   handleOutsideClick = e => {
@@ -52,7 +56,12 @@ class ColorSelect extends Component {
         <IconButton onClick={this.onToggle}>
           <FormatColorText />
         </IconButton>
-        <Container open={this.state.open}>{colors}</Container>
+        <Container open={this.state.open}>
+          {colors}
+          <SelectedColorBar>
+            <SelectedColor hex={this.state.hex} />
+          </SelectedColorBar>
+        </Container>
       </div>
     );
   }

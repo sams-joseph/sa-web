@@ -9,6 +9,7 @@ export const Container = styled.div`
   margin: 0 auto;
   padding: ${props => props.padding};
   width: 100%;
+  position: relative;
   background: ${props => (props.bkg ? props.bkg : '')};
 `;
 

@@ -6,22 +6,22 @@ import Reboot from 'material-ui/Reboot';
 import Snackbar from 'material-ui/Snackbar';
 import IconButton from 'material-ui/IconButton';
 import CheckCircle from 'material-ui-icons/CheckCircle';
-import AlertMessage from './components/messages/AlertMessage';
-import Alert from './components/Alert';
-import HomePage from './components/pages/HomePage';
-import LoginPage from './components/pages/LoginPage';
-import DashboardPage from './components/pages/DashboardPage';
-import ResetPasswordPage from './components/pages/ResetPasswordPage';
-import ConfirmationPage from './components/pages/ConfirmationPage';
-import TopNavigation from './components/navigation/TopNavigation';
-import ProductsPage from './components/pages/ProductsPage';
-import DesignsPage from './components/pages/DesignsPage';
-import Order from './components/Order';
+import AlertMessage from '../messages/AlertMessage';
+import Alert from '../Alert';
+import HomePage from '../pages/HomePage';
+import LoginPage from '../pages/LoginPage';
+import DashboardPage from '../pages/DashboardPage';
+import ResetPasswordPage from '../pages/ResetPasswordPage';
+import ConfirmationPage from '../pages/ConfirmationPage';
+import TopNavigation from '../navigation/TopNavigation';
+import ProductsPage from '../pages/ProductsPage';
+import DesignsPage from '../pages/DesignsPage';
+import Order from '../Order';
 
-import UserRoute from './components/routes/UserRoute';
-import GuestRoute from './components/routes/GuestRoute';
+import UserRoute from '../routes/UserRoute';
+import GuestRoute from '../routes/GuestRoute';
 
-import { closeAlertMessage, closeLoginMessage } from './actions/message';
+import { closeAlertMessage, closeLoginMessage } from '../../actions/message';
 
 class App extends Component {
   onClose = () => {
@@ -73,11 +73,11 @@ class App extends Component {
         <Route location={location} path="/" exact component={HomePage} />
         <Route location={location} path="/confirmation/:token" exact component={ConfirmationPage} />
         <GuestRoute location={location} path="/login" exact component={LoginPage} />
+        <Route location={location} path="/reset-password" exact component={ResetPasswordPage} />
         <UserRoute location={location} path="/dashboard" exact component={DashboardPage} />
         <UserRoute location={location} path="/products" exact component={ProductsPage} />
         <UserRoute location={location} path="/select-design" exact component={DesignsPage} />
         <UserRoute location={location} path="/order" exact component={Order} />
-        <Route location={location} path="/reset-password" exact component={ResetPasswordPage} />
       </div>
     );
   }

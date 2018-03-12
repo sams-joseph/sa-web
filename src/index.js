@@ -9,12 +9,11 @@ import { injectGlobal } from 'styled-components';
 import decode from 'jwt-decode';
 import 'react-select/dist/react-select.css';
 import { MuiThemeProvider, createMuiTheme } from 'material-ui/styles';
-import { userLoggedIn, userLoggedOut } from './actions/auth';
-import api from './api';
+import { userLoggedIn } from './actions/auth';
 import ScrollToTop from './components/routes/ScrollToTop';
 import setAuthorizationHeader from './utils/setAuthorizationHeader';
 
-import App from './App';
+import App from './components/App';
 import registerServiceWorker from './registerServiceWorker';
 import rootReducer from './rootReducer';
 
@@ -23,35 +22,22 @@ import constants from './components/constants';
 const store = createStore(rootReducer, composeWithDevTools(applyMiddleware(thunk)));
 
 if (localStorage.sepsisJWT) {
-  api.user
-    .validateToken(localStorage.sepsisJWT)
-    .then(() => {
-      const payload = decode(localStorage.sepsisJWT);
-      setAuthorizationHeader(localStorage.sepsisJWT);
-      const user = {
-        token: localStorage.sepsisJWT,
-        firstName: payload.firstName,
-        lastName: payload.lastName,
-        email: payload.email,
-        confirmed: payload.confirmed,
-      };
-      store.dispatch(userLoggedIn(user));
-    })
-    .catch(() => {
-      store.dispatch(userLoggedOut());
-    });
+  const payload = decode(localStorage.sepsisJWT);
+  setAuthorizationHeader(localStorage.sepsisJWT);
+  const user = {
+    token: localStorage.sepsisJWT,
+    firstName: payload.firstName,
+    lastName: payload.lastName,
+    email: payload.email,
+    confirmed: payload.confirmed,
+  };
+  store.dispatch(userLoggedIn(user));
 }
 
 injectGlobal([
   `
   body {
     background-color: initial;
-    text-align: initial;
-    display: initial;
-    justify-content: initial;
-    align-items: initial;
-    height: initial;
-    width: initial;
     margin: 0;
     font-family: ${constants.fontFamily};
   }

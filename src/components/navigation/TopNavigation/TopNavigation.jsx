@@ -13,7 +13,7 @@ import { MenuItem } from 'material-ui/Menu';
 import Popover from 'material-ui/Popover';
 import { ListItemIcon, ListItemText } from 'material-ui/List';
 import { logout } from '../../../actions/auth';
-import { NavigationGroupRight, MainNavigationLink, CreateOrderBtn, LoginBtn } from './Styled';
+import { NavigationGroupRight, MainNavigationLink, CreateOrderBtn } from './Styled';
 
 const style = {
   appBar: {

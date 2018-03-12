@@ -1,9 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import Select from 'material-ui/Select';
-import { MenuItem } from 'material-ui/Menu';
-import { InputLabel } from 'material-ui/Input';
 import { FormControl } from 'material-ui/Form';
 import { Link } from 'react-router-dom';
 import TextField from 'material-ui/TextField';
@@ -12,13 +9,13 @@ import AppBar from 'material-ui/AppBar';
 import Button from 'material-ui/Button';
 import Snackbar from 'material-ui/Snackbar';
 import IconButton from 'material-ui/IconButton';
+import { CircularProgress } from 'material-ui/Progress';
 import Error from 'material-ui-icons/Error';
 import List, { ListItem, ListItemText } from 'material-ui/List';
 import Remove from 'material-ui-icons/Remove';
 import Add from 'material-ui-icons/Add';
 import ChevronRight from 'material-ui-icons/ChevronRight';
 import Collapse from 'material-ui/transitions/Collapse';
-import FormatColorFill from 'material-ui-icons/FormatColorFill';
 import Dropzone from 'react-dropzone';
 import Sidebar from '../navigation/Sidebar';
 import InputGroup from '../inputs/InputGroup';
@@ -28,7 +25,7 @@ import { getDesignsByProduct } from '../../actions/design';
 import { getProducts } from '../../actions/product';
 import { setOrderProduct, setOrderSize, setOrderDesign } from '../../actions/order';
 import { getDesignBySize } from '../../actions/designSize';
-import { Wrapper, Container, FlexContainer, ColorInput, DropzoneText, SelectedFeatures } from './Styled';
+import { Wrapper, Container, FlexContainer, DropzoneText, SelectedFeatures } from './Styled';
 import ColorSelect from '../ColorSelect';
 import constants from '../constants';
 
@@ -36,6 +33,7 @@ import placeholderImage from './images/placeholder.jpg';
 
 class DesignsPage extends Component {
   state = {
+    loading: true,
     showMessage: true,
     text: {
       name: '',
@@ -51,14 +49,11 @@ class DesignsPage extends Component {
   };
 
   componentWillMount() {
-    this.props.getSizeByProduct(this.props.order.productID);
-    this.props.getDesignsByProduct(this.props.order.productID);
-    this.props.getProducts();
-  }
-
-  componentDidMount() {
-    this.props.setOrderProduct(this.props.order.productID);
-    this.props.getDesignBySize(this.props.order.designID, this.props.order.sizeID);
+    this.props.getProducts().then(() => {
+      setTimeout(() => {
+        this.setState({ loading: false });
+      }, 10000);
+    });
   }
 
   componentWillReceiveProps(nextProps) {
@@ -152,10 +147,13 @@ class DesignsPage extends Component {
   };
 
   handleProductSelectClick = (productID, productName) => () => {
+    this.setState({ loading: true });
     this.props.setOrderProduct(productID);
-    this.props.getSizeByProduct(productID);
-    this.props.getDesignsByProduct(productID);
-    this.props.getProducts();
+    Promise.all([this.props.getSizeByProduct(productID), this.props.getDesignsByProduct(productID)]).then(() => {
+      setTimeout(() => {
+        this.setState({ loading: false });
+      }, 10000);
+    });
     this.setState({ productName });
   };
 
@@ -171,11 +169,6 @@ class DesignsPage extends Component {
 
   render() {
     const { showAlertMessage, sizes, products, designs, order, designUrl } = this.props;
-    const productOptions = products.map(product => (
-      <MenuItem key={product.id} value={product.id}>
-        {product.name}
-      </MenuItem>
-    ));
     const productListOptions = products.map(product => (
       <ListItem
         value={product.id}
@@ -187,11 +180,6 @@ class DesignsPage extends Component {
         <ListItemText primary={product.name} />
       </ListItem>
     ));
-    const sizeOptions = sizes.map(size => (
-      <MenuItem key={size.id} value={size.id}>
-        {size.displayName}
-      </MenuItem>
-    ));
     const sizeListOptions = sizes.map(size => (
       <ListItem
         value={size.id}
@@ -202,11 +190,6 @@ class DesignsPage extends Component {
       >
         <ListItemText primary={size.displayName} />
       </ListItem>
-    ));
-    const designOptions = designs.map(design => (
-      <MenuItem key={design.id} value={design.id}>
-        {design.name}
-      </MenuItem>
     ));
     const designListOptions = designs.map(design => (
       <ListItem
@@ -239,7 +222,7 @@ class DesignsPage extends Component {
         <FlexContainer>
           <Sidebar>
             <List component="nav">
-              <ListItem button onClick={this.handleCollapse('product')}>
+              <ListItem button onClick={this.handleCollapse('product')} disabled={this.state.loading}>
                 <ListItemText primary="Products" />
                 {this.state.collapse.product ? <Remove style={{ fill: 'white' }} /> : <Add style={{ fill: 'white' }} />}
               </ListItem>
@@ -267,39 +250,6 @@ class DesignsPage extends Component {
                 </List>
               </Collapse>
             </List>
-            {/* <FormControl fullWidth margin="normal">
-              <InputLabel htmlFor="product">Product</InputLabel>
-              <Select
-                onChange={this.handleSelectChange}
-                value={order.productID ? order.productID : 0}
-                id="product"
-                name="product"
-              >
-                {productOptions}
-              </Select>
-            </FormControl>
-            <FormControl fullWidth margin="normal">
-              <InputLabel htmlFor="product-size">Size</InputLabel>
-              <Select
-                onChange={this.handleSizeSelectChange}
-                id="product-size"
-                name="product-size"
-                value={order.sizeID ? order.sizeID : 0}
-              >
-                {sizeOptions}
-              </Select>
-            </FormControl>
-            <FormControl fullWidth margin="normal">
-              <InputLabel htmlFor="design">Design</InputLabel>
-              <Select
-                onChange={this.handleDesignSelectChange}
-                id="design"
-                name="design"
-                value={order.designID ? order.designID : 0}
-              >
-                {designOptions}
-              </Select>
-            </FormControl> */}
             <FormControl fullWidth margin="normal" style={{ padding: '0 16px' }}>
               <TextField
                 id="name"
@@ -356,45 +306,53 @@ class DesignsPage extends Component {
               </Button>
             </FormControl>
           </Sidebar>
-          <Container padding="0 20px 0 20px">
-            <SelectedFeatures>
-              {this.state.productName ? (
-                <li>
-                  {this.state.productName} <ChevronRight />
-                </li>
-              ) : (
-                ''
-              )}
-              {this.state.sizeName ? (
-                <li>
-                  {this.state.sizeName} <ChevronRight />
-                </li>
-              ) : (
-                ''
-              )}
-              {this.state.designName ? <li>{this.state.designName}</li> : ''}
-            </SelectedFeatures>
-            <CanvasStage
-              portraitImage={this.state.image ? this.state.image : ''}
-              img={designUrl || placeholderImage}
-              name={this.state.text.name}
-              date={this.state.text.date}
-              width={selectedSizeObject ? selectedSizeObject.width : 48}
-              height={selectedSizeObject ? selectedSizeObject.height : 14}
-              color={this.state.fontColor}
-              bleed={12}
-            />
-            <AppBar style={{ background: '#181828' }} position="static" color="default" elevation={1} square>
-              <Toolbar>
-                <div style={{ flex: 1, display: 'flex' }}>
-                  <ColorSelect onSelect={this.setColor} />
-                </div>
-                <Button variant="raised" color="primary">
-                  Preview
-                </Button>
-              </Toolbar>
-            </AppBar>
-          </Container>
+          {this.state.loading ? (
+            <Container>
+              <CircularProgress
+                style={{ position: 'relative', left: '50%', transform: 'translateX(-50%)', marginTop: '100px' }}
+              />
+            </Container>
+          ) : (
+            <Container padding="0 20px 0 20px">
+              <SelectedFeatures>
+                {this.state.productName ? (
+                  <li>
+                    {this.state.productName} <ChevronRight />
+                  </li>
+                ) : (
+                  ''
+                )}
+                {this.state.sizeName ? (
+                  <li>
+                    {this.state.sizeName} <ChevronRight />
+                  </li>
+                ) : (
+                  ''
+                )}
+                {this.state.designName ? <li>{this.state.designName}</li> : ''}
+              </SelectedFeatures>
+              <CanvasStage
+                portraitImage={this.state.image ? this.state.image : ''}
+                img={designUrl || placeholderImage}
+                name={this.state.text.name}
+                date={this.state.text.date}
+                width={selectedSizeObject ? selectedSizeObject.width : 48}
+                height={selectedSizeObject ? selectedSizeObject.height : 14}
+                color={this.state.fontColor}
+                bleed={12}
+              />
+              <AppBar style={{ background: '#181828' }} position="static" color="default" elevation={1} square>
+                <Toolbar>
+                  <div style={{ flex: 1, display: 'flex' }}>
+                    <ColorSelect onSelect={this.setColor} />
+                  </div>
+                  <Button variant="raised" color="primary">
+                    Preview
+                  </Button>
+                </Toolbar>
+              </AppBar>
+            </Container>
+          )}
         </FlexContainer>
       </Wrapper>
     );
