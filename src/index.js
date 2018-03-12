@@ -9,7 +9,8 @@ import { injectGlobal } from 'styled-components';
 import decode from 'jwt-decode';
 import 'react-select/dist/react-select.css';
 import { MuiThemeProvider, createMuiTheme } from 'material-ui/styles';
-import { userLoggedIn } from './actions/auth';
+import { userLoggedIn, userLoggedOut } from './actions/auth';
+import api from './api';
 import ScrollToTop from './components/routes/ScrollToTop';
 import setAuthorizationHeader from './utils/setAuthorizationHeader';
 
@@ -22,16 +23,23 @@ import constants from './components/constants';
 const store = createStore(rootReducer, composeWithDevTools(applyMiddleware(thunk)));
 
 if (localStorage.sepsisJWT) {
-  const payload = decode(localStorage.sepsisJWT);
-  setAuthorizationHeader(localStorage.sepsisJWT);
-  const user = {
-    token: localStorage.sepsisJWT,
-    firstName: payload.firstName,
-    lastName: payload.lastName,
-    email: payload.email,
-    confirmed: payload.confirmed,
-  };
-  store.dispatch(userLoggedIn(user));
+  api.user
+    .validateToken(localStorage.sepsisJWT)
+    .then(() => {
+      const payload = decode(localStorage.sepsisJWT);
+      setAuthorizationHeader(localStorage.sepsisJWT);
+      const user = {
+        token: localStorage.sepsisJWT,
+        firstName: payload.firstName,
+        lastName: payload.lastName,
+        email: payload.email,
+        confirmed: payload.confirmed,
+      };
+      store.dispatch(userLoggedIn(user));
+    })
+    .catch(() => {
+      store.dispatch(userLoggedOut());
+    });
 }
 
 injectGlobal([

@@ -16,6 +16,7 @@ export default {
           credentials,
         })
         .then(res => res.data.user),
+    validateToken: token => axios.post(`${process.env.REACT_APP_API_HOST}/api/auth/validate-token`, { token }),
   },
   product: {
     getProducts: () => axios.get(`${process.env.REACT_APP_API_HOST}/api/products`, {}).then(res => res.data.products),

@@ -29,6 +29,7 @@ import { getProducts } from '../../actions/product';
 import { setOrderProduct, setOrderSize, setOrderDesign } from '../../actions/order';
 import { getDesignBySize } from '../../actions/designSize';
 import { Wrapper, Container, FlexContainer, ColorInput, DropzoneText, SelectedFeatures } from './Styled';
+import ColorSelect from '../ColorSelect';
 import constants from '../constants';
 
 import placeholderImage from './images/placeholder.jpg';
@@ -109,9 +110,9 @@ class DesignsPage extends Component {
     });
   };
 
-  setColor = () => {
+  setColor = color => {
     this.setState({
-      fontColor: this.color.value,
+      fontColor: color,
     });
   };
 
@@ -385,17 +386,8 @@ class DesignsPage extends Component {
             />
             <AppBar style={{ background: '#181828' }} position="static" color="default" elevation={1} square>
               <Toolbar>
-                <div style={{ flex: 1 }}>
-                  <IconButton>
-                    <FormatColorFill />
-                  </IconButton>
-                  <ColorInput
-                    type="color"
-                    innerRef={input => {
-                      this.color = input;
-                    }}
-                    onChange={this.setColor}
-                  />
+                <div style={{ flex: 1, display: 'flex' }}>
+                  <ColorSelect onSelect={this.setColor} />
                 </div>
                 <Button variant="raised" color="primary">
                   Preview

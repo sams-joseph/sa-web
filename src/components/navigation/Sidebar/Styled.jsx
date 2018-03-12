@@ -11,7 +11,7 @@ export const SidebarHeading = styled.h3`
   color: white;
   font-weight: ${constants.fontWeightLight};
   font-family: ${constants.fontFamily};
-  margin: 0 0 30px 0;
+  margin: 0 0 10px 0;
   padding: 20px;
 `;
 

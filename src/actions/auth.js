@@ -36,3 +36,5 @@ export const confirm = token => dispatch =>
     localStorage.sepsisJWT = user.token;
     dispatch(userLoggedIn(user));
   });
+
+export const validateToken = token => () => api.user.validateToken(token);
