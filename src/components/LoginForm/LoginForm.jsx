@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import TextField from 'material-ui/TextField';
 import { FormControl } from 'material-ui/Form';
 import Button from 'material-ui/Button';
-import AlertMessage from '../../messages/AlertMessage';
+import Alert from '../Alert';
 import { StyledLink, Form, Heading } from './Styled';
 
 class LoginForm extends Component {
@@ -51,7 +51,7 @@ class LoginForm extends Component {
           Welcome Back
         </Heading>
         <div>
-          {errors.global && <AlertMessage margin type="danger" text={errors.global} />}
+          {errors.global && <Alert margin type="danger" text={errors.global} />}
           <FormControl fullWidth margin="normal">
             <TextField
               label={errors.email ? errors.email : 'Email'}

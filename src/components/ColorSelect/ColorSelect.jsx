@@ -45,7 +45,7 @@ class ColorSelect extends Component {
   };
 
   render() {
-    const colors = availableColors.map(color => <Color hex={color} onClick={this.onClick} />);
+    const colors = availableColors.map(color => <Color key={color} hex={color} onClick={this.onClick} />);
 
     return (
       <div

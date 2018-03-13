@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
-import constants from '../../constants';
+import constants from '../constants';
 
 export const Form = styled.form`
   font-family: ${constants.fontFamily};

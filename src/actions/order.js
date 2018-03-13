@@ -1,28 +1,28 @@
 import { DESIGN_SELECTED, PRODUCT_SELECTED, SIZE_SELECTED } from '../types';
 
-export const productsRetreived = productID => ({
+export const productsRetreived = product => ({
   type: PRODUCT_SELECTED,
-  productID,
+  product,
 });
 
-export const sizesRetreived = sizeID => ({
+export const sizesRetreived = size => ({
   type: SIZE_SELECTED,
-  sizeID,
+  size,
 });
 
-export const designsRetreived = designID => ({
+export const designsRetreived = design => ({
   type: DESIGN_SELECTED,
-  designID,
+  design,
 });
 
-export const setOrderProduct = productID => dispatch => {
-  dispatch(productsRetreived(productID));
+export const setOrderProduct = product => dispatch => {
+  dispatch(productsRetreived(product));
 };
 
-export const setOrderSize = sizeID => dispatch => {
-  dispatch(sizesRetreived(sizeID));
+export const setOrderSize = size => dispatch => {
+  dispatch(sizesRetreived(size));
 };
 
-export const setOrderDesign = designID => dispatch => {
-  dispatch(designsRetreived(designID));
+export const setOrderDesign = design => dispatch => {
+  dispatch(designsRetreived(design));
 };

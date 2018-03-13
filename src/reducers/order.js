@@ -5,18 +5,18 @@ export default function product(state = {}, action = {}) {
     case PRODUCT_SELECTED:
       return {
         ...state,
-        productID: action.productID,
+        product: action.product,
       };
     case SIZE_SELECTED:
       return {
         ...state,
-        sizeID: action.sizeID,
+        size: action.size,
       };
 
     case DESIGN_SELECTED:
       return {
         ...state,
-        designID: action.designID,
+        design: action.design,
       };
     default:
       return state;

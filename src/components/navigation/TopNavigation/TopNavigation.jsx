@@ -63,7 +63,7 @@ class TopNavigation extends Component {
           </div>
           {isAuthenticated ? (
             <NavigationGroupRight>
-              <CreateOrderBtn to="/select-design">Order</CreateOrderBtn>
+              <CreateOrderBtn to="/design">Order</CreateOrderBtn>
             </NavigationGroupRight>
           ) : (
             <NavigationGroupRight>

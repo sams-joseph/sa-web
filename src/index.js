@@ -76,6 +76,9 @@ const theme = createMuiTheme({
         padding: '8px 5px 8px 5px',
       },
       underline: {
+        '&:before': {
+          backgroundColor: constants.almostWhite,
+        },
         '&:hover:not($disabled):before': {
           backgroundColor: constants.defaultPrimaryColor,
         },

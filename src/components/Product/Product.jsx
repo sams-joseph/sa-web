@@ -16,9 +16,9 @@ function Product({ id, name, description, imageUrl, setOrderProduct }) {
         <Button
           variant="raised"
           color="primary"
-          onClick={() => setOrderProduct(id)}
+          onClick={() => setOrderProduct({ productID: id, productName: name })}
           component={Link}
-          to="/select-design"
+          to="/design"
         >
           Get Started
         </Button>

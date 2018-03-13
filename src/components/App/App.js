@@ -7,15 +7,15 @@ import Snackbar from 'material-ui/Snackbar';
 import IconButton from 'material-ui/IconButton';
 import CheckCircle from 'material-ui-icons/CheckCircle';
 import AlertMessage from '../messages/AlertMessage';
-import Alert from '../Alert';
+import Announce from '../Announce';
 import HomePage from '../pages/HomePage';
 import LoginPage from '../pages/LoginPage';
 import DashboardPage from '../pages/DashboardPage';
 import ResetPasswordPage from '../pages/ResetPasswordPage';
 import ConfirmationPage from '../pages/ConfirmationPage';
 import TopNavigation from '../navigation/TopNavigation';
-import ProductsPage from '../pages/ProductsPage';
-import DesignsPage from '../pages/DesignsPage';
+import Products from '../Products';
+import Design from '../Design';
 import Order from '../Order';
 
 import UserRoute from '../routes/UserRoute';
@@ -59,7 +59,7 @@ class App extends Component {
         )}
         <Reboot />
         <TopNavigation location={location} />
-        {isAuthenticated && <Alert />}
+        {isAuthenticated && <Announce />}
         {!isConfirmed &&
           isAuthenticated &&
           alertMessage && (
@@ -75,8 +75,8 @@ class App extends Component {
         <GuestRoute location={location} path="/login" exact component={LoginPage} />
         <Route location={location} path="/reset-password" exact component={ResetPasswordPage} />
         <UserRoute location={location} path="/dashboard" exact component={DashboardPage} />
-        <UserRoute location={location} path="/products" exact component={ProductsPage} />
-        <UserRoute location={location} path="/select-design" exact component={DesignsPage} />
+        <UserRoute location={location} path="/products" exact component={Products} />
+        <UserRoute location={location} path="/design" exact component={Design} />
         <UserRoute location={location} path="/order" exact component={Order} />
       </div>
     );

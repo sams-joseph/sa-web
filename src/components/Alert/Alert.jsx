@@ -1,101 +1,56 @@
 import React, { Component } from 'react';
-import axios from 'axios';
-import styled from 'styled-components';
-import Button from 'material-ui/Button';
-import constants from '../constants';
-
-const StyledDiv = styled.div`
-  font-family: ${constants.fontFamily};
-  color: white;
-  padding: 20px;
-  width: 100%;
-  background: #2979ff;
-  position: relative;
-  z-index: 0;
-`;
-
-const AlertContainer = styled.div`
-  align-items: center;
-  display: flex;
-  justify-content: space-between;
-  width: 100%;
-
-  & h4 {
-    margin: 0 0 5px 0;
-    padding: 0;
-    font-weight: normal;
-  }
-
-  & ul {
-    margin: 0;
-    padding: 0 18px;
-    list-style-type: square;
-
-    & li {
-      font-size: 12px;
-      font-weight: 100;
-    }
-  }
-`;
+import PropTypes from 'prop-types';
+import { StyledMessage, MessageContainer, MessageHeading, MessageIcon, MessageText, CloseMessageBtn } from './Styled';
+import warningIcon from './images/alert-circle.svg';
+import successIcon from './images/check-circle.svg';
 
 class Alert extends Component {
-  constructor() {
-    super();
+  state = {
+    showMessage: true,
+  };
 
-    this.state = {
-      title: String,
-      body: String,
-      number: Number,
-    };
-  }
-
-  componentDidMount() {
-    axios
-      .get(
-        'https://api.github.com/search/issues?q=repo:sams-joseph/sa-web+type:pr+label:release&order=desc&page=1&per_page=1',
-        { headers: { authorization: null } }
-      )
-      .then(data => {
-        this.setState({
-          title: data.data.items[0].title,
-          body: data.data.items[0].body,
-          number: data.data.items[0].number,
-        });
-      })
-      .catch(err => {});
-  }
-
-  onClick = () => {
-    if (localStorage) {
-      localStorage.setItem('dismiss', this.state.number);
-    }
-    this.setState({ dismissed: true });
+  toggleMessage = () => {
+    this.props.toggleMessage(false);
   };
 
   render() {
-    const updateBody = this.state.body.toString().split('-');
-    const update = updateBody.splice(1, updateBody.length);
-
-    if (localStorage && !this.state.dismissed && Number(localStorage.getItem('dismiss')) < this.state.number) {
-      return (
-        <StyledDiv>
-          <AlertContainer>
-            <div>
-              <h4>{this.state.title}</h4>
-              <ul>{update.map((listItem, index) => <li key={`enhancements_${index}`}>{listItem}</li>)}</ul>
-            </div>
-            <div>
-              <Button variant="raised" color="primary" onClick={this.onClick}>
-                Dismiss
-              </Button>
-            </div>
-          </AlertContainer>
-        </StyledDiv>
-      );
-    }
-
-    return null;
+    const { type, text, closable, margin, topMargin } = this.props;
+    return (
+      <StyledMessage type={type} margin={margin} topMargin={topMargin}>
+        <MessageContainer>
+          <MessageHeading>
+            {type === 'success' ? (
+              <MessageIcon src={successIcon} alt="Warning" />
+            ) : (
+              <MessageIcon src={warningIcon} alt="Warning" />
+            )}
+            <MessageText>{text}</MessageText>
+          </MessageHeading>
+          {closable && (
+            <CloseMessageBtn type={type} onClick={this.toggleMessage}>
+              Close
+            </CloseMessageBtn>
+          )}
+        </MessageContainer>
+      </StyledMessage>
+    );
   }
 }
+
+const { func, string, bool } = PropTypes;
+Alert.propTypes = {
+  toggleMessage: func.isRequired,
+  type: string.isRequired,
+  text: string.isRequired,
+  closable: bool.isRequired,
+  margin: bool.isRequired,
+  topMargin: bool.isRequired,
+};
+
+Alert.defaultProps = {
+  closable: false,
+  margin: false,
+  topMargin: true,
+};
 
 export default Alert;

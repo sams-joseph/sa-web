@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import ResetPasswordForm from '../forms/ResetPasswordForm';
+import ResetPasswordForm from '../ResetPasswordForm';
 import { resetPassword } from '../../actions/auth';
 
 class ResetPasswordPage extends Component {
