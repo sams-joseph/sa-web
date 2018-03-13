@@ -3,7 +3,7 @@ import { Message, Icon } from 'semantic-ui-react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { confirm } from '../../actions/auth';
-import AlertMessage from '../messages/AlertMessage';
+import Alert from '../Alert';
 
 class ConfirmationPage extends Component {
   state = {
@@ -29,10 +29,9 @@ class ConfirmationPage extends Component {
           </Message>
         )}
 
-        {!loading && success && <AlertMessage type="success" text="Your email has been verified successfuly" />}
+        {!loading && success && <Alert type="success" text="Your email has been verified successfuly" />}
 
-        {!loading &&
-          !success && <AlertMessage type="danger" text="This link has either already been used or is not valid" />}
+        {!loading && !success && <Alert type="danger" text="This link has either already been used or is not valid" />}
       </div>
     );
   }

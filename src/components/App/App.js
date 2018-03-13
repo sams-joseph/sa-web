@@ -6,7 +6,7 @@ import Reboot from 'material-ui/Reboot';
 import Snackbar from 'material-ui/Snackbar';
 import IconButton from 'material-ui/IconButton';
 import CheckCircle from 'material-ui-icons/CheckCircle';
-import AlertMessage from '../messages/AlertMessage';
+import Alert from '../Alert';
 import Announce from '../Announce';
 import HomePage from '../pages/HomePage';
 import LoginPage from '../pages/LoginPage';
@@ -63,12 +63,7 @@ class App extends Component {
         {!isConfirmed &&
           isAuthenticated &&
           alertMessage && (
-            <AlertMessage
-              closable
-              type="info"
-              text="Your email has not been verified"
-              toggleMessage={this.toggleMessage}
-            />
+            <Alert closable type="info" text="Your email has not been verified" toggleMessage={this.toggleMessage} />
           )}
         <Route location={location} path="/" exact component={HomePage} />
         <Route location={location} path="/confirmation/:token" exact component={ConfirmationPage} />

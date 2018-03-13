@@ -15,6 +15,8 @@ import List, { ListItem, ListItemText } from 'material-ui/List';
 import Remove from 'material-ui-icons/Remove';
 import Add from 'material-ui-icons/Add';
 import Collapse from 'material-ui/transitions/Collapse';
+import Modal from 'material-ui/Modal';
+import Typography from 'material-ui/Typography';
 import Dropzone from 'react-dropzone';
 import Sidebar from '../navigation/Sidebar';
 import InputGroup from '../inputs/InputGroup';
@@ -37,17 +39,19 @@ class Design extends Component {
   state = {
     loading: true,
     showMessage: true,
+    modal: false,
     text: {
       name: '',
       date: '',
     },
-    fontColor: '#000000',
+    fontColor: '#FFFFFF',
     error: '',
     collapse: {
       product: false,
       size: false,
       design: false,
     },
+    requestDelay: 5000,
   };
 
   componentDidMount() {
@@ -56,7 +60,7 @@ class Design extends Component {
       .then(() => {
         setTimeout(() => {
           this.setState({ loading: false });
-        }, 5000);
+        }, this.state.requestDelay);
       })
       .catch(() => {
         this.props.logout();
@@ -124,7 +128,7 @@ class Design extends Component {
       .then(() => {
         setTimeout(() => {
           this.setState({ loading: false });
-        }, 5000);
+        }, this.state.requestDelay);
       })
       .catch(() => {
         this.props.logout();
@@ -144,11 +148,19 @@ class Design extends Component {
       .then(() => {
         setTimeout(() => {
           this.setState({ loading: false });
-        }, 5000);
+        }, this.state.requestDelay);
       })
       .catch(() => {
         this.props.logout();
       });
+  };
+
+  handleModalOpen = () => {
+    this.setState({ modal: true });
+  };
+
+  handleModalClose = () => {
+    this.setState({ modal: false });
   };
 
   render() {
@@ -191,6 +203,24 @@ class Design extends Component {
 
     return (
       <Wrapper alertMessage={showAlertMessage}>
+        <Modal aria-labelledby="simple-modal-title" open={this.state.modal} onClose={this.handleModalClose}>
+          <div
+            style={{
+              position: 'absolute',
+              width: '50%',
+              height: '50vh',
+              background: '#535469',
+              top: '50%',
+              left: '50%',
+              transform: 'translate(-50%, -50%)',
+              padding: '20px',
+            }}
+          >
+            <Typography variant="title" id="modal-title">
+              Preview
+            </Typography>
+          </div>
+        </Modal>
         <Snackbar
           onClose={this.handleClose}
           anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
@@ -273,7 +303,7 @@ class Design extends Component {
                 <div style={{ flex: 1, display: 'flex' }}>
                   <ColorSelect onSelect={this.setColor} />
                 </div>
-                <Button variant="raised" color="primary">
+                <Button onClick={this.handleModalOpen} variant="raised" color="primary">
                   Preview
                 </Button>
               </Toolbar>
