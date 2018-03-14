@@ -1,7 +1,7 @@
 import React from 'react';
 import { Wrapper, Container, Heading } from './Styled';
 
-const HomePage = () => (
+const Home = () => (
   <Wrapper>
     <Container>
       <Heading>Home Page</Heading>
@@ -9,4 +9,4 @@ const HomePage = () => (
   </Wrapper>
 );
 
-export default HomePage;
+export default Home;

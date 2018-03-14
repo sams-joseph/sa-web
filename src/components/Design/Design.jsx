@@ -51,7 +51,7 @@ class Design extends Component {
       size: false,
       design: false,
     },
-    requestDelay: 5000,
+    requestDelay: 0,
   };
 
   componentDidMount() {
@@ -360,7 +360,14 @@ class Design extends Component {
                 <DropzoneText>Drop image or click to browse</DropzoneText>
               </Dropzone>
             </InputGroup>
-            <Button style={{ marginTop: '20px' }} component={Link} to="/order" variant="raised" color="primary">
+            <Button
+              disabled={Object.getOwnPropertyNames(this.props.order).length !== 3}
+              style={{ marginTop: '20px' }}
+              component={Link}
+              to="/order-summary"
+              variant="raised"
+              color="primary"
+            >
               Next
             </Button>
           </Container>

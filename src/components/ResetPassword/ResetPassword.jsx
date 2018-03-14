@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import ResetPasswordForm from '../ResetPasswordForm';
 import { resetPassword } from '../../actions/auth';
 
-class ResetPasswordPage extends Component {
+class ResetPassword extends Component {
   submit = data => this.props.resetPassword(data).then(() => this.props.history.push('/'));
 
   render() {
@@ -13,11 +13,11 @@ class ResetPasswordPage extends Component {
 }
 
 const { shape, func } = PropTypes;
-ResetPasswordPage.propTypes = {
+ResetPassword.propTypes = {
   history: shape({
     push: func.isRequired,
   }).isRequired,
   resetPassword: func.isRequired,
 };
 
-export default connect(null, { resetPassword })(ResetPasswordPage);
+export default connect(null, { resetPassword })(ResetPassword);

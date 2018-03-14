@@ -7,7 +7,7 @@ import { showLoginMessage, showAlertMessage } from '../../actions/message';
 
 import { Wrapper, Container } from './Styled';
 
-class LoginPage extends Component {
+class Login extends Component {
   submit = data =>
     this.props.login(data).then(() => {
       this.props.showLoginMessage(true);
@@ -27,7 +27,7 @@ class LoginPage extends Component {
 }
 
 const { shape, func } = PropTypes;
-LoginPage.propTypes = {
+Login.propTypes = {
   history: shape({
     push: func.isRequired,
   }).isRequired,
@@ -36,4 +36,4 @@ LoginPage.propTypes = {
   showAlertMessage: func.isRequired,
 };
 
-export default connect(null, { login, showLoginMessage, showAlertMessage })(LoginPage);
+export default connect(null, { login, showLoginMessage, showAlertMessage })(Login);

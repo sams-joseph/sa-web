@@ -20,6 +20,10 @@ export default {
   },
   product: {
     getProducts: () => axios.get(`${process.env.REACT_APP_API_HOST}/api/products`, {}).then(res => res.data.products),
+    getProductByID: id =>
+      axios
+        .get(`${process.env.REACT_APP_API_HOST}/api/products/product`, { params: { id } })
+        .then(res => res.data.product),
   },
   size: {
     getSizeByProduct: id =>
@@ -28,6 +32,10 @@ export default {
   design: {
     getDesignsByProduct: id =>
       axios.get(`${process.env.REACT_APP_API_HOST}/api/designs`, { params: { id } }).then(res => res.data.designs),
+    getDesignByID: id =>
+      axios
+        .get(`${process.env.REACT_APP_API_HOST}/api/designs/design`, { params: { id } })
+        .then(res => res.data.design),
   },
   designSize: {
     getDesignSizesById: (designID, sizeID) =>

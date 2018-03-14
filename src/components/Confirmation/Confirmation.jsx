@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import { confirm } from '../../actions/auth';
 import Alert from '../Alert';
 
-class ConfirmationPage extends Component {
+class Confirmation extends Component {
   state = {
     loading: true,
     success: false,
@@ -38,7 +38,7 @@ class ConfirmationPage extends Component {
 }
 
 const { func, shape, string } = PropTypes;
-ConfirmationPage.propTypes = {
+Confirmation.propTypes = {
   confirm: func.isRequired,
   match: shape({
     params: shape({
@@ -47,4 +47,4 @@ ConfirmationPage.propTypes = {
   }).isRequired,
 };
 
-export default connect(null, { confirm })(ConfirmationPage);
+export default connect(null, { confirm })(Confirmation);

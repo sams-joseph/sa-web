@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 
 import { Wrapper, Container, Heading } from './Styled';
 
-class DashboardPage extends Component {
+class Dashboard extends Component {
   state = {};
 
   render() {
@@ -20,7 +20,7 @@ class DashboardPage extends Component {
 }
 
 const { bool } = PropTypes;
-DashboardPage.propTypes = {
+Dashboard.propTypes = {
   showAlertMessage: bool.isRequired,
 };
 
@@ -31,4 +31,4 @@ function mapStateToProps(state) {
   };
 }
 
-export default connect(mapStateToProps)(DashboardPage);
+export default connect(mapStateToProps)(Dashboard);

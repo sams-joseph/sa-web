@@ -8,15 +8,15 @@ import IconButton from 'material-ui/IconButton';
 import CheckCircle from 'material-ui-icons/CheckCircle';
 import Alert from '../Alert';
 import Announce from '../Announce';
-import HomePage from '../pages/HomePage';
-import LoginPage from '../pages/LoginPage';
-import DashboardPage from '../pages/DashboardPage';
-import ResetPasswordPage from '../pages/ResetPasswordPage';
-import ConfirmationPage from '../pages/ConfirmationPage';
+import Home from '../Home';
+import Login from '../Login';
+import Dashboard from '../Dashboard';
+import ResetPassword from '../ResetPassword';
+import Confirmation from '../Confirmation';
 import TopNavigation from '../navigation/TopNavigation';
 import Products from '../Products';
 import Design from '../Design';
-import Order from '../Order';
+import Summary from '../Summary';
 
 import UserRoute from '../routes/UserRoute';
 import GuestRoute from '../routes/GuestRoute';
@@ -65,14 +65,14 @@ class App extends Component {
           alertMessage && (
             <Alert closable type="info" text="Your email has not been verified" toggleMessage={this.toggleMessage} />
           )}
-        <Route location={location} path="/" exact component={HomePage} />
-        <Route location={location} path="/confirmation/:token" exact component={ConfirmationPage} />
-        <GuestRoute location={location} path="/login" exact component={LoginPage} />
-        <Route location={location} path="/reset-password" exact component={ResetPasswordPage} />
-        <UserRoute location={location} path="/dashboard" exact component={DashboardPage} />
+        <Route location={location} path="/" exact component={Home} />
+        <Route location={location} path="/confirmation/:token" exact component={Confirmation} />
+        <GuestRoute location={location} path="/login" exact component={Login} />
+        <Route location={location} path="/reset-password" exact component={ResetPassword} />
+        <UserRoute location={location} path="/dashboard" exact component={Dashboard} />
         <UserRoute location={location} path="/products" exact component={Products} />
         <UserRoute location={location} path="/design" exact component={Design} />
-        <UserRoute location={location} path="/order" exact component={Order} />
+        <UserRoute location={location} path="/order-summary" exact component={Summary} />
       </div>
     );
   }
