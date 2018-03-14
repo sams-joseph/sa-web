@@ -1,4 +1,4 @@
-import { DESIGNS_RETREIVED, DESIGN_RETREIVED } from '../types';
+import { DESIGNS_RETREIVED, DESIGN_RETREIVED, DESIGNS_RESET } from '../types';
 import api from '../api';
 
 export const designsRetreived = designs => ({
@@ -9,6 +9,11 @@ export const designsRetreived = designs => ({
 export const designRetreived = design => ({
   type: DESIGN_RETREIVED,
   design,
+});
+
+export const resetDesigns = (base = []) => ({
+  type: DESIGNS_RESET,
+  base,
 });
 
 export const getDesignsByProduct = id => dispatch =>

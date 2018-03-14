@@ -28,6 +28,8 @@ export default {
   size: {
     getSizeByProduct: id =>
       axios.get(`${process.env.REACT_APP_API_HOST}/api/sizes`, { params: { id } }).then(res => res.data.sizes),
+    getSizeByID: id =>
+      axios.get(`${process.env.REACT_APP_API_HOST}/api/sizes/size`, { params: { id } }).then(res => res.data.size),
   },
   design: {
     getDesignsByProduct: id =>

@@ -88,6 +88,7 @@ const theme = createMuiTheme({
       paperAnchorDockedLeft: {
         position: 'relative',
         width: '300px',
+        flex: '1',
         zIndex: '1',
         background: '#2b2b42',
       },

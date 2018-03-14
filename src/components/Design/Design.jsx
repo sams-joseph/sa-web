@@ -15,15 +15,13 @@ import List, { ListItem, ListItemText } from 'material-ui/List';
 import Remove from 'material-ui-icons/Remove';
 import Add from 'material-ui-icons/Add';
 import Collapse from 'material-ui/transitions/Collapse';
-import Modal from 'material-ui/Modal';
-import Typography from 'material-ui/Typography';
 import Dropzone from 'react-dropzone';
 import Sidebar from '../navigation/Sidebar';
 import InputGroup from '../inputs/InputGroup';
 import Breadcrumbs from '../Breadcrumbs';
 import CanvasStage from '../Canvas';
-import { getSizeByProduct } from '../../actions/size';
-import { getDesignsByProduct } from '../../actions/design';
+import { getSizeByProduct, resetSizes } from '../../actions/size';
+import { getDesignsByProduct, resetDesigns } from '../../actions/design';
 import { getProducts } from '../../actions/product';
 import { setOrderProduct, setOrderSize, setOrderDesign } from '../../actions/order';
 import { getDesignBySize } from '../../actions/designSize';
@@ -32,8 +30,6 @@ import { logout } from '../../actions/auth';
 import { Wrapper, Container, FlexContainer, DropzoneText } from './Styled';
 import ColorSelect from '../ColorSelect';
 import constants from '../constants';
-
-import placeholderImage from './images/placeholder.jpg';
 
 class Design extends Component {
   state = {
@@ -51,16 +47,15 @@ class Design extends Component {
       size: false,
       design: false,
     },
-    requestDelay: 0,
   };
 
-  componentDidMount() {
+  componentWillMount() {
+    this.props.resetDesigns();
+    this.props.resetSizes();
     this.props
       .getProducts()
       .then(() => {
-        setTimeout(() => {
-          this.setState({ loading: false });
-        }, this.state.requestDelay);
+        this.setState({ loading: false });
       })
       .catch(() => {
         this.props.logout();
@@ -98,6 +93,10 @@ class Design extends Component {
     });
   };
 
+  onNextClick = () => {
+    this.child.getData();
+  };
+
   setColor = color => {
     this.setState({
       fontColor: color,
@@ -126,9 +125,7 @@ class Design extends Component {
     this.props.setOrderProduct({ productID, productName });
     Promise.all([this.props.getSizeByProduct(productID), this.props.getDesignsByProduct(productID)])
       .then(() => {
-        setTimeout(() => {
-          this.setState({ loading: false });
-        }, this.state.requestDelay);
+        this.setState({ loading: false });
       })
       .catch(() => {
         this.props.logout();
@@ -146,9 +143,7 @@ class Design extends Component {
     this.props
       .getDesignBySize(designID, this.props.order.size.sizeID)
       .then(() => {
-        setTimeout(() => {
-          this.setState({ loading: false });
-        }, this.state.requestDelay);
+        this.setState({ loading: false });
       })
       .catch(() => {
         this.props.logout();
@@ -203,24 +198,6 @@ class Design extends Component {
 
     return (
       <Wrapper alertMessage={showAlertMessage}>
-        <Modal aria-labelledby="simple-modal-title" open={this.state.modal} onClose={this.handleModalClose}>
-          <div
-            style={{
-              position: 'absolute',
-              width: '50%',
-              height: '50vh',
-              background: '#535469',
-              top: '50%',
-              left: '50%',
-              transform: 'translate(-50%, -50%)',
-              padding: '20px',
-            }}
-          >
-            <Typography variant="title" id="modal-title">
-              Preview
-            </Typography>
-          </div>
-        </Modal>
         <Snackbar
           onClose={this.handleClose}
           anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
@@ -289,8 +266,9 @@ class Design extends Component {
           <Container padding="0 20px 0 20px">
             <Breadcrumbs order={[this.state.productName, this.state.sizeName, this.state.designName]} />
             <CanvasStage
+              onRef={ref => (this.child = ref)}
               portraitImage={this.state.image ? this.state.image : ''}
-              img={designUrl || placeholderImage}
+              img={designUrl}
               name={this.state.text.name}
               date={this.state.text.date}
               width={selectedSizeObject ? selectedSizeObject.width : 48}
@@ -303,9 +281,6 @@ class Design extends Component {
                 <div style={{ flex: 1, display: 'flex' }}>
                   <ColorSelect onSelect={this.setColor} />
                 </div>
-                <Button onClick={this.handleModalOpen} variant="raised" color="primary">
-                  Preview
-                </Button>
               </Toolbar>
             </AppBar>
             <form style={{ display: 'flex', marginTop: '20px' }}>
@@ -367,6 +342,7 @@ class Design extends Component {
               to="/order-summary"
               variant="raised"
               color="primary"
+              onClick={this.onNextClick}
             >
               Next
             </Button>
@@ -429,4 +405,6 @@ export default connect(mapStateToProps, {
   getDesignsByProduct,
   getDesignBySize,
   logout,
+  resetDesigns,
+  resetSizes,
 })(Design);

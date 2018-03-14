@@ -20,9 +20,7 @@ class Products extends Component {
     this.props
       .getProducts()
       .then(() => {
-        setTimeout(() => {
-          this.setState({ loading: false });
-        }, 5000);
+        this.setState({ loading: false });
       })
       .catch(() => {
         this.props.logout();
@@ -31,16 +29,6 @@ class Products extends Component {
 
   render() {
     const { showAlertMessage, products } = this.props;
-
-    const productElements = products.map(product => (
-      <Product
-        key={product.id}
-        id={product.id}
-        name={product.name}
-        description={product.description}
-        imageUrl={product.imageUrl}
-      />
-    ));
 
     return (
       <Wrapper alertMessage={showAlertMessage}>
@@ -55,7 +43,17 @@ class Products extends Component {
         ) : (
           <Container>
             <Heading>Products</Heading>
-            <FlexContainer>{productElements}</FlexContainer>
+            <FlexContainer>
+              {products.map(product => (
+                <Product
+                  key={product.id}
+                  id={product.id}
+                  name={product.name}
+                  description={product.description}
+                  imageUrl={product.imageUrl}
+                />
+              ))}
+            </FlexContainer>
           </Container>
         )}
       </Wrapper>
