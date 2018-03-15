@@ -1,27 +1,24 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { Link } from 'react-router-dom';
-import Button from 'material-ui/Button';
+import Checkbox from 'material-ui/Checkbox';
+import CheckBoxOutlineBlank from 'material-ui-icons/CheckBoxOutlineBlank';
 import * as actions from '../../actions/order';
 
 import { ProductContainer, ProductMeta, ProductHeading, ProductDescription } from './Styled';
 
-function Product({ id, name, description, imageUrl, setOrderProduct }) {
+function Product({ id, name, description, imageUrl, selectProduct, checkedID }) {
   return (
-    <ProductContainer img={imageUrl}>
+    <ProductContainer img={imageUrl} onClick={() => selectProduct(id, name)}>
       <ProductMeta>
         <ProductHeading>{name}</ProductHeading>
         <ProductDescription>{description}</ProductDescription>
-        <Button
-          variant="raised"
+        <Checkbox
+          icon={<CheckBoxOutlineBlank style={{ color: 'white' }} />}
           color="primary"
-          onClick={() => setOrderProduct(id)}
-          component={Link}
-          to="/select-design"
-        >
-          Get Started
-        </Button>
+          checked={id === checkedID}
+          onChange={() => selectProduct(id, name)}
+        />
       </ProductMeta>
     </ProductContainer>
   );
@@ -33,7 +30,8 @@ Product.propTypes = {
   description: string.isRequired,
   imageUrl: string.isRequired,
   id: number.isRequired,
-  setOrderProduct: func.isRequired,
+  selectProduct: func.isRequired,
+  checkedID: number.isRequired,
 };
 
 export default connect(null, { setOrderProduct: actions.setOrderProduct })(Product);

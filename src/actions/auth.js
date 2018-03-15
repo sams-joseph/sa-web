@@ -1,4 +1,5 @@
 import { USER_LOGGED_IN, USER_LOGGED_OUT, USER_RESET_PASSWORD } from '../types';
+import setAuthorizationHeader from '../utils/setAuthorizationHeader';
 import api from '../api';
 
 export const userLoggedIn = user => ({
@@ -18,6 +19,7 @@ export const userResetPassword = user => ({
 export const login = credentials => dispatch =>
   api.user.login(credentials).then(user => {
     localStorage.sepsisJWT = user.token;
+    setAuthorizationHeader(user.token);
     dispatch(userLoggedIn(user));
   });
 
@@ -34,3 +36,5 @@ export const confirm = token => dispatch =>
     localStorage.sepsisJWT = user.token;
     dispatch(userLoggedIn(user));
   });
+
+export const validateToken = token => () => api.user.validateToken(token);

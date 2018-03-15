@@ -16,17 +16,28 @@ export default {
           credentials,
         })
         .then(res => res.data.user),
+    validateToken: token => axios.post(`${process.env.REACT_APP_API_HOST}/api/auth/validate-token`, { token }),
   },
   product: {
     getProducts: () => axios.get(`${process.env.REACT_APP_API_HOST}/api/products`, {}).then(res => res.data.products),
+    getProductByID: id =>
+      axios
+        .get(`${process.env.REACT_APP_API_HOST}/api/products/product`, { params: { id } })
+        .then(res => res.data.product),
   },
   size: {
     getSizeByProduct: id =>
       axios.get(`${process.env.REACT_APP_API_HOST}/api/sizes`, { params: { id } }).then(res => res.data.sizes),
+    getSizeByID: id =>
+      axios.get(`${process.env.REACT_APP_API_HOST}/api/sizes/size`, { params: { id } }).then(res => res.data.size),
   },
   design: {
     getDesignsByProduct: id =>
       axios.get(`${process.env.REACT_APP_API_HOST}/api/designs`, { params: { id } }).then(res => res.data.designs),
+    getDesignByID: id =>
+      axios
+        .get(`${process.env.REACT_APP_API_HOST}/api/designs/design`, { params: { id } })
+        .then(res => res.data.design),
   },
   designSize: {
     getDesignSizesById: (designID, sizeID) =>

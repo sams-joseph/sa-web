@@ -1,22 +1,33 @@
-import { DESIGN_SELECTED, PRODUCT_SELECTED, SIZE_SELECTED } from '../types';
+import { DESIGN_SELECTED, PRODUCT_SELECTED, SIZE_SELECTED, IMAGE_SET, PORTRAIT_SET } from '../types';
 
 export default function product(state = {}, action = {}) {
   switch (action.type) {
     case PRODUCT_SELECTED:
       return {
         ...state,
-        productID: action.productID,
+        product: action.product,
       };
     case SIZE_SELECTED:
       return {
         ...state,
-        sizeID: action.sizeID,
+        size: action.size,
       };
 
     case DESIGN_SELECTED:
       return {
         ...state,
-        designID: action.designID,
+        design: action.design,
+      };
+
+    case IMAGE_SET:
+      return {
+        ...state,
+        image: action.image,
+      };
+    case PORTRAIT_SET:
+      return {
+        ...state,
+        portrait: action.image,
       };
     default:
       return state;

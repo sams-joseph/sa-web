@@ -6,6 +6,7 @@ export const Container = styled.div`
   font-family: ${constants.fontFamily};
   font-size: 12px;
   margin-top: 15px;
+  padding: 0;
 
   & > input {
     margin-top: 10px;

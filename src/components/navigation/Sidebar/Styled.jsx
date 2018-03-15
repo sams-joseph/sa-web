@@ -7,16 +7,16 @@ export const SidebarContainer = styled.div`
 `;
 
 export const SidebarHeading = styled.h3`
-  background: rgb(40, 40, 40);
+  background: #1e1e30;
   color: white;
   font-weight: ${constants.fontWeightLight};
   font-family: ${constants.fontFamily};
-  margin: 0 0 30px 0;
+  margin: 0 0 10px 0;
   padding: 20px;
 `;
 
 export const SidebarForm = styled.div`
-  padding: 0 20px;
+  padding: 0;
 `;
 
 export const Spacer = styled.div`
