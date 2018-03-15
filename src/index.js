@@ -9,29 +9,37 @@ import { injectGlobal } from 'styled-components';
 import decode from 'jwt-decode';
 import 'react-select/dist/react-select.css';
 import { MuiThemeProvider, createMuiTheme } from 'material-ui/styles';
-import { userLoggedIn } from './actions/auth';
+import { userLoggedIn, userLoggedOut } from './actions/auth';
 import ScrollToTop from './components/routes/ScrollToTop';
 import setAuthorizationHeader from './utils/setAuthorizationHeader';
 
 import App from './components/App';
 import registerServiceWorker from './registerServiceWorker';
 import rootReducer from './rootReducer';
+import api from './api';
 
 import constants from './components/constants';
 
 const store = createStore(rootReducer, composeWithDevTools(applyMiddleware(thunk)));
 
 if (localStorage.sepsisJWT) {
-  const payload = decode(localStorage.sepsisJWT);
-  setAuthorizationHeader(localStorage.sepsisJWT);
-  const user = {
-    token: localStorage.sepsisJWT,
-    firstName: payload.firstName,
-    lastName: payload.lastName,
-    email: payload.email,
-    confirmed: payload.confirmed,
-  };
-  store.dispatch(userLoggedIn(user));
+  api.user
+    .validateToken(localStorage.sepsisJWT)
+    .then(res => {
+      const payload = decode(localStorage.sepsisJWT);
+      setAuthorizationHeader(localStorage.sepsisJWT);
+      const user = {
+        token: localStorage.sepsisJWT,
+        firstName: payload.firstName,
+        lastName: payload.lastName,
+        email: payload.email,
+        confirmed: payload.confirmed,
+      };
+      store.dispatch(userLoggedIn(user));
+    })
+    .catch(err => {
+      store.dispatch(userLoggedOut());
+    });
 }
 
 injectGlobal([
@@ -46,7 +54,7 @@ injectGlobal([
     height: 100%;
     overflow-x: hidden;
     min-height: 100vh;
-    background-color: ${constants.almostWhite};
+    background-color: white;
     // background-color: #192023;
     // background-image: -webkit-linear-gradient(315deg, #2e2d45, #1c2127);
     // background-image: linear-gradient(135deg, #2e2d45, #1c2127);

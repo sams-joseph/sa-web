@@ -17,9 +17,10 @@ import { NavigationGroupRight, MainNavigationLink, CreateOrderBtn } from './Styl
 
 const style = {
   appBar: {
-    background: '#f4f7fc',
+    background: 'white',
     zIndex: 2,
     position: 'relative',
+    padding: 0,
   },
 };
 
@@ -52,8 +53,8 @@ class TopNavigation extends Component {
     const open = Boolean(anchorEl);
 
     return (
-      <AppBar style={style.appBar} position="static" elevation="0">
-        <ToolBar>
+      <AppBar style={style.appBar} position="static" elevation={0}>
+        <ToolBar style={{ maxWidth: '1140px', margin: '0 auto', width: '100%' }}>
           <div style={{ flex: 1 }}>
             <MainNavigationLink exact to="/">
               Home

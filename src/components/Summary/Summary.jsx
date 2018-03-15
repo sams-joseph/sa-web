@@ -2,13 +2,27 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import Typography from 'material-ui/Typography';
-import { Container, DesignPreview, Flex, FlexLeft, FlexRight } from './Styled';
-
+import Input, { InputLabel } from 'material-ui/Input';
+import { FormControl } from 'material-ui/Form';
+import {
+  Container,
+  ShippingForm,
+  DesignPreview,
+  DesignContainer,
+  MetaContainer,
+  Flex,
+  FlexLeft,
+  FlexRight,
+} from './Styled';
 import { getProductByID } from '../../actions/product';
 import { getDesignByID } from '../../actions/design';
 import { getSizeByID } from '../../actions/size';
 
 class Summary extends Component {
+  state = {
+    name: '',
+  };
+
   componentDidMount() {
     if (Object.getOwnPropertyNames(this.props.order).length > 0) {
       this.props.getProductByID(this.props.order.product.productID);
@@ -19,6 +33,10 @@ class Summary extends Component {
     }
   }
 
+  handleChange = event => {
+    this.setState({ name: event.target.value });
+  };
+
   render() {
     const { product, design, size, order } = this.props;
 
@@ -27,8 +45,14 @@ class Summary extends Component {
         <Typography style={{ marginBottom: '20px' }} variant="title" component="h3">
           Order Summary
         </Typography>
-        <div>
-          <DesignPreview src={order.image} alt="sepsis-design" />
+        <MetaContainer>
+          <DesignContainer>
+            <DesignPreview src={order.image} alt="sepsis-design" />
+            <FormControl fullWidth style={{ margin: '20px 0' }}>
+              <InputLabel htmlFor="name-simple">Notes</InputLabel>
+              <Input multiline id="name-simple" value={this.state.name} onChange={this.handleChange} />
+            </FormControl>
+          </DesignContainer>
           <Flex>
             <FlexLeft>
               <Typography variant="headline">Product</Typography>
@@ -38,11 +62,30 @@ class Summary extends Component {
             </FlexLeft>
             <FlexRight>
               <Typography variant="headline">Design</Typography>
-              <Typography variant="subheading">John Doe</Typography>
-              <Typography variant="subheading">1987-2018</Typography>
+              <Typography variant="subheading">Erin Kay Flatley</Typography>
+              <Typography variant="subheading">1978-2002</Typography>
             </FlexRight>
           </Flex>
-        </div>
+        </MetaContainer>
+        <ShippingForm>
+          <Typography variant="headline">Shipping</Typography>
+          <FormControl fullWidth style={{ margin: '20px 0' }}>
+            <InputLabel htmlFor="name-simple">Name</InputLabel>
+            <Input id="name-simple" value={this.state.name} onChange={this.handleChange} />
+          </FormControl>
+          <FormControl fullWidth style={{ marginBottom: '20px' }}>
+            <InputLabel htmlFor="name-simple">Address</InputLabel>
+            <Input id="name-simple" value={this.state.name} onChange={this.handleChange} />
+          </FormControl>
+          <FormControl style={{ marginRight: '20px', marginBottom: '20px' }}>
+            <InputLabel htmlFor="name-simple">City</InputLabel>
+            <Input id="name-simple" value={this.state.name} onChange={this.handleChange} />
+          </FormControl>
+          <FormControl style={{ marginBottom: '20px' }}>
+            <InputLabel htmlFor="name-simple">Zipcode</InputLabel>
+            <Input id="name-simple" value={this.state.name} onChange={this.handleChange} />
+          </FormControl>
+        </ShippingForm>
       </Container>
     );
   }

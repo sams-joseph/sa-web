@@ -9,19 +9,16 @@ export const SizeContainer = styled.div`
   display: flex;
   width: 50%;
   height: 100px;
-  margin: 0 10px 0 0;
+  margin: 10px;
   border-radius: 2px;
   overflow: hidden;
-  transition: transform 0.25s, box-shadow 0.25s;
+  transition: transform 0.25s, box-shadow 0.25s, border 0.25s;
   cursor: pointer;
-
-  &:nth-child(2) {
-    margin: 0 0 0 10px;
-  }
+  border: ${props => (props.checked ? `1px solid #00bbff` : `1px solid transparent`)};
+  box-shadow: ${props => (props.checked ? `0 0px 8px #00bbff` : 'none')};
 
   &:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 3px 12px rgba(0, 0, 0, 0.5);
+    box-shadow: ${props => (props.checked ? `0 0 8px #00bbff` : '0 0 6px rgba(0, 0, 0, 0.2)')};
   }
 `;
 
@@ -30,6 +27,7 @@ export const SizeMeta = styled.footer`
   display: flex;
   width: 100%;
   padding: 20px;
+  justify-content: space-between;
 `;
 
 export const SizeHeading = styled.h1`

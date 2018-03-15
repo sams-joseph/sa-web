@@ -1,28 +1,31 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 import compose from 'recompose/compose';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { withStyles } from 'material-ui/styles';
 import Stepper, { Step, StepLabel } from 'material-ui/Stepper';
 import Button from 'material-ui/Button';
-import Typography from 'material-ui/Typography';
 import { getProducts } from '../../actions/product';
 import { setOrderProduct, setOrderSize, setOrderDesign } from '../../actions/order';
 import { getSizeByProduct } from '../../actions/size';
 import { getDesignsByProduct } from '../../actions/design';
 import { getDesignBySize } from '../../actions/designSize';
 import { logout } from '../../actions/auth';
-import { FlexContainer } from './Styled';
+import { FlexContainer, ButtonGarden } from './Styled';
 import Product from '../Product';
 import Size from '../Size';
 import Design from '../Design';
 import Creative from '../Creative';
 import Summary from '../Summary';
+import Completion from '../Completion';
 
 const styles = theme => ({
   root: {
-    width: '90%',
-    margin: '20px auto 0 auto',
+    width: '100%',
+    maxWidth: '1140px',
+    padding: '0 20px',
+    margin: '20px auto 70px auto',
   },
   backButton: {
     marginRight: theme.spacing.unit,
@@ -186,10 +189,15 @@ class Order extends Component {
         </Stepper>
         <div>
           {this.state.activeStep === steps.length ? (
-            <div>
-              <Typography className={classes.instructions}>All steps completed - you&quot;re finished</Typography>
-              <Button onClick={this.handleReset}>Reset</Button>
-            </div>
+            <ButtonGarden>
+              <Completion />
+              <Button style={{ marginRight: '10px' }} color="primary" component={Link} to="/dashboard">
+                To Dashboard
+              </Button>
+              <Button style={{ marginLeft: '10px' }} variant="raised" color="primary" onClick={this.handleReset}>
+                New Order
+              </Button>
+            </ButtonGarden>
           ) : (
             <div>
               <div className={classes.instructions}>{this.getStepContent(activeStep)}</div>

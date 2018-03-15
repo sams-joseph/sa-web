@@ -5,10 +5,12 @@ export const MessageContainer = styled.div`
   width: 100%;
   display: flex;
   justify-content: space-between;
+  max-width: 1140px;
+  margin: 0 auto;
+  padding: 0 20px;
 `;
 
 export const StyledMessage = styled.div`
-  padding: 0 20px;
   width: 100%;
   height: 50px;
   background: ${props => {

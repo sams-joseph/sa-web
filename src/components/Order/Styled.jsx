@@ -19,6 +19,11 @@ export const FlexContainer = styled.div`
   margin-bottom: 40px;
 `;
 
+export const ButtonGarden = styled.div`
+  margin: 0 auto;
+  text-align: center;
+`;
+
 export const Heading = styled.h1`
   color: ${constants.almostWhite};
   font-size: 2em;

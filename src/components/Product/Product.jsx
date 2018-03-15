@@ -3,19 +3,22 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import Checkbox from 'material-ui/Checkbox';
 import CheckBoxOutlineBlank from 'material-ui-icons/CheckBoxOutlineBlank';
+import CheckBox from 'material-ui-icons/CheckBox';
 import * as actions from '../../actions/order';
 
 import { ProductContainer, ProductMeta, ProductHeading, ProductDescription } from './Styled';
 
 function Product({ id, name, description, imageUrl, selectProduct, checkedID }) {
   return (
-    <ProductContainer img={imageUrl} onClick={() => selectProduct(id, name)}>
+    <ProductContainer img={imageUrl} onClick={() => selectProduct(id, name)} checked={id === checkedID}>
       <ProductMeta>
-        <ProductHeading>{name}</ProductHeading>
-        <ProductDescription>{description}</ProductDescription>
+        <div>
+          <ProductHeading>{name}</ProductHeading>
+          <ProductDescription>{description}</ProductDescription>
+        </div>
         <Checkbox
+          checkedIcon={<CheckBox style={{ color: 'white' }} />}
           icon={<CheckBoxOutlineBlank style={{ color: 'white' }} />}
-          color="primary"
           checked={id === checkedID}
           onChange={() => selectProduct(id, name)}
         />
