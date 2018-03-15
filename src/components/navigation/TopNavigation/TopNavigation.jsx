@@ -17,7 +17,7 @@ import { NavigationGroupRight, MainNavigationLink, CreateOrderBtn } from './Styl
 
 const style = {
   appBar: {
-    background: '#fafafa',
+    background: '#f4f7fc',
     zIndex: 2,
     position: 'relative',
   },
@@ -52,18 +52,17 @@ class TopNavigation extends Component {
     const open = Boolean(anchorEl);
 
     return (
-      <AppBar style={style.appBar} position="static">
+      <AppBar style={style.appBar} position="static" elevation="0">
         <ToolBar>
           <div style={{ flex: 1 }}>
             <MainNavigationLink exact to="/">
               Home
             </MainNavigationLink>
             {isAuthenticated && <MainNavigationLink to="/dashboard">Dashboard</MainNavigationLink>}
-            {isAuthenticated && <MainNavigationLink to="/products">Products</MainNavigationLink>}
           </div>
           {isAuthenticated ? (
             <NavigationGroupRight>
-              <CreateOrderBtn to="/design">Order</CreateOrderBtn>
+              <CreateOrderBtn to="/create-order">Order</CreateOrderBtn>
             </NavigationGroupRight>
           ) : (
             <NavigationGroupRight>

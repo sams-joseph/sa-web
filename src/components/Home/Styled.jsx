@@ -19,7 +19,7 @@ export const FlexContainer = styled.div`
 `;
 
 export const Heading = styled.h1`
-  color: ${constants.almostWhite};
+  color: ${constants.almostBlack};
   font-size: 2em;
   font-weight: ${constants.fontWeightLight};
   font-family: ${constants.fontFamily};

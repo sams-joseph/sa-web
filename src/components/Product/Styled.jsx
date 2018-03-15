@@ -13,9 +13,16 @@ export const ProductContainer = styled.div`
   margin: 0 10px 0 0;
   border-radius: 2px;
   overflow: hidden;
+  transition: transform 0.25s, box-shadow 0.25s;
+  cursor: pointer;
 
   &:nth-child(2) {
     margin: 0 0 0 10px;
+  }
+
+  &:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 3px 12px rgba(0, 0, 0, 0.5);
   }
 `;
 

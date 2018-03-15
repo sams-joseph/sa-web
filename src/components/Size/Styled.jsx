@@ -2,14 +2,13 @@ import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 import constants from '../constants';
 
-export const ProductContainer = styled.div`
-  background: url(${props => props.img}) no-repeat;
+export const SizeContainer = styled.div`
+  background: #f5f5f5;
   background-size: cover;
   background-position: center;
   display: flex;
-  align-items: flex-end;
   width: 50%;
-  height: 300px;
+  height: 100px;
   margin: 0 10px 0 0;
   border-radius: 2px;
   overflow: hidden;
@@ -21,24 +20,25 @@ export const ProductContainer = styled.div`
   }
 
   &:hover {
-    transform: translateY(-5px);
+    transform: translateY(-3px);
     box-shadow: 0 3px 12px rgba(0, 0, 0, 0.5);
   }
 `;
 
-export const ProductMeta = styled.footer`
-  background: linear-gradient(to top, rgba(0, 0, 0, 0.9), rgba(0, 0, 0, 0));
+export const SizeMeta = styled.footer`
+  align-items: center;
+  display: flex;
   width: 100%;
   padding: 20px;
 `;
 
-export const ProductHeading = styled.h1`
+export const SizeHeading = styled.h1`
   font-weight: ${constants.fontWeightLight};
   margin: 0;
-  color: white;
+  color: ${constants.almostBlack};
 `;
 
-export const ProductDescription = styled.p`
+export const SizeDescription = styled.p`
   color: white;
   margin-bottom: 40px;
   max-width: 300px;
@@ -46,7 +46,7 @@ export const ProductDescription = styled.p`
   line-height: ${constants.lineHeight};
 `;
 
-export const ProductButton = styled(Link)`
+export const SizeButton = styled(Link)`
   display: block;
   border: none;
   border-radius: 2px;

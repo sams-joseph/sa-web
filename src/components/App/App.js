@@ -15,7 +15,7 @@ import ResetPassword from '../ResetPassword';
 import Confirmation from '../Confirmation';
 import TopNavigation from '../navigation/TopNavigation';
 import Products from '../Products';
-import Design from '../Design';
+import Order from '../Order';
 import Summary from '../Summary';
 
 import UserRoute from '../routes/UserRoute';
@@ -71,7 +71,7 @@ class App extends Component {
         <Route location={location} path="/reset-password" exact component={ResetPassword} />
         <UserRoute location={location} path="/dashboard" exact component={Dashboard} />
         <UserRoute location={location} path="/products" exact component={Products} />
-        <UserRoute location={location} path="/design" exact component={Design} />
+        <UserRoute location={location} path="/create-order" exact component={Order} />
         <UserRoute location={location} path="/order-summary" exact component={Summary} />
       </div>
     );

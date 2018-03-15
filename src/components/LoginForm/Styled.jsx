@@ -12,7 +12,7 @@ export const Form = styled.form`
 `;
 
 export const StyledLink = styled(Link)`
-  color: ${constants.almostWhite};
+  color: ${constants.defaultPrimaryColorMuted};
   margin-top: 20px;
   display: block;
   text-align: center;
@@ -20,12 +20,12 @@ export const StyledLink = styled(Link)`
   transition: color 0.125s;
 
   &:hover {
-    color: ${constants.defaultPrimaryColorMuted};
+    color: ${constants.defaultPrimaryColor};
   }
 `;
 
 export const Heading = styled.h1`
-  color: ${constants.almostWhite};
+  color: ${constants.almostBlack};
   text-align: center;
   margin-bottom: 40px;
 `;

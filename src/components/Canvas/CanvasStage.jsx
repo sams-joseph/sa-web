@@ -19,6 +19,14 @@ class CanvasStage extends Component {
   };
 
   componentDidMount() {
+    const bkg = new window.Image();
+    bkg.setAttribute('crossOrigin', 'anonymous');
+    bkg.src = this.props.img;
+    bkg.onload = () => {
+      this.setState({
+        bkgImage: bkg,
+      });
+    };
     this.props.onRef(this);
     // eslint-disable-next-line
     this.setState({

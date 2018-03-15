@@ -46,9 +46,10 @@ injectGlobal([
     height: 100%;
     overflow-x: hidden;
     min-height: 100vh;
-    background-color: #192023;
-    background-image: -webkit-linear-gradient(315deg, #2e2d45, #1c2127);
-    background-image: linear-gradient(135deg, #2e2d45, #1c2127);
+    background-color: ${constants.almostWhite};
+    // background-color: #192023;
+    // background-image: -webkit-linear-gradient(315deg, #2e2d45, #1c2127);
+    // background-image: linear-gradient(135deg, #2e2d45, #1c2127);
     color: ${constants.primaryTextColor};
   }
   `,
@@ -56,7 +57,7 @@ injectGlobal([
 
 const theme = createMuiTheme({
   palette: {
-    type: 'dark',
+    type: 'light',
     primary: {
       light: '#757ce8',
       main: constants.defaultPrimaryColor,
@@ -74,14 +75,6 @@ const theme = createMuiTheme({
     MuiInput: {
       input: {
         padding: '8px 5px 8px 5px',
-      },
-      underline: {
-        '&:before': {
-          backgroundColor: constants.almostWhite,
-        },
-        '&:hover:not($disabled):before': {
-          backgroundColor: constants.defaultPrimaryColor,
-        },
       },
     },
     MuiDrawer: {

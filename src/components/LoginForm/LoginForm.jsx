@@ -47,7 +47,7 @@ class LoginForm extends Component {
 
     return (
       <Form onSubmit={this.onSubmit}>
-        <Heading as="h2" color="blue" textAlign="center">
+        <Heading as="h2" textAlign="center">
           Welcome Back
         </Heading>
         <div>

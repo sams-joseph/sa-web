@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import Typography from 'material-ui/Typography';
-import Button from 'material-ui/Button';
 import { Container, DesignPreview, Flex, FlexLeft, FlexRight } from './Styled';
 
 import { getProductByID } from '../../actions/product';
@@ -32,7 +31,6 @@ class Summary extends Component {
           <DesignPreview src={order.image} alt="sepsis-design" />
           <Flex>
             <FlexLeft>
-              <img src={order.portrait} alt="" />
               <Typography variant="headline">Product</Typography>
               <Typography variant="subheading">{product.name}</Typography>
               <Typography variant="subheading">{size.displayName}</Typography>
@@ -44,9 +42,6 @@ class Summary extends Component {
               <Typography variant="subheading">1987-2018</Typography>
             </FlexRight>
           </Flex>
-          <Button style={{ marginTop: '70px' }} variant="raised" color="primary">
-            Submit
-          </Button>
         </div>
       </Container>
     );

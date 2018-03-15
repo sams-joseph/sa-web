@@ -16,10 +16,11 @@ export const Container = styled.div`
 export const FlexContainer = styled.div`
   display: flex;
   width: 100%;
+  margin-bottom: 40px;
 `;
 
 export const Heading = styled.h1`
-  color: ${constants.almostBlack};
+  color: ${constants.almostWhite};
   font-size: 2em;
   font-weight: ${constants.fontWeightLight};
   font-family: ${constants.fontFamily};

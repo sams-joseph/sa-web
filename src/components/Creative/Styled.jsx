@@ -11,6 +11,7 @@ export const Container = styled.div`
   width: 100%;
   position: relative;
   background: ${props => (props.bkg ? props.bkg : '')};
+  margin-bottom: 40px;
 `;
 
 export const FlexContainer = styled.div`
@@ -19,7 +20,7 @@ export const FlexContainer = styled.div`
 `;
 
 export const Heading = styled.h1`
-  color: ${constants.almostBlack};
+  color: ${constants.almostWhite};
   font-size: 2em;
   font-weight: ${constants.fontWeightLight};
   font-family: ${constants.fontFamily};
@@ -73,8 +74,8 @@ export const ColorInput = styled.input`
 `;
 
 export const DropzoneText = styled.p`
-  color: ${constants.almostWhite};
-  line-height: 100px;
+  color: ${constants.almostBlack};
+  line-height: 200px;
   margin: 0;
   padding: 0;
   text-align: center;
