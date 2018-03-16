@@ -2,13 +2,21 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import Button from 'material-ui/Button';
+import { CSSTransition, TransitionGroup } from 'react-transition-group';
 import CartItem from '../CartItem';
+import CartSvg from './images/shopping-cart--large.svg';
 
-import { Container, Heading } from './Styled';
+import { removeFromCart, updateCart } from '../../actions/cart';
+
+import { Container, Heading, EmptyMessage, CartIcon, CartIconSmall } from './Styled';
 
 class Cart extends Component {
-  handleChange = event => {
-    this.setState({ name: event.target.value });
+  removeItem = index => {
+    this.props.removeFromCart(index);
+  };
+
+  updateCartItem = (id, payload) => {
+    this.props.updateCart(id, payload);
   };
 
   render() {
@@ -16,11 +24,26 @@ class Cart extends Component {
 
     return (
       <Container>
-        <Heading>Cart</Heading>
-        {cart.map(cartItem => <CartItem item={cartItem} />)}
+        {cart.byId.length > 0 ? (
+          <Heading>
+            <CartIconSmall src={CartSvg} alt="Empty Cart" />Cart
+          </Heading>
+        ) : (
+          <div>
+            <CartIcon src={CartSvg} alt="Empty Cart" />
+            <EmptyMessage>Your cart is empty</EmptyMessage>
+          </div>
+        )}
+        <TransitionGroup>
+          {cart.byId.map(item => (
+            <CSSTransition timeout={300} classNames="fade">
+              <CartItem item={cart.byHash[item]} remove={this.removeItem} update={this.updateCartItem} index={item} />
+            </CSSTransition>
+          ))}
+        </TransitionGroup>
 
-        {cart.length > 0 && (
-          <Button style={{ marginTop: '20px' }} variant="raised" size="large" color="primary">
+        {cart.byId.length > 0 && (
+          <Button style={{ marginTop: '70px' }} variant="raised" size="large" color="secondary">
             Checkout
           </Button>
         )}
@@ -35,9 +58,10 @@ function mapStateToProps(state) {
   };
 }
 
-const { shape, arrayOf } = PropTypes;
+const { shape, arrayOf, func } = PropTypes;
 Cart.propTypes = {
   cart: arrayOf(shape({}).isRequired).isRequired,
+  removeFromCart: func.isRequired,
 };
 
-export default connect(mapStateToProps)(Cart);
+export default connect(mapStateToProps, { removeFromCart, updateCart })(Cart);

@@ -8,7 +8,7 @@ import Stepper, { Step, StepLabel } from 'material-ui/Stepper';
 import AddShoppingCart from 'material-ui-icons/AddShoppingCart';
 import Button from 'material-ui/Button';
 import { getProducts } from '../../actions/product';
-import { setOrderProduct, setOrderSize, setOrderDesign } from '../../actions/order';
+import { setOrderProduct, setOrderSize, setOrderDesign, setOrderQuantity } from '../../actions/order';
 import { getSizeByProduct } from '../../actions/size';
 import { getDesignsByProduct } from '../../actions/design';
 import { getDesignBySize } from '../../actions/designSize';
@@ -163,6 +163,9 @@ class Order extends Component {
 
   addToCart = () => {
     const { activeStep } = this.state;
+
+    this.props.setOrderQuantity(1);
+
     this.child.getImageData();
 
     this.setState({
@@ -212,43 +215,43 @@ class Order extends Component {
               </Button>
             </ButtonGarden>
           ) : (
+            <div>
+              <div className={classes.instructions}>{this.getStepContent(activeStep)}</div>
               <div>
-                <div className={classes.instructions}>{this.getStepContent(activeStep)}</div>
-                <div>
-                  <Button disabled={activeStep === 0} onClick={this.handleBack} className={classes.backButton}>
-                    Back
+                <Button disabled={activeStep === 0} onClick={this.handleBack} className={classes.backButton}>
+                  Back
                 </Button>
-                  {activeStep === steps.length - 1 ? (
-                    <Button
-                      disabled={
-                        (activeStep === 0 && !order.product) ||
-                        (activeStep === 1 && !order.size) ||
-                        (activeStep === 2 && !order.design)
-                      }
-                      variant="raised"
-                      color="primary"
-                      onClick={this.addToCart}
-                    >
-                      <AddShoppingCart style={{ marginRight: '20px' }} />
-                      Add to Cart
+                {activeStep === steps.length - 1 ? (
+                  <Button
+                    disabled={
+                      (activeStep === 0 && !order.product) ||
+                      (activeStep === 1 && !order.size) ||
+                      (activeStep === 2 && !order.design)
+                    }
+                    variant="raised"
+                    color="primary"
+                    onClick={this.addToCart}
+                  >
+                    <AddShoppingCart style={{ marginRight: '20px' }} />
+                    Add to Cart
                   </Button>
-                  ) : (
-                      <Button
-                        disabled={
-                          (activeStep === 0 && !order.product) ||
-                          (activeStep === 1 && !order.size) ||
-                          (activeStep === 2 && !order.design)
-                        }
-                        variant="raised"
-                        color="primary"
-                        onClick={this.handleNext}
-                      >
-                        Next
+                ) : (
+                  <Button
+                    disabled={
+                      (activeStep === 0 && !order.product) ||
+                      (activeStep === 1 && !order.size) ||
+                      (activeStep === 2 && !order.design)
+                    }
+                    variant="raised"
+                    color="primary"
+                    onClick={this.handleNext}
+                  >
+                    Next
                   </Button>
-                    )}
-                </div>
+                )}
               </div>
-            )}
+            </div>
+          )}
         </div>
       </div>
     );
@@ -289,5 +292,6 @@ export default compose(
     setOrderSize,
     setOrderDesign,
     getDesignBySize,
+    setOrderQuantity,
   })
 )(Order);

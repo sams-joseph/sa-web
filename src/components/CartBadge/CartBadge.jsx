@@ -8,15 +8,19 @@ import ShoppingCartIcon from 'material-ui-icons/ShoppingCart';
 
 const CartBadge = ({ numItems }) => (
   <IconButton component={Link} to="/cart">
-    <Badge badgeContent={numItems} color="primary">
+    {numItems === 0 ? (
       <ShoppingCartIcon />
-    </Badge>
+    ) : (
+      <Badge badgeContent={numItems} color="secondary">
+        <ShoppingCartIcon />
+      </Badge>
+    )}
   </IconButton>
 );
 
 function mapStateToProps(state) {
   return {
-    numItems: state.cart.length,
+    numItems: state.cart.byId.length,
   };
 }
 

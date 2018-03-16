@@ -3,20 +3,47 @@ import PropTypes from 'prop-types';
 import Typography from 'material-ui/Typography';
 import IconButton from 'material-ui/IconButton';
 import DeleteIcon from 'material-ui-icons/Delete';
-import { Thumbnail, ThumbnailContainer, Container, ItemDetails, Header, Body, Details, Actions } from './Styled';
+import EditIcon from 'material-ui-icons/ModeEdit';
+import ArrowDropUp from 'material-ui-icons/ArrowDropUp';
+import ArrowDropDown from 'material-ui-icons/ArrowDropDown';
+import constants from '../constants';
+import {
+  Thumbnail,
+  ThumbnailContainer,
+  Container,
+  ItemDetails,
+  Header,
+  Body,
+  Details,
+  Actions,
+  Quantity,
+  Increments,
+  QuantityValue,
+} from './Styled';
 
 const styles = {
   heading: {
     fontWeight: 'bold',
+    color: constants.almostBlack,
+  },
+  subTitle: {
+    margin: '0 20px 4px 0',
+    fontSize: '14px',
+    fontWeight: 'bold',
+    textTransform: 'uppercase',
+    padding: '0',
+    lineHeight: '20px',
+    color: '#727882',
   },
   subHeading: {
     margin: '0 20px 0 0',
+    fontSize: '14px',
     padding: '0',
-    lineHeight: '48px',
+    lineHeight: '24px',
   },
 };
 
-const CartItem = ({ item }) => (
+const CartItem = ({ item, remove, index, update }) => (
   <Container>
     <ThumbnailContainer>
       <Thumbnail src={item.image} alt="sepsis-design" />
@@ -24,24 +51,54 @@ const CartItem = ({ item }) => (
     <ItemDetails>
       <Header>
         <Typography style={styles.heading} variant="headline">
-          {item.product.productName}
+          {item.inputs.name || 'Blank'}
         </Typography>
-        <Typography variant="headline">{item.size.sizeName}</Typography>
+        <Typography style={{ marginRight: '12px' }} variant="headline">
+          {item.inputs.date || 'Blank'}
+        </Typography>
       </Header>
       <Body>
         <Details>
-          <Typography style={styles.subHeading} variant="subheading">
-            {item.design.designName}
-          </Typography>
-          <Typography style={styles.subHeading} variant="subheading">
-            {item.design.designName}
-          </Typography>
-          <Typography style={styles.subHeading} variant="subheading">
-            {item.design.designName}
-          </Typography>
+          <div>
+            <Typography style={styles.subTitle} variant="subheading">
+              Product
+            </Typography>
+            <Typography style={styles.subHeading} variant="subheading">
+              {item.product.productName}
+            </Typography>
+          </div>
+          <div>
+            <Typography style={styles.subTitle} variant="subheading">
+              Size
+            </Typography>
+            <Typography style={styles.subHeading} variant="subheading">
+              {item.size.sizeName}
+            </Typography>
+          </div>
+          <div>
+            <Typography style={styles.subTitle} variant="subheading">
+              Qty
+            </Typography>
+            <Quantity>
+              <QuantityValue>{item.quantity}</QuantityValue>
+            </Quantity>
+          </div>
+          <Increments>
+            <ArrowDropUp
+              style={{ color: '#757575' }}
+              onClick={() => update(index, { ...item, quantity: item.quantity + 1 })}
+            />
+            <ArrowDropDown
+              style={{ color: '#757575' }}
+              onClick={() => update(index, { ...item, quantity: item.quantity > 1 ? item.quantity - 1 : 1 })}
+            />
+          </Increments>
         </Details>
         <Actions>
-          <IconButton aria-label="Delete">
+          <IconButton aria-label="Edit">
+            <EditIcon />
+          </IconButton>
+          <IconButton aria-label="Delete" onClick={() => remove(index)}>
             <DeleteIcon />
           </IconButton>
         </Actions>
@@ -50,9 +107,11 @@ const CartItem = ({ item }) => (
   </Container>
 );
 
-const { shape } = PropTypes;
+const { shape, func, number } = PropTypes;
 CartItem.propTypes = {
   item: shape({}).isRequired,
+  remove: func.isRequired,
+  index: number.isRequired,
 };
 
 export default CartItem;

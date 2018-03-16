@@ -1,9 +1,12 @@
 import styled from 'styled-components';
+import constants from '../constants';
 
 export const Container = styled.div`
   display: flex;
   margin-bottom: 20px;
   max-width: 900px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid ${constants.almostWhite};
 `;
 
 export const ThumbnailContainer = styled.div`
@@ -28,10 +31,32 @@ export const Header = styled.header`
 export const Body = styled.div`
   display: flex;
   justify-content: space-between;
+  height: 48px;
 `;
 
 export const Details = styled.div`
   display: flex;
+  align-items: center;
 `;
 
 export const Actions = styled.div``;
+
+export const Quantity = styled.div`
+  display: flex;
+`;
+
+export const Increments = styled.div`
+  width: 24px;
+  height: 48px;
+  cursor: pointer;
+`;
+
+export const QuantityValue = styled.span`
+  border: 1px solid ${constants.almostWhite};
+  border-radiue: 2px;
+  display: block;
+  width: 48px;
+  height: 24px;
+  text-align: center;
+  line-height: 24px;
+`;

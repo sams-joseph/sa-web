@@ -8,7 +8,7 @@ import { Container, Checkmark, CheckmarkCircle, CheckmarkCheck } from './Styled'
 
 class Completion extends Component {
   componentDidMount() {
-    this.props.addToCart(this.props.order);
+    this.props.addToCart(this.props.cart.byId.length, this.props.order);
     this.props.resetOrder();
   }
 
@@ -35,11 +35,13 @@ Completion.propTypes = {
   addToCart: func.isRequired,
   resetOrder: func.isRequired,
   order: shape({}).isRequired,
+  cart: shape({}).isRequired,
 };
 
 function mapStateToProps(state) {
   return {
     order: state.order,
+    cart: state.cart,
   };
 }
 

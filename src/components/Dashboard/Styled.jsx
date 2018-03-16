@@ -7,7 +7,7 @@ export const Container = styled.div`
   font-family: ${constants.fontFamily};
   max-width: 1140px;
   margin: 0 auto;
-  padding: 0 23px;
+  padding: 0 20px;
   width: 100%;
   position: relative;
   background: ${props => (props.bkg ? props.bkg : '')};

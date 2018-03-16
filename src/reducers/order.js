@@ -1,4 +1,13 @@
-import { DESIGN_SELECTED, PRODUCT_SELECTED, SIZE_SELECTED, IMAGE_SET, PORTRAIT_SET, CLEAR_ORDER } from '../types';
+import {
+  DESIGN_SELECTED,
+  PRODUCT_SELECTED,
+  SIZE_SELECTED,
+  IMAGE_SET,
+  PORTRAIT_SET,
+  INPUTS_SELECTED,
+  CLEAR_ORDER,
+  QUANTITY_SET,
+} from '../types';
 
 export default function product(state = {}, action = {}) {
   switch (action.type) {
@@ -26,6 +35,16 @@ export default function product(state = {}, action = {}) {
       return {
         ...state,
         portrait: action.image,
+      };
+    case QUANTITY_SET:
+      return {
+        ...state,
+        quantity: action.qty,
+      };
+    case INPUTS_SELECTED:
+      return {
+        ...state,
+        inputs: action.inputs,
       };
     case CLEAR_ORDER:
       return {};

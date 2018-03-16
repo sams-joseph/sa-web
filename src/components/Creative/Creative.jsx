@@ -8,6 +8,7 @@ import AppBar from 'material-ui/AppBar';
 import Dropzone from 'react-dropzone';
 import InputGroup from '../inputs/InputGroup';
 import CanvasStage from '../Canvas';
+import { setOrderInputs } from '../../actions/order';
 
 import { Container, DropzoneText } from './Styled';
 import ColorSelect from '../ColorSelect';
@@ -70,6 +71,7 @@ class Creative extends Component {
 
   getImageData = () => {
     this.child.getData();
+    this.props.setOrderInputs(this.state.text);
   };
 
   render() {
@@ -177,4 +179,4 @@ function mapStateToProps(state) {
   };
 }
 
-export default connect(mapStateToProps)(Creative);
+export default connect(mapStateToProps, { setOrderInputs })(Creative);
