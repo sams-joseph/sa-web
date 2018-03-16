@@ -17,6 +17,7 @@ import TopNavigation from '../navigation/TopNavigation';
 import Products from '../Products';
 import Order from '../Order';
 import Summary from '../Summary';
+import Cart from '../Cart';
 
 import UserRoute from '../routes/UserRoute';
 import GuestRoute from '../routes/GuestRoute';
@@ -73,6 +74,7 @@ class App extends Component {
         <UserRoute location={location} path="/products" exact component={Products} />
         <UserRoute location={location} path="/create-order" exact component={Order} />
         <UserRoute location={location} path="/order-summary" exact component={Summary} />
+        <UserRoute location={location} path="/cart" exact component={Cart} />
       </div>
     );
   }

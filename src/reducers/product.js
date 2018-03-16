@@ -1,11 +1,11 @@
 import { PRODUCTS_RETREIVED, PRODUCT_RETREIVED } from '../types';
 
-export default function product(state = [], action = {}) {
+export default function product(state = { products: [], selectedProduct: {} }, action = {}) {
   switch (action.type) {
     case PRODUCTS_RETREIVED:
-      return action.products;
+      return { ...state, products: action.products };
     case PRODUCT_RETREIVED:
-      return action.product;
+      return { ...state, selectedProduct: action.product };
     default:
       return state;
   }

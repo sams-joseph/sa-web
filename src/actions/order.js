@@ -1,4 +1,4 @@
-import { DESIGN_SELECTED, PRODUCT_SELECTED, SIZE_SELECTED, IMAGE_SET, PORTRAIT_SET } from '../types';
+import { DESIGN_SELECTED, PRODUCT_SELECTED, SIZE_SELECTED, IMAGE_SET, PORTRAIT_SET, CLEAR_ORDER } from '../types';
 
 export const productsRetreived = product => ({
   type: PRODUCT_SELECTED,
@@ -25,6 +25,10 @@ export const setPortrait = image => ({
   image,
 });
 
+export const clearOrder = () => ({
+  type: CLEAR_ORDER,
+});
+
 export const setOrderProduct = product => dispatch => {
   dispatch(productsRetreived(product));
 };
@@ -43,4 +47,8 @@ export const setOrderImage = image => dispatch => {
 
 export const setOrderPortrait = image => dispatch => {
   dispatch(setPortrait(image));
+};
+
+export const resetOrder = () => dispatch => {
+  dispatch(clearOrder());
 };

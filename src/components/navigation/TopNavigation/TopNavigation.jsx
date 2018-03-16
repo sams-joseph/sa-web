@@ -13,6 +13,7 @@ import { MenuItem } from 'material-ui/Menu';
 import Popover from 'material-ui/Popover';
 import { ListItemIcon, ListItemText } from 'material-ui/List';
 import { logout } from '../../../actions/auth';
+import CartBadge from '../../CartBadge';
 import { NavigationGroupRight, MainNavigationLink, CreateOrderBtn } from './Styled';
 
 const style = {
@@ -74,12 +75,8 @@ class TopNavigation extends Component {
           )}
           {isAuthenticated && (
             <div>
-              <IconButton
-                aria-owns={open ? 'menu-appbar' : null}
-                aria-haspopup="true"
-                onClick={this.handleMenu}
-                style={{ color: 'rgb(75,75,75)' }}
-              >
+              <CartBadge />
+              <IconButton aria-owns={open ? 'menu-appbar' : null} aria-haspopup="true" onClick={this.handleMenu}>
                 <AccountCircle />
               </IconButton>
               <Popover

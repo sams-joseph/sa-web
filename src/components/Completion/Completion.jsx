@@ -1,17 +1,46 @@
-import React from 'react';
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 import Typography from 'material-ui/Typography';
+import { addToCart } from '../../actions/cart';
+import { resetOrder } from '../../actions/order';
 import { Container, Checkmark, CheckmarkCircle, CheckmarkCheck } from './Styled';
 
-const Completion = () => (
-  <Container>
-    <Checkmark xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52 52">
-      <CheckmarkCircle cx="26" cy="26" r="25" fill="none" />
-      <CheckmarkCheck fill="none" d="M14.1 27.2l7.1 7.2 16.7-16.8" />
-    </Checkmark>
+class Completion extends Component {
+  componentDidMount() {
+    this.props.addToCart(this.props.order);
+    this.props.resetOrder();
+  }
 
-    <Typography variant="title">Success!</Typography>
-    <Typography variant="subheading">Your order has been placed successfully.</Typography>
-  </Container>
-);
+  render() {
+    const { headline, message } = this.props;
+    return (
+      <Container>
+        <Checkmark xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52 52">
+          <CheckmarkCircle cx="26" cy="26" r="25" fill="none" />
+          <CheckmarkCheck fill="none" d="M14.1 27.2l7.1 7.2 16.7-16.8" />
+        </Checkmark>
 
-export default Completion;
+        <Typography variant="title">{headline}</Typography>
+        <Typography variant="subheading">{message}</Typography>
+      </Container>
+    );
+  }
+}
+
+const { string, func, shape } = PropTypes;
+Completion.propTypes = {
+  headline: string.isRequired,
+  message: string.isRequired,
+  addToCart: func.isRequired,
+  resetOrder: func.isRequired,
+  order: shape({}).isRequired,
+};
+
+function mapStateToProps(state) {
+  return {
+    order: state.order,
+  };
+}
+
+export default connect(mapStateToProps, { addToCart, resetOrder })(Completion);

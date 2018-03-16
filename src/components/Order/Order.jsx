@@ -5,6 +5,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { withStyles } from 'material-ui/styles';
 import Stepper, { Step, StepLabel } from 'material-ui/Stepper';
+import AddShoppingCart from 'material-ui-icons/AddShoppingCart';
 import Button from 'material-ui/Button';
 import { getProducts } from '../../actions/product';
 import { setOrderProduct, setOrderSize, setOrderDesign } from '../../actions/order';
@@ -41,7 +42,7 @@ const styles = theme => ({
 });
 
 function getSteps() {
-  return ['Select Product', 'Select Size', 'Select Design', 'Finalize Design', 'Review Order'];
+  return ['Select Product', 'Select Size', 'Select Design', 'Finalize Design'];
 }
 
 class Order extends Component {
@@ -68,7 +69,7 @@ class Order extends Component {
       case 0:
         return (
           <FlexContainer>
-            {this.props.products.map(product => (
+            {this.props.product.products.map(product => (
               <Product
                 key={product.id}
                 id={product.id}
@@ -84,7 +85,7 @@ class Order extends Component {
       case 1:
         return (
           <FlexContainer>
-            {this.props.sizes.map(size => (
+            {this.props.size.sizes.map(size => (
               <Size
                 key={size.id}
                 id={size.id}
@@ -100,7 +101,7 @@ class Order extends Component {
       case 2:
         return (
           <FlexContainer>
-            {this.props.designs.map(design => (
+            {this.props.design.designs.map(design => (
               <Design
                 key={design.id}
                 id={design.id}
@@ -160,6 +161,18 @@ class Order extends Component {
     }
   };
 
+  addToCart = () => {
+    const { activeStep } = this.state;
+    this.child.getImageData();
+
+    this.setState({
+      activeStep: activeStep + 1,
+      checkedProduct: 0,
+      checkedSize: 0,
+      checkedDesign: 0,
+    });
+  };
+
   handleBack = () => {
     const { activeStep } = this.state;
     this.setState({
@@ -190,36 +203,52 @@ class Order extends Component {
         <div>
           {this.state.activeStep === steps.length ? (
             <ButtonGarden>
-              <Completion />
-              <Button style={{ marginRight: '10px' }} color="primary" component={Link} to="/dashboard">
-                To Dashboard
+              <Completion headline="Success!" message="Your item has been added to your cart" />
+              <Button style={{ marginRight: '10px' }} color="primary" component={Link} to="/cart">
+                To Cart
               </Button>
               <Button style={{ marginLeft: '10px' }} variant="raised" color="primary" onClick={this.handleReset}>
                 New Order
               </Button>
             </ButtonGarden>
           ) : (
-            <div>
-              <div className={classes.instructions}>{this.getStepContent(activeStep)}</div>
               <div>
-                <Button disabled={activeStep === 0} onClick={this.handleBack} className={classes.backButton}>
-                  Back
+                <div className={classes.instructions}>{this.getStepContent(activeStep)}</div>
+                <div>
+                  <Button disabled={activeStep === 0} onClick={this.handleBack} className={classes.backButton}>
+                    Back
                 </Button>
-                <Button
-                  disabled={
-                    (activeStep === 0 && !order.product) ||
-                    (activeStep === 1 && !order.size) ||
-                    (activeStep === 2 && !order.design)
-                  }
-                  variant="raised"
-                  color="primary"
-                  onClick={this.handleNext}
-                >
-                  {activeStep === steps.length - 1 ? 'Submit' : 'Next'}
-                </Button>
+                  {activeStep === steps.length - 1 ? (
+                    <Button
+                      disabled={
+                        (activeStep === 0 && !order.product) ||
+                        (activeStep === 1 && !order.size) ||
+                        (activeStep === 2 && !order.design)
+                      }
+                      variant="raised"
+                      color="primary"
+                      onClick={this.addToCart}
+                    >
+                      <AddShoppingCart style={{ marginRight: '20px' }} />
+                      Add to Cart
+                  </Button>
+                  ) : (
+                      <Button
+                        disabled={
+                          (activeStep === 0 && !order.product) ||
+                          (activeStep === 1 && !order.size) ||
+                          (activeStep === 2 && !order.design)
+                        }
+                        variant="raised"
+                        color="primary"
+                        onClick={this.handleNext}
+                      >
+                        Next
+                  </Button>
+                    )}
+                </div>
               </div>
-            </div>
-          )}
+            )}
         </div>
       </div>
     );
@@ -229,7 +258,9 @@ class Order extends Component {
 const { shape, func } = PropTypes;
 Order.propTypes = {
   classes: shape({}).isRequired,
-  products: shape({}).isRequired,
+  product: shape({}).isRequired,
+  size: shape({}).isRequired,
+  design: shape({}).isRequired,
   getProducts: func.isRequired,
   logout: func.isRequired,
   setOrderProduct: func.isRequired,
@@ -239,9 +270,9 @@ Order.propTypes = {
 function mapStateToProps(state) {
   return {
     isConfirmed: !!state.user.confirmed,
-    products: state.product,
-    sizes: state.size,
-    designs: state.design,
+    product: state.product,
+    size: state.size,
+    design: state.design,
     showAlertMessage: state.message.alert,
     order: state.order,
   };
