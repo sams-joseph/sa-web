@@ -1,4 +1,4 @@
-import { ADD_TO_CART, REMOVE_FROM_CART, UPDATE_CART_ITEM } from '../types';
+import { ADD_TO_CART, REMOVE_FROM_CART, UPDATE_CART_ITEM, RESET_CART } from '../types';
 
 const initialState = {
   byId: [],
@@ -33,6 +33,11 @@ export default function cart(state = initialState, action = {}) {
         ...state,
       };
     }
+    case RESET_CART:
+      return {
+        byId: [],
+        byHash: {},
+      };
     default:
       return state;
   }

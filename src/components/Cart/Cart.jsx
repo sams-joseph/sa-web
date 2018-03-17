@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import Button from 'material-ui/Button';
 import { CSSTransition, TransitionGroup } from 'react-transition-group';
@@ -43,7 +44,14 @@ class Cart extends Component {
         </TransitionGroup>
 
         {cart.byId.length > 0 && (
-          <Button style={{ marginTop: '70px' }} variant="raised" size="large" color="secondary">
+          <Button
+            style={{ marginTop: '70px' }}
+            variant="raised"
+            size="large"
+            color="secondary"
+            component={Link}
+            to="/checkout"
+          >
             Checkout
           </Button>
         )}

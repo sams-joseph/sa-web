@@ -1,25 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Typography from 'material-ui/Typography';
-import IconButton from 'material-ui/IconButton';
-import DeleteIcon from 'material-ui-icons/Delete';
-import EditIcon from 'material-ui-icons/ModeEdit';
-import ArrowDropUp from 'material-ui-icons/ArrowDropUp';
-import ArrowDropDown from 'material-ui-icons/ArrowDropDown';
 import constants from '../constants';
-import {
-  Thumbnail,
-  ThumbnailContainer,
-  Container,
-  ItemDetails,
-  Header,
-  Body,
-  Details,
-  Actions,
-  Quantity,
-  Increments,
-  QuantityValue,
-} from './Styled';
+import { Thumbnail, ThumbnailContainer, Container, ItemDetails, Header, Body, Details } from './Styled';
 
 const styles = {
   heading: {
@@ -43,7 +26,7 @@ const styles = {
   },
 };
 
-const CartItem = ({ item, remove, index, update }) => (
+const ReviewItem = ({ item }) => (
   <Container>
     <ThumbnailContainer>
       <Thumbnail src={item.image} alt="sepsis-design" />
@@ -79,36 +62,19 @@ const CartItem = ({ item, remove, index, update }) => (
             <Typography style={styles.subTitle} variant="subheading">
               Qty
             </Typography>
-            <Quantity>
-              <QuantityValue>{item.quantity}</QuantityValue>
-            </Quantity>
+            <Typography style={styles.subHeading} variant="subheading">
+              {item.quantity}
+            </Typography>
           </div>
-          <Increments>
-            <ArrowDropUp
-              style={{ color: '#757575' }}
-              onClick={() => update(index, { ...item, quantity: item.quantity + 1 })}
-            />
-            <ArrowDropDown
-              style={{ color: '#757575' }}
-              onClick={() => update(index, { ...item, quantity: item.quantity > 1 ? item.quantity - 1 : 1 })}
-            />
-          </Increments>
         </Details>
-        <Actions>
-          <IconButton aria-label="Delete" onClick={() => remove(index)}>
-            <DeleteIcon />
-          </IconButton>
-        </Actions>
       </Body>
     </ItemDetails>
   </Container>
 );
 
-const { shape, func, number } = PropTypes;
-CartItem.propTypes = {
+const { shape } = PropTypes;
+ReviewItem.propTypes = {
   item: shape({}).isRequired,
-  remove: func.isRequired,
-  index: number.isRequired,
 };
 
-export default CartItem;
+export default ReviewItem;

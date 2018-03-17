@@ -16,8 +16,8 @@ import Confirmation from '../Confirmation';
 import TopNavigation from '../navigation/TopNavigation';
 import Products from '../Products';
 import Order from '../Order';
-import Summary from '../Summary';
 import Cart from '../Cart';
+import Checkout from '../Checkout';
 
 import UserRoute from '../routes/UserRoute';
 import GuestRoute from '../routes/GuestRoute';
@@ -73,8 +73,8 @@ class App extends Component {
         <UserRoute location={location} path="/dashboard" exact component={Dashboard} />
         <UserRoute location={location} path="/products" exact component={Products} />
         <UserRoute location={location} path="/create-order" exact component={Order} />
-        <UserRoute location={location} path="/order-summary" exact component={Summary} />
         <UserRoute location={location} path="/cart" exact component={Cart} />
+        <UserRoute location={location} path="/checkout" exact component={Checkout} />
       </div>
     );
   }

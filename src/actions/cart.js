@@ -1,4 +1,4 @@
-import { ADD_TO_CART, REMOVE_FROM_CART, UPDATE_CART_ITEM } from '../types';
+import { ADD_TO_CART, REMOVE_FROM_CART, UPDATE_CART_ITEM, RESET_CART } from '../types';
 
 export const add = (id, payload) => ({
   type: ADD_TO_CART,
@@ -17,6 +17,10 @@ export const update = (id, payload) => ({
   payload,
 });
 
+export const reset = () => ({
+  type: RESET_CART,
+});
+
 export const addToCart = (id, payload) => dispatch => {
   dispatch(add(id, payload));
 };
@@ -27,4 +31,8 @@ export const removeFromCart = id => dispatch => {
 
 export const updateCart = (id, payload) => dispatch => {
   dispatch(update(id, payload));
+};
+
+export const resetCart = () => dispatch => {
+  dispatch(reset());
 };

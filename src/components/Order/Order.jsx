@@ -13,12 +13,11 @@ import { getSizeByProduct } from '../../actions/size';
 import { getDesignsByProduct } from '../../actions/design';
 import { getDesignBySize } from '../../actions/designSize';
 import { logout } from '../../actions/auth';
-import { FlexContainer, ButtonGarden } from './Styled';
+import { FlexContainer, ButtonGarden, StepperContainer, Container } from './Styled';
 import Product from '../Product';
 import Size from '../Size';
 import Design from '../Design';
 import Creative from '../Creative';
-import Summary from '../Summary';
 import Completion from '../Completion';
 
 const styles = theme => ({
@@ -37,6 +36,7 @@ const styles = theme => ({
   },
   stepper: {
     background: 'none',
+    width: '100%',
     marginBottom: '70px',
   },
 });
@@ -116,8 +116,6 @@ class Order extends Component {
         );
       case 3:
         return <Creative onRef={ref => (this.child = ref)} />;
-      case 4:
-        return <Summary />;
       default:
         return 'Uknown stepIndex';
     }
@@ -195,64 +193,70 @@ class Order extends Component {
     const { activeStep } = this.state;
 
     return (
-      <div className={classes.root}>
-        <Stepper activeStep={activeStep} alternativeLabel className={classes.stepper}>
-          {steps.map(label => (
-            <Step key={label}>
-              <StepLabel>{label}</StepLabel>
-            </Step>
-          ))}
-        </Stepper>
-        <div>
-          {this.state.activeStep === steps.length ? (
-            <ButtonGarden>
-              <Completion headline="Success!" message="Your item has been added to your cart" />
-              <Button style={{ marginRight: '10px' }} color="primary" component={Link} to="/cart">
-                To Cart
-              </Button>
-              <Button style={{ marginLeft: '10px' }} variant="raised" color="primary" onClick={this.handleReset}>
-                New Order
-              </Button>
-            </ButtonGarden>
-          ) : (
-            <div>
-              <div className={classes.instructions}>{this.getStepContent(activeStep)}</div>
-              <div>
-                <Button disabled={activeStep === 0} onClick={this.handleBack} className={classes.backButton}>
-                  Back
+      <div>
+        <StepperContainer>
+          <Container>
+            <Stepper activeStep={activeStep} className={classes.stepper}>
+              {steps.map(label => (
+                <Step key={label}>
+                  <StepLabel>{label}</StepLabel>
+                </Step>
+              ))}
+            </Stepper>
+          </Container>
+        </StepperContainer>
+        <Container>
+          <div>
+            {this.state.activeStep === steps.length ? (
+              <ButtonGarden>
+                <Completion headline="Success!" message="Your item has been added to your cart" />
+                <Button style={{ marginRight: '10px' }} color="primary" component={Link} to="/cart">
+                  To Cart
                 </Button>
-                {activeStep === steps.length - 1 ? (
-                  <Button
-                    disabled={
-                      (activeStep === 0 && !order.product) ||
-                      (activeStep === 1 && !order.size) ||
-                      (activeStep === 2 && !order.design)
-                    }
-                    variant="raised"
-                    color="primary"
-                    onClick={this.addToCart}
-                  >
-                    <AddShoppingCart style={{ marginRight: '20px' }} />
-                    Add to Cart
+                <Button style={{ marginLeft: '10px' }} variant="raised" color="primary" onClick={this.handleReset}>
+                  New Order
+                </Button>
+              </ButtonGarden>
+            ) : (
+              <div>
+                <div className={classes.instructions}>{this.getStepContent(activeStep)}</div>
+                <div>
+                  <Button disabled={activeStep === 0} onClick={this.handleBack} className={classes.backButton}>
+                    Back
                   </Button>
-                ) : (
-                  <Button
-                    disabled={
-                      (activeStep === 0 && !order.product) ||
-                      (activeStep === 1 && !order.size) ||
-                      (activeStep === 2 && !order.design)
-                    }
-                    variant="raised"
-                    color="primary"
-                    onClick={this.handleNext}
-                  >
-                    Next
-                  </Button>
-                )}
+                  {activeStep === steps.length - 1 ? (
+                    <Button
+                      disabled={
+                        (activeStep === 0 && !order.product) ||
+                        (activeStep === 1 && !order.size) ||
+                        (activeStep === 2 && !order.design)
+                      }
+                      variant="raised"
+                      color="primary"
+                      onClick={this.addToCart}
+                    >
+                      <AddShoppingCart style={{ marginRight: '20px' }} />
+                      Add to Cart
+                    </Button>
+                  ) : (
+                    <Button
+                      disabled={
+                        (activeStep === 0 && !order.product) ||
+                        (activeStep === 1 && !order.size) ||
+                        (activeStep === 2 && !order.design)
+                      }
+                      variant="raised"
+                      color="primary"
+                      onClick={this.handleNext}
+                    >
+                      Next
+                    </Button>
+                  )}
+                </div>
               </div>
-            </div>
-          )}
-        </div>
+            )}
+          </div>
+        </Container>
       </div>
     );
   }

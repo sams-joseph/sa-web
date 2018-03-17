@@ -2,16 +2,12 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import Typography from 'material-ui/Typography';
-import { addToCart } from '../../actions/cart';
-import { resetOrder } from '../../actions/order';
+import { resetCart } from '../../actions/cart';
 import { Container, Checkmark, CheckmarkCircle, CheckmarkCheck } from './Styled';
 
-class Completion extends Component {
+class CheckoutMessage extends Component {
   componentDidMount() {
-    const id = this.props.cart.byId;
-    const newId = id.length > 0 ? id[id.length - 1] : 0;
-    this.props.addToCart(newId + 1, this.props.order);
-    this.props.resetOrder();
+    this.props.resetCart();
   }
 
   render() {
@@ -30,21 +26,18 @@ class Completion extends Component {
   }
 }
 
-const { string, func, shape } = PropTypes;
-Completion.propTypes = {
+const { string, func } = PropTypes;
+CheckoutMessage.propTypes = {
   headline: string.isRequired,
   message: string.isRequired,
-  addToCart: func.isRequired,
-  resetOrder: func.isRequired,
-  order: shape({}).isRequired,
-  cart: shape({}).isRequired,
+  resetCart: func.isRequired,
 };
 
 function mapStateToProps(state) {
   return {
-    order: state.order,
+    shipping: state.shipping,
     cart: state.cart,
   };
 }
 
-export default connect(mapStateToProps, { addToCart, resetOrder })(Completion);
+export default connect(mapStateToProps, { resetCart })(CheckoutMessage);
