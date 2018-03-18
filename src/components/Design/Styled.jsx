@@ -13,16 +13,17 @@ export const ProductContainer = styled.div`
   margin: 0 10px 0 0;
   border-radius: 2px;
   overflow: hidden;
-  transition: transform 0.25s, box-shadow 0.25s;
+  transition: transform 0.25s, box-shadow 0.25s, border 0.25s;
   cursor: pointer;
+  border: ${props => (props.checked ? `1px solid #00bbff` : `1px solid transparent`)};
+  box-shadow: ${props => (props.checked ? `0 0px 16px #00bbff` : 'none')};
 
   &:nth-child(2) {
     margin: 0 0 0 10px;
   }
 
   &:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 3px 12px rgba(0, 0, 0, 0.5);
+    box-shadow: ${props => (props.checked ? `0 0 16px #00bbff` : '0 0 12px rgba(0, 0, 0, 0.5)')};
   }
 `;
 
@@ -30,6 +31,9 @@ export const ProductMeta = styled.footer`
   background: linear-gradient(to top, rgba(0, 0, 0, 0.9), rgba(0, 0, 0, 0));
   width: 100%;
   padding: 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
 `;
 
 export const ProductHeading = styled.h1`
@@ -40,7 +44,6 @@ export const ProductHeading = styled.h1`
 
 export const ProductDescription = styled.p`
   color: white;
-  margin-bottom: 40px;
   max-width: 300px;
   font-size: ${constants.fontSizeMedium};
   line-height: ${constants.lineHeight};

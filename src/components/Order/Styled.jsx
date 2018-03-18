@@ -4,19 +4,25 @@ import constants from '../constants';
 export const Wrapper = styled.div``;
 
 export const Container = styled.div`
-  font-family: ${constants.fontFamily};
-  max-width: 1140px;
+  width: 1140px;
   margin: 0 auto;
-  padding: ${props => props.padding};
+  padding: 0 20px;
+`;
+
+export const StepperContainer = styled.div`
   width: 100%;
-  position: relative;
-  background: ${props => (props.bkg ? props.bkg : '')};
+  background: ${constants.almostWhite};
 `;
 
 export const FlexContainer = styled.div`
   display: flex;
   width: 100%;
   margin-bottom: 40px;
+`;
+
+export const ButtonGarden = styled.div`
+  margin: 0 auto;
+  text-align: center;
 `;
 
 export const Heading = styled.h1`

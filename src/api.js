@@ -46,4 +46,32 @@ export default {
         .then(res => res.data.designSize)
         .catch(err => ''),
   },
+  order: {
+    placeOrder: payload =>
+      axios.post(`${process.env.REACT_APP_API_HOST}/api/orders`, { ...payload }).then(res => res.data.order),
+    addPart: payload => {
+      const data = new FormData();
+      data.append('orderID', payload.orderID);
+      data.append('productID', payload.productID);
+      data.append('sizeID', payload.sizeID);
+      data.append('designID', payload.designID);
+      data.append('quantity', payload.quantity);
+      data.append('image', payload.image);
+      data.append('portrait', payload.portrait);
+      data.append('name', payload.name);
+      data.append('date', payload.date);
+      return axios.post(`${process.env.REACT_APP_API_HOST}/api/orders/part`, data).then(res => res.data.part);
+    },
+    getOrders: () => axios.get(`${process.env.REACT_APP_API_HOST}/api/orders`, {}).then(res => res.data.orders),
+    getOrder: id =>
+      axios
+        .get(`${process.env.REACT_APP_API_HOST}/api/orders/order`, { params: { id } })
+        .then(res => res.data.order)
+        .catch(err => ''),
+    getOrderParts: orderID =>
+      axios
+        .get(`${process.env.REACT_APP_API_HOST}/api/orders/parts`, { params: { orderID } })
+        .then(res => res.data.parts)
+        .catch(err => ''),
+  },
 };

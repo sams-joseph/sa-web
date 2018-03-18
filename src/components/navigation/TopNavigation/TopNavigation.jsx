@@ -13,13 +13,15 @@ import { MenuItem } from 'material-ui/Menu';
 import Popover from 'material-ui/Popover';
 import { ListItemIcon, ListItemText } from 'material-ui/List';
 import { logout } from '../../../actions/auth';
+import CartBadge from '../../CartBadge';
 import { NavigationGroupRight, MainNavigationLink, CreateOrderBtn } from './Styled';
 
 const style = {
   appBar: {
-    background: '#f4f7fc',
+    background: 'white',
     zIndex: 2,
     position: 'relative',
+    padding: 0,
   },
 };
 
@@ -52,8 +54,8 @@ class TopNavigation extends Component {
     const open = Boolean(anchorEl);
 
     return (
-      <AppBar style={style.appBar} position="static" elevation="0">
-        <ToolBar>
+      <AppBar style={style.appBar} position="static" elevation={0}>
+        <ToolBar style={{ maxWidth: '1140px', margin: '0 auto', width: '100%' }}>
           <div style={{ flex: 1 }}>
             <MainNavigationLink exact to="/">
               Home
@@ -73,12 +75,8 @@ class TopNavigation extends Component {
           )}
           {isAuthenticated && (
             <div>
-              <IconButton
-                aria-owns={open ? 'menu-appbar' : null}
-                aria-haspopup="true"
-                onClick={this.handleMenu}
-                style={{ color: 'rgb(75,75,75)' }}
-              >
+              <CartBadge />
+              <IconButton aria-owns={open ? 'menu-appbar' : null} aria-haspopup="true" onClick={this.handleMenu}>
                 <AccountCircle />
               </IconButton>
               <Popover

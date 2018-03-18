@@ -10,6 +10,7 @@ import decode from 'jwt-decode';
 import 'react-select/dist/react-select.css';
 import { MuiThemeProvider, createMuiTheme } from 'material-ui/styles';
 import { userLoggedIn } from './actions/auth';
+import { loadCart } from './actions/cart';
 import ScrollToTop from './components/routes/ScrollToTop';
 import setAuthorizationHeader from './utils/setAuthorizationHeader';
 
@@ -34,23 +35,57 @@ if (localStorage.sepsisJWT) {
   store.dispatch(userLoggedIn(user));
 }
 
+if (localStorage.cartItems) {
+  const cart = JSON.parse(localStorage.getItem('cartItems'));
+  store.dispatch(loadCart(cart));
+}
+
 injectGlobal([
   `
   body {
     background-color: initial;
     margin: 0;
     font-family: ${constants.fontFamily};
+    min-height: 100vh;
   }
 
   #root {
     height: 100%;
     overflow-x: hidden;
     min-height: 100vh;
-    background-color: ${constants.almostWhite};
-    // background-color: #192023;
-    // background-image: -webkit-linear-gradient(315deg, #2e2d45, #1c2127);
-    // background-image: linear-gradient(135deg, #2e2d45, #1c2127);
+    background-color: white;
     color: ${constants.primaryTextColor};
+  }
+
+  a {
+    color: ${constants.defaultPrimaryColor};
+    text-decoration: none;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+
+  .fade-enter {
+    transform: translateX(-30px);
+    opacity: 0.01;
+  }
+
+  .fade-enter.fade-enter-active {
+    opacity: 1;
+    transform: translateX(0);
+    transition: opacity 300ms ease-in, transform 300ms ease-in;
+  }
+
+  .fade-exit {
+    transform: translateX(0);
+    opacity: 1;
+  }
+
+  .fade-exit.fade-exit-active {
+    opacity: 0.01;
+    transform: translateX(-30px);
+    transition: opacity 300ms ease-out, transform 300ms ease-out;
   }
   `,
 ]);
@@ -61,13 +96,13 @@ const theme = createMuiTheme({
     primary: {
       light: '#757ce8',
       main: constants.defaultPrimaryColor,
-      dark: constants.defaultPrimaryColor,
+      dark: '#1150fc',
       contrastText: '#fff',
     },
     secondary: {
-      light: '#64B5F6',
-      main: '#03A9F4',
-      dark: '#2196F3',
+      light: '#20873d',
+      main: '#33b257',
+      dark: '#279947',
       contrastText: '#fff',
     },
   },

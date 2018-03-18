@@ -6,10 +6,10 @@ import { SizeContainer, SizeMeta, SizeHeading } from './Styled';
 
 function Product({ id, name, height, width, selectSize, checkedID }) {
   return (
-    <SizeContainer onClick={() => selectSize(id, name, height, width)}>
+    <SizeContainer onClick={() => selectSize(id, name, height, width)} checked={id === checkedID}>
       <SizeMeta>
-        <Checkbox color="primary" checked={id === checkedID} onChange={() => selectSize(id, name, height, width)} />
         <SizeHeading>{name}</SizeHeading>
+        <Checkbox color="primary" checked={id === checkedID} onChange={() => selectSize(id, name, height, width)} />
       </SizeMeta>
     </SizeContainer>
   );

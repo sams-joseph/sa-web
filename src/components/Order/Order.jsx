@@ -1,28 +1,31 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 import compose from 'recompose/compose';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { withStyles } from 'material-ui/styles';
 import Stepper, { Step, StepLabel } from 'material-ui/Stepper';
+import AddShoppingCart from 'material-ui-icons/AddShoppingCart';
 import Button from 'material-ui/Button';
-import Typography from 'material-ui/Typography';
 import { getProducts } from '../../actions/product';
-import { setOrderProduct, setOrderSize, setOrderDesign } from '../../actions/order';
+import { setOrderProduct, setOrderSize, setOrderDesign, setOrderQuantity } from '../../actions/order';
 import { getSizeByProduct } from '../../actions/size';
 import { getDesignsByProduct } from '../../actions/design';
 import { getDesignBySize } from '../../actions/designSize';
 import { logout } from '../../actions/auth';
-import { FlexContainer } from './Styled';
+import { FlexContainer, ButtonGarden, StepperContainer, Container } from './Styled';
 import Product from '../Product';
 import Size from '../Size';
 import Design from '../Design';
 import Creative from '../Creative';
-import Summary from '../Summary';
+import Completion from '../Completion';
 
 const styles = theme => ({
   root: {
-    width: '90%',
-    margin: '20px auto 0 auto',
+    width: '100%',
+    maxWidth: '1140px',
+    padding: '0 20px',
+    margin: '20px auto 70px auto',
   },
   backButton: {
     marginRight: theme.spacing.unit,
@@ -33,12 +36,13 @@ const styles = theme => ({
   },
   stepper: {
     background: 'none',
+    width: '100%',
     marginBottom: '70px',
   },
 });
 
 function getSteps() {
-  return ['Select Product', 'Select Size', 'Select Design', 'Finalize Design', 'Review Order'];
+  return ['Select Product', 'Select Size', 'Select Design', 'Finalize Design'];
 }
 
 class Order extends Component {
@@ -65,7 +69,7 @@ class Order extends Component {
       case 0:
         return (
           <FlexContainer>
-            {this.props.products.map(product => (
+            {this.props.product.products.map(product => (
               <Product
                 key={product.id}
                 id={product.id}
@@ -81,7 +85,7 @@ class Order extends Component {
       case 1:
         return (
           <FlexContainer>
-            {this.props.sizes.map(size => (
+            {this.props.size.sizes.map(size => (
               <Size
                 key={size.id}
                 id={size.id}
@@ -97,7 +101,7 @@ class Order extends Component {
       case 2:
         return (
           <FlexContainer>
-            {this.props.designs.map(design => (
+            {this.props.design.designs.map(design => (
               <Design
                 key={design.id}
                 id={design.id}
@@ -112,8 +116,6 @@ class Order extends Component {
         );
       case 3:
         return <Creative onRef={ref => (this.child = ref)} />;
-      case 4:
-        return <Summary />;
       default:
         return 'Uknown stepIndex';
     }
@@ -157,6 +159,21 @@ class Order extends Component {
     }
   };
 
+  addToCart = () => {
+    const { activeStep } = this.state;
+
+    this.props.setOrderQuantity(1);
+
+    this.child.getImageData();
+
+    this.setState({
+      activeStep: activeStep + 1,
+      checkedProduct: 0,
+      checkedSize: 0,
+      checkedDesign: 0,
+    });
+  };
+
   handleBack = () => {
     const { activeStep } = this.state;
     this.setState({
@@ -176,43 +193,70 @@ class Order extends Component {
     const { activeStep } = this.state;
 
     return (
-      <div className={classes.root}>
-        <Stepper activeStep={activeStep} alternativeLabel className={classes.stepper}>
-          {steps.map(label => (
-            <Step key={label}>
-              <StepLabel>{label}</StepLabel>
-            </Step>
-          ))}
-        </Stepper>
-        <div>
-          {this.state.activeStep === steps.length ? (
-            <div>
-              <Typography className={classes.instructions}>All steps completed - you&quot;re finished</Typography>
-              <Button onClick={this.handleReset}>Reset</Button>
-            </div>
-          ) : (
-            <div>
-              <div className={classes.instructions}>{this.getStepContent(activeStep)}</div>
+      <div>
+        <StepperContainer>
+          <Container>
+            <Stepper activeStep={activeStep} className={classes.stepper}>
+              {steps.map(label => (
+                <Step key={label}>
+                  <StepLabel>{label}</StepLabel>
+                </Step>
+              ))}
+            </Stepper>
+          </Container>
+        </StepperContainer>
+        <Container>
+          <div>
+            {this.state.activeStep === steps.length ? (
+              <ButtonGarden>
+                <Completion headline="Success!" message="Your item has been added to your cart" />
+                <Button style={{ marginRight: '10px' }} color="primary" component={Link} to="/cart">
+                  To Cart
+                </Button>
+                <Button style={{ marginLeft: '10px' }} variant="raised" color="primary" onClick={this.handleReset}>
+                  New Order
+                </Button>
+              </ButtonGarden>
+            ) : (
               <div>
-                <Button disabled={activeStep === 0} onClick={this.handleBack} className={classes.backButton}>
-                  Back
-                </Button>
-                <Button
-                  disabled={
-                    (activeStep === 0 && !order.product) ||
-                    (activeStep === 1 && !order.size) ||
-                    (activeStep === 2 && !order.design)
-                  }
-                  variant="raised"
-                  color="primary"
-                  onClick={this.handleNext}
-                >
-                  {activeStep === steps.length - 1 ? 'Submit' : 'Next'}
-                </Button>
+                <div className={classes.instructions}>{this.getStepContent(activeStep)}</div>
+                <div>
+                  <Button disabled={activeStep === 0} onClick={this.handleBack} className={classes.backButton}>
+                    Back
+                  </Button>
+                  {activeStep === steps.length - 1 ? (
+                    <Button
+                      disabled={
+                        (activeStep === 0 && !order.product) ||
+                        (activeStep === 1 && !order.size) ||
+                        (activeStep === 2 && !order.design)
+                      }
+                      variant="raised"
+                      color="primary"
+                      onClick={this.addToCart}
+                    >
+                      <AddShoppingCart style={{ marginRight: '20px' }} />
+                      Add to Cart
+                    </Button>
+                  ) : (
+                    <Button
+                      disabled={
+                        (activeStep === 0 && !order.product) ||
+                        (activeStep === 1 && !order.size) ||
+                        (activeStep === 2 && !order.design)
+                      }
+                      variant="raised"
+                      color="primary"
+                      onClick={this.handleNext}
+                    >
+                      Next
+                    </Button>
+                  )}
+                </div>
               </div>
-            </div>
-          )}
-        </div>
+            )}
+          </div>
+        </Container>
       </div>
     );
   }
@@ -221,7 +265,9 @@ class Order extends Component {
 const { shape, func } = PropTypes;
 Order.propTypes = {
   classes: shape({}).isRequired,
-  products: shape({}).isRequired,
+  product: shape({}).isRequired,
+  size: shape({}).isRequired,
+  design: shape({}).isRequired,
   getProducts: func.isRequired,
   logout: func.isRequired,
   setOrderProduct: func.isRequired,
@@ -231,9 +277,9 @@ Order.propTypes = {
 function mapStateToProps(state) {
   return {
     isConfirmed: !!state.user.confirmed,
-    products: state.product,
-    sizes: state.size,
-    designs: state.design,
+    product: state.product,
+    size: state.size,
+    design: state.design,
     showAlertMessage: state.message.alert,
     order: state.order,
   };
@@ -250,5 +296,6 @@ export default compose(
     setOrderSize,
     setOrderDesign,
     getDesignBySize,
+    setOrderQuantity,
   })
 )(Order);

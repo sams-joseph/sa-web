@@ -25,6 +25,7 @@ export const login = credentials => dispatch =>
 
 export const logout = () => dispatch => {
   localStorage.removeItem('sepsisJWT');
+  localStorage.removeItem('cartItems');
   dispatch(userLoggedOut());
 };
 

@@ -51,6 +51,7 @@ export const MainNavigationLink = styled(NavLink)`
   &:hover {
     color: ${constants.defaultPrimaryColor};
     border-bottom: 2px solid ${constants.defaultPrimaryColorMuted};
+    text-decoration: none;
   }
 
   &.active {
@@ -74,6 +75,7 @@ export const CreateOrderBtn = styled(Link)`
   &:hover {
     color: #ffffff;
     background: ${constants.defaultPrimaryColor};
+    text-decoration: none;
   }
 
   &:focus {
@@ -95,6 +97,7 @@ export const LoginBtn = styled(Link)`
 
   &:hover {
     color: #ffffff;
+    text-decoration: none;
   }
 
   &:focus {
