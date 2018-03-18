@@ -57,6 +57,15 @@ injectGlobal([
     color: ${constants.primaryTextColor};
   }
 
+  a {
+    color: ${constants.defaultPrimaryColor};
+    text-decoration: none;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+
   .fade-enter {
     transform: translateX(-30px);
     opacity: 0.01;

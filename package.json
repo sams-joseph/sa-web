@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "abcolor": "^0.5.5",
     "axios": "^0.17.1",
     "jwt-decode": "^2.2.0",
     "konva": "git+https://github.com/konvajs/konva.git",

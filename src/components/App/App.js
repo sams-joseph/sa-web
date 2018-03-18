@@ -18,6 +18,7 @@ import Products from '../Products';
 import Order from '../Order';
 import Cart from '../Cart';
 import Checkout from '../Checkout';
+import OrderDetails from '../OrderDetails';
 
 import UserRoute from '../routes/UserRoute';
 import GuestRoute from '../routes/GuestRoute';
@@ -75,6 +76,7 @@ class App extends Component {
         <UserRoute location={location} path="/create-order" exact component={Order} />
         <UserRoute location={location} path="/cart" exact component={Cart} />
         <UserRoute location={location} path="/checkout" exact component={Checkout} />
+        <UserRoute location={location} path="/order/:id" exact component={OrderDetails} />
       </div>
     );
   }
