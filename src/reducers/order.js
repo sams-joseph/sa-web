@@ -9,7 +9,7 @@ import {
   QUANTITY_SET,
 } from '../types';
 
-export default function product(state = {}, action = {}) {
+export default function order(state = {}, action = {}) {
   switch (action.type) {
     case PRODUCT_SELECTED:
       return {

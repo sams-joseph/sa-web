@@ -1,6 +1,6 @@
 import { DESIGNS_RETREIVED, DESIGN_RETREIVED, DESIGNS_RESET } from '../types';
 
-export default function product(state = { designs: [], selectedDesign: {} }, action = {}) {
+export default function design(state = { designs: [], selectedDesign: {} }, action = {}) {
   switch (action.type) {
     case DESIGNS_RETREIVED:
       return { ...state, designs: action.designs };

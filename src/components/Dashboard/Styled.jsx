@@ -13,6 +13,37 @@ export const Container = styled.div`
   background: ${props => (props.bkg ? props.bkg : '')};
 `;
 
+export const Flex = styled.div`
+  display: flex;
+  margin-bottom: 50px;
+`;
+
+export const MonthGraph = styled.div`
+  max-width: 50%;
+  flex: 1;
+  margin-right: 20px;
+`;
+
+export const ProductGraph = styled.div`
+  flex: 1;
+  max-width: 50%;
+  margin-left: 20px;
+`;
+
+export const DashboardIconSmall = styled.img`
+  height: 40px;
+  margin-right: 20px;
+`;
+
+export const SubHeading = styled.h2`
+  color: ${constants.almostBlack};
+  font-size: 1.25em;
+  font-weight: ${constants.fontWeightLight};
+  font-family: ${constants.fontFamily};
+  margin-bottom: 20px;
+  margin-top: 0;
+`;
+
 export const FlexContainer = styled.div`
   display: flex;
   width: 100%;
@@ -23,7 +54,7 @@ export const Heading = styled.h1`
   font-size: 2em;
   font-weight: ${constants.fontWeightLight};
   font-family: ${constants.fontFamily};
-  margin-bottom: 50px;
+  margin-bottom: 70px;
   margin-top: 70px;
 `;
 

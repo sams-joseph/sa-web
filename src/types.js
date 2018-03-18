@@ -34,5 +34,8 @@ export const ADD_TO_CART = 'ADD_TO_CART';
 export const REMOVE_FROM_CART = 'REMOVE_FROM_CART';
 export const UPDATE_CART_ITEM = 'UPDATE_CART_ITEM';
 export const RESET_CART = 'RESET_CART';
+export const LOAD_CART = 'LOAD_CART';
 
 export const ADD_SHIPPING = 'ADD_SHIPPING';
+
+export const GET_ORDER_HISTORY = 'GET_ORDER_HISTORY';

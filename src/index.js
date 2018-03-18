@@ -10,6 +10,7 @@ import decode from 'jwt-decode';
 import 'react-select/dist/react-select.css';
 import { MuiThemeProvider, createMuiTheme } from 'material-ui/styles';
 import { userLoggedIn } from './actions/auth';
+import { loadCart } from './actions/cart';
 import ScrollToTop from './components/routes/ScrollToTop';
 import setAuthorizationHeader from './utils/setAuthorizationHeader';
 
@@ -32,6 +33,11 @@ if (localStorage.sepsisJWT) {
     confirmed: payload.confirmed,
   };
   store.dispatch(userLoggedIn(user));
+}
+
+if (localStorage.cartItems) {
+  const cart = JSON.parse(localStorage.getItem('cartItems'));
+  store.dispatch(loadCart(cart));
 }
 
 injectGlobal([

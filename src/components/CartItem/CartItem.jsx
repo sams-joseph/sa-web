@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import Typography from 'material-ui/Typography';
 import IconButton from 'material-ui/IconButton';
 import DeleteIcon from 'material-ui-icons/Delete';
-import EditIcon from 'material-ui-icons/ModeEdit';
 import ArrowDropUp from 'material-ui-icons/ArrowDropUp';
 import ArrowDropDown from 'material-ui-icons/ArrowDropDown';
 import constants from '../constants';

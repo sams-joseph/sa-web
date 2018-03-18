@@ -16,7 +16,7 @@ function Review({ shipping, cart }) {
           {shipping.city}, {shipping.state}, {shipping.zip}
         </ShippingListItem>
       </ShippingList>
-      {cart.byId.map(item => <ReviewItem item={cart.byHash[item]} />)}
+      {cart.byId.map(item => <ReviewItem key={item} item={cart.byHash[item]} />)}
     </Container>
   );
 }

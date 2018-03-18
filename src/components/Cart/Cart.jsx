@@ -37,7 +37,7 @@ class Cart extends Component {
         )}
         <TransitionGroup>
           {cart.byId.map(item => (
-            <CSSTransition timeout={300} classNames="fade">
+            <CSSTransition key={item} timeout={300} classNames="fade">
               <CartItem item={cart.byHash[item]} remove={this.removeItem} update={this.updateCartItem} index={item} />
             </CSSTransition>
           ))}
@@ -66,9 +66,9 @@ function mapStateToProps(state) {
   };
 }
 
-const { shape, arrayOf, func } = PropTypes;
+const { shape, func } = PropTypes;
 Cart.propTypes = {
-  cart: arrayOf(shape({}).isRequired).isRequired,
+  cart: shape({}).isRequired,
   removeFromCart: func.isRequired,
 };
 

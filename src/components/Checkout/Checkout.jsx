@@ -1,9 +1,7 @@
 import React, { Component } from 'react';
 import compose from 'recompose/compose';
 import { connect } from 'react-redux';
-import { Link } from 'react-router-dom';
 import { withStyles } from 'material-ui/styles';
-import PropTypes from 'prop-types';
 import Stepper, { Step, StepLabel } from 'material-ui/Stepper';
 import Button from 'material-ui/Button';
 import { addShipping } from '../../actions/shipping';
@@ -51,6 +49,13 @@ class Checkout extends Component {
     },
     errors: {},
   };
+
+  componentWillMount() {
+    if (Object.keys(this.props.cart.byHash).length === 0) {
+      this.props.history.push('/dashboard');
+    }
+  }
+
   getStepContent = step => {
     switch (step) {
       case 0:
@@ -135,9 +140,6 @@ class Checkout extends Component {
             {activeStep === steps.length ? (
               <ButtonGarden>
                 <CheckoutMessage headline="Complete" message="Order placed successfully" />
-                <Button style={{ marginLeft: '10px' }} color="primary" component={Link} to="/dashboard">
-                  Dashboard
-                </Button>
               </ButtonGarden>
             ) : (
               <div>

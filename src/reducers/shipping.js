@@ -1,6 +1,6 @@
 import { ADD_SHIPPING } from '../types';
 
-export default function product(state = {}, action = {}) {
+export default function shipping(state = {}, action = {}) {
   switch (action.type) {
     case ADD_SHIPPING:
       return action.payload;

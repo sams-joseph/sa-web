@@ -9,6 +9,7 @@ import message from './reducers/message';
 import designSize from './reducers/designSize';
 import cart from './reducers/cart';
 import shipping from './reducers/shipping';
+import orderHistory from './reducers/orderHistory';
 
 export default combineReducers({
   user,
@@ -20,4 +21,5 @@ export default combineReducers({
   designSize,
   cart,
   shipping,
+  orderHistory,
 });
