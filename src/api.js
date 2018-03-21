@@ -40,15 +40,24 @@ export default {
         .then(res => res.data.design),
   },
   designSize: {
-    getDesignSizesById: (designID, sizeID) =>
+    getDesignSizesById: (designId, sizeId) =>
       axios
-        .get(`${process.env.REACT_APP_API_HOST}/api/design-sizes`, { params: { designID, sizeID } })
+        .get(`${process.env.REACT_APP_API_HOST}/api/design-sizes`, { params: { designId, sizeId } })
         .then(res => res.data.designSize)
         .catch(err => ''),
   },
   order: {
-    placeOrder: payload =>
-      axios.post(`${process.env.REACT_APP_API_HOST}/api/orders`, { ...payload }).then(res => res.data.order),
+    placeOrder: payload => {
+      const data = new FormData();
+      data.append('shippingName', payload.shippingName);
+      data.append('shippingAddress', payload.shippingAddress);
+      data.append('shippingCity', payload.shippingCity);
+      data.append('shippingState', payload.shippingState);
+      data.append('shippingZip', payload.shippingZip);
+      data.append('orderParts', JSON.stringify(payload.orderParts));
+
+      return axios.post(`${process.env.REACT_APP_API_HOST}/api/orders`, data).then(res => res.data.order);
+    },
     addPart: payload => {
       const data = new FormData();
       data.append('orderID', payload.orderID);
@@ -72,6 +81,11 @@ export default {
       axios
         .get(`${process.env.REACT_APP_API_HOST}/api/orders/parts`, { params: { orderID } })
         .then(res => res.data.parts)
+        .catch(err => ''),
+    getOrderPart: id =>
+      axios
+        .get(`${process.env.REACT_APP_API_HOST}/api/orders/part`, { params: { id } })
+        .then(res => res.data.part)
         .catch(err => ''),
   },
 };

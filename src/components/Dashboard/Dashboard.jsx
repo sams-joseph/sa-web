@@ -2,30 +2,37 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { CircularProgress } from 'material-ui/Progress';
 import { connect } from 'react-redux';
-import { ResponsiveContainer, Tooltip, PieChart, Pie } from 'recharts';
+import { ResponsiveContainer, Tooltip, XAxis, BarChart, Bar } from 'recharts';
 import { getOrderHistory } from '../../actions/orderHistory';
 import { logout } from '../../actions/auth';
 import PaginatedTable from '../PaginatedTable';
 import RecentOrder from '../RecentOrder';
 
-import api from '../../api';
 import DashboardSvg from './images/dashboard-icon--large.svg';
+import AnalyticsSvg from './images/analytics-icon.svg';
 
-import { Wrapper, PieHeading, PieContainer, DashboardIconSmall, Container, Heading, Flex } from './Styled';
+import {
+  Wrapper,
+  SubHeading,
+  SectionHeader,
+  SectionDescription,
+  ChartContainer,
+  DashboardIconSmall,
+  SectionIcon,
+  Container,
+  Heading,
+  Flex,
+} from './Styled';
 
 class Dashboard extends Component {
-  state = { loading: true, parts: [], recentOrderNumber: '' };
+  state = { loading: true };
 
   componentWillMount() {
     this.props
       .getOrderHistory()
       .then(() => {
-        api.order.getOrderParts(this.props.orderHistory[this.props.orderHistory.length - 1].id).then(parts => {
-          this.setState({
-            loading: false,
-            parts,
-            recentOrderNumber: this.props.orderHistory[this.props.orderHistory.length - 1].id + 100000,
-          });
+        this.setState({
+          loading: false,
         });
       })
       .catch(err => {
@@ -36,31 +43,31 @@ class Dashboard extends Component {
   render() {
     const { showAlertMessage } = this.props;
     const data = [
-      { name: 'Jan', value: 12, fill: '#FF6D00', Qty: 3 },
-      { name: 'Feb', value: 20, fill: '#F57C00', Qty: 6 },
-      { name: 'Mar', value: 20, fill: '#FB8C00', Qty: 2 },
-      { name: 'Apr', value: 20, fill: '#FFE0B2', Qty: 8 },
-      { name: 'May', value: 20, fill: '#FFCC80', Qty: 4 },
-      { name: 'Jun', value: 20, fill: '#FFB74D', Qty: 3 },
-      { name: 'Jul', value: 20, fill: '#FFA726', Qty: 12 },
-      { name: 'Aug', value: 20, fill: '#FF9800', Qty: 5 },
-      { name: 'Sep', value: 20, fill: '#FB8C00', Qty: 0 },
-      { name: 'Oct', value: 20, fill: '#F57C00', Qty: 7 },
-      { name: 'Nov', value: 20, fill: '#EF6C00', Qty: 2 },
-      { name: 'Dec', value: 20, fill: '#E65100', Qty: 9 },
+      { name: 'Jan', value: 12, fill: '#448AFF', Qty: 3 },
+      { name: 'Feb', value: 20, fill: '#2979FF', Qty: 6 },
+      { name: 'Mar', value: 20, fill: '#2962FF', Qty: 2 },
+      { name: 'Apr', value: 20, fill: '#BBDEFB', Qty: 8 },
+      { name: 'May', value: 20, fill: '#90CAF9', Qty: 4 },
+      { name: 'Jun', value: 20, fill: '#64B5F6', Qty: 3 },
+      { name: 'Jul', value: 20, fill: '#42A5F5', Qty: 12 },
+      { name: 'Aug', value: 20, fill: '#2196F3', Qty: 5 },
+      { name: 'Sep', value: 20, fill: '#1E88E5', Qty: 0 },
+      { name: 'Oct', value: 20, fill: '#1976D2', Qty: 7 },
+      { name: 'Nov', value: 20, fill: '#1565C0', Qty: 2 },
+      { name: 'Dec', value: 20, fill: '#0D47A1', Qty: 9 },
     ];
 
     const sizeData = [
-      { name: '14 x 48', value: 12, fill: '#FB8C00', Qty: 3 },
-      { name: '30 Sheet', value: 20, fill: '#F57C00', Qty: 6 },
-      { name: '10 x 40', value: 20, fill: '#E65100', Qty: 2 },
-      { name: '10 x 36', value: 20, fill: '#FF6D00', Qty: 4 },
+      { name: '14 x 48', value: 12, fill: '#0D47A1', Qty: 3 },
+      { name: '30 Sheet', value: 20, fill: '#1565C0', Qty: 6 },
+      { name: '10 x 40', value: 20, fill: '#1976D2', Qty: 2 },
+      { name: '10 x 36', value: 20, fill: '#1E88E5', Qty: 4 },
     ];
 
     const designData = [
-      { name: 'Victim', value: 12, fill: '#F57C00', Qty: 3 },
-      { name: 'Survivor', value: 20, fill: '#E65100', Qty: 6 },
-      { name: 'Action', value: 20, fill: '#FF6D00', Qty: 2 },
+      { name: 'Victim', value: 12, fill: '#0D47A1', Qty: 3 },
+      { name: 'Survivor', value: 20, fill: '#1565C0', Qty: 6 },
+      { name: 'Action', value: 20, fill: '#1976D2', Qty: 2 },
     ];
 
     return (
@@ -75,44 +82,45 @@ class Dashboard extends Component {
             />
           ) : (
             <div>
+              <SectionHeader>
+                <SectionIcon src={AnalyticsSvg} alt="Analytics Icon" />Analytics
+              </SectionHeader>
+              <SectionDescription>Quantities By Category</SectionDescription>
               <Flex>
-                <PieContainer>
-                  <PieHeading>
-                    By<br />Month
-                  </PieHeading>
-                  <ResponsiveContainer width={250} height={250}>
-                    <PieChart>
-                      <Pie data={data} dataKey="Qty" label nameKey="name" innerRadius={70} fill={data.fill} />
+                <ChartContainer>
+                  <SubHeading>By Month</SubHeading>
+                  <ResponsiveContainer width={'100%'} height={150}>
+                    <BarChart data={data}>
+                      <XAxis dataKey="name" hide />
                       <Tooltip />
-                    </PieChart>
+                      <Bar dataKey="Qty" fill="fill" />
+                    </BarChart>
                   </ResponsiveContainer>
-                </PieContainer>
-                <PieContainer>
-                  <PieHeading>
-                    By<br />Design
-                  </PieHeading>
-                  <ResponsiveContainer width={250} height={250}>
-                    <PieChart>
-                      <Pie data={designData} dataKey="Qty" label nameKey="name" innerRadius={70} fill={data.fill} />
+                </ChartContainer>
+                <ChartContainer>
+                  <SubHeading>By Design</SubHeading>
+                  <ResponsiveContainer width={'100%'} height={150}>
+                    <BarChart data={designData}>
+                      <XAxis dataKey="name" hide />
                       <Tooltip />
-                    </PieChart>
+                      <Bar dataKey="Qty" fill={data.fill} />
+                    </BarChart>
                   </ResponsiveContainer>
-                </PieContainer>
-                <PieContainer>
-                  <PieHeading>
-                    By<br />Product
-                  </PieHeading>
-                  <ResponsiveContainer width={250} height={250}>
-                    <PieChart>
-                      <Pie data={sizeData} dataKey="Qty" label nameKey="name" innerRadius={70} fill={data.fill} />
+                </ChartContainer>
+                <ChartContainer>
+                  <SubHeading>By Product</SubHeading>
+                  <ResponsiveContainer width={'100%'} height={150}>
+                    <BarChart data={sizeData}>
+                      <XAxis dataKey="name" hide />
                       <Tooltip />
-                    </PieChart>
+                      <Bar dataKey="Qty" fill={data.fill} />
+                    </BarChart>
                   </ResponsiveContainer>
-                </PieContainer>
+                </ChartContainer>
               </Flex>
               <Flex>
                 <PaginatedTable />
-                <RecentOrder orderNumber={this.state.recentOrderNumber} parts={this.state.parts} />
+                <RecentOrder />
               </Flex>
             </div>
           )}

@@ -15,6 +15,17 @@ class CheckoutMessage extends Component {
 
   componentDidMount() {
     const { shipping, cart } = this.props;
+    const parts = cart.byId.map(item => ({
+      productId: cart.byHash[item].product.productID,
+      sizeId: cart.byHash[item].size.sizeID,
+      designId: cart.byHash[item].design.designID,
+      quantity: cart.byHash[item].quantity,
+      name: cart.byHash[item].inputs.name,
+      date: cart.byHash[item].inputs.date,
+      image: cart.byHash[item].image,
+      portrait: cart.byHash[item].portrait,
+    }));
+
     api.order
       .placeOrder({
         shippingName: shipping.name,
@@ -22,28 +33,32 @@ class CheckoutMessage extends Component {
         shippingCity: shipping.city,
         shippingState: shipping.state,
         shippingZip: shipping.zip,
+        orderParts: parts,
       })
-      .then(order => {
-        cart.byId.forEach((item, index) => {
-          api.order
-            .addPart({
-              orderID: order.id,
-              productID: cart.byHash[item].product.productID,
-              sizeID: cart.byHash[item].size.sizeID,
-              designID: cart.byHash[item].design.designID,
-              quantity: cart.byHash[item].quantity,
-              name: cart.byHash[item].inputs.name,
-              date: cart.byHash[item].inputs.date,
-              image: cart.byHash[item].image,
-              portrait: cart.byHash[item].portrait,
-            })
-            .then(() => {
-              if (index === cart.byId.length - 1) {
-                this.setState({ loading: false });
-              }
-            });
-        });
+      .then(() => {
+        this.setState({ loading: false });
       });
+    // .then(order => {
+    //   cart.byId.forEach((item, index) => {
+    //     api.order
+    //       .addPart({
+    //         orderId: order.id,
+    //         productId: cart.byHash[item].product.productId,
+    //         sizeId: cart.byHash[item].size.sizeId,
+    //         designId: cart.byHash[item].design.designId,
+    //         quantity: cart.byHash[item].quantity,
+    //         name: cart.byHash[item].inputs.name,
+    //         date: cart.byHash[item].inputs.date,
+    //         image: cart.byHash[item].image,
+    //         portrait: cart.byHash[item].portrait,
+    //       })
+    //       .then(() => {
+    //         if (index === cart.byId.length - 1) {
+    //           this.setState({ loading: false });
+    //         }
+    //       });
+    //   });
+    // });
     this.props.resetCart();
   }
 

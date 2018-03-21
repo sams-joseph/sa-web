@@ -1,28 +1,38 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import RecentOrderItem from '../RecentOrderItem';
 
-import { OrderLink, Container, SubHeading } from './Styled';
+import { OrderLink, Container, SubHeading, SectionIcon } from './Styled';
+import RecentOrderSvg from './images/recent-order-icon.svg';
 
-function createPartItems(parts) {
-  console.log(parts);
-  const partItems = parts.map(part => <RecentOrderItem item={part} />);
+class RecentOrder extends Component {
+  render() {
+    const orderHistory = this.props.orderHistory.sort((a, b) => {
+      if (a.id < b.id) return -1;
+      if (a.id > b.id) return 1;
+      return 0;
+    });
+    const recentOrder = orderHistory[orderHistory.length - 1];
+    const orderNumber = recentOrder.id + 100000;
 
-  return partItems;
+    return (
+      <Container>
+        <SubHeading>
+          <SectionIcon src={RecentOrderSvg} alt="Recent Order" />Recent Order
+        </SubHeading>
+        <OrderLink to={`/order/${orderNumber}`}>Order #{orderNumber}</OrderLink>
+        {recentOrder
+          ? recentOrder.parts.map(part => <RecentOrderItem item={part} product={part.product} size={part.size} />)
+          : ''}
+      </Container>
+    );
+  }
 }
 
-const RecentOrder = ({ orderNumber, parts }) => (
-  <Container>
-    <SubHeading>Recent Order</SubHeading>
-    <OrderLink to={`/order/${orderNumber}`}>Order #{orderNumber}</OrderLink>
-    {createPartItems(parts)}
-  </Container>
-);
+function mapStateToProps(state) {
+  return {
+    orderHistory: state.orderHistory,
+  };
+}
 
-const { string, shape, arrayOf } = PropTypes;
-RecentOrder.propTypes = {
-  orderNumber: string.isRequired,
-  parts: arrayOf(shape({}).isRequired).isRequired,
-};
-
-export default RecentOrder;
+export default connect(mapStateToProps)(RecentOrder);

@@ -6,9 +6,9 @@ export const designUrlRetreived = designUrl => ({
   designUrl,
 });
 
-export const getDesignBySize = (designID, sizeID) => dispatch =>
+export const getDesignBySize = (designId, sizeId) => dispatch =>
   api.designSize
-    .getDesignSizesById(designID, sizeID)
+    .getDesignSizesById(designId, sizeId)
     .then(design => {
       if (design !== null) {
         dispatch(designUrlRetreived(design.imageUrl));

@@ -21,3 +21,8 @@ export const OrderLink = styled(Link)`
   display: inline-block;
   margin-bottom: 20px;
 `;
+
+export const SectionIcon = styled.img`
+  height: 20px;
+  margin-right: 6px;
+`;

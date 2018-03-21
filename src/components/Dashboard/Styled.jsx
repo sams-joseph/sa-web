@@ -20,6 +20,25 @@ export const Flex = styled.div`
   justify-content: space-between;
 `;
 
+export const SectionHeader = styled.h2`
+  color: ${constants.almostBlack};
+  font-size: 1.5em;
+  font-weight: ${constants.fontWeightLight};
+  font-family: ${constants.fontFamily};
+  margin-bottom: 5px;
+`;
+
+export const SectionDescription = styled.h3`
+  color: ${constants.almostBlack};
+  opacity: 0.75;
+  font-size: 0.75em;
+  font-weight: ${constants.fontWeightBold};
+  font-family: ${constants.fontFamily};
+  margin-top: 0px;
+  margin-bottom: 30px;
+  text-transform: uppercase;
+`;
+
 export const PieHeading = styled.h2`
   text-align: center;
   color: ${constants.almostBlack};
@@ -34,9 +53,13 @@ export const PieHeading = styled.h2`
   padding: 0;
 `;
 
-export const PieContainer = styled.div`
-  flex: 0 1 200px;
+export const ChartContainer = styled.div`
+  background: #f4f6f9;
+  padding: 20px;
+  border-radius: 3px;
+  flex: 0 1 32%;
   position: relative;
+  width: 0;
 `;
 
 export const MonthGraph = styled.div`
@@ -58,6 +81,11 @@ export const ProductGraph = styled.div`
 export const DashboardIconSmall = styled.img`
   height: 40px;
   margin-right: 20px;
+`;
+
+export const SectionIcon = styled.img`
+  height: 24px;
+  margin-right: 10px;
 `;
 
 export const SubHeading = styled.h2`
