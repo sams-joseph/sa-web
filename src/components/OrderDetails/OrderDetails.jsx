@@ -6,7 +6,9 @@ import {
   Container,
   Heading,
   SubHeading,
+  SectionHeading,
   Flex,
+  PartItems,
   HeadingIcon,
   ShippingList,
   ShippingHeading,
@@ -15,6 +17,7 @@ import {
 } from './Styled';
 import OrderSvg from './images/order-icon.svg';
 import ShippingSvg from './images/shipping-icon.svg';
+import ListSvg from './images/part-list-icon.svg';
 
 class OrderDetails extends Component {
   state = {
@@ -48,17 +51,24 @@ class OrderDetails extends Component {
             <SubHeading>Order Number</SubHeading>
           </div>
         </Flex>
-        <ShippingList>
-          <ShippingHeading>
-            <SectionIcon src={ShippingSvg} alt="Shipping" />Shipping Address
-          </ShippingHeading>
-          <ShippingListItem>{order.shippingName}</ShippingListItem>
-          <ShippingListItem>{order.shippingAddress}</ShippingListItem>
-          <ShippingListItem>
-            {order.shippingCity}, {order.shippingState}, {order.shippingZip}
-          </ShippingListItem>
-        </ShippingList>
-        {orderParts.map(part => <PartItem key={part.id} item={part} />)}
+        <Flex>
+          <PartItems>
+            <SectionHeading>
+              <SectionIcon src={ListSvg} alt="Order Parts" />Order Parts
+            </SectionHeading>
+            {orderParts.map(part => <PartItem key={part.id} item={part} />)}
+          </PartItems>
+          <ShippingList>
+            <ShippingHeading>
+              <SectionIcon src={ShippingSvg} alt="Shipping" />Shipping Address
+            </ShippingHeading>
+            <ShippingListItem>{order.shippingName}</ShippingListItem>
+            <ShippingListItem>{order.shippingAddress}</ShippingListItem>
+            <ShippingListItem>
+              {order.shippingCity}, {order.shippingState}, {order.shippingZip}
+            </ShippingListItem>
+          </ShippingList>
+        </Flex>
       </Container>
     );
   }

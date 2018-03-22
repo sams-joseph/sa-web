@@ -47,23 +47,14 @@ export default {
         .catch(err => ''),
   },
   order: {
-    placeOrder: payload => {
-      const data = new FormData();
-      data.append('shippingName', payload.shippingName);
-      data.append('shippingAddress', payload.shippingAddress);
-      data.append('shippingCity', payload.shippingCity);
-      data.append('shippingState', payload.shippingState);
-      data.append('shippingZip', payload.shippingZip);
-      data.append('orderParts', JSON.stringify(payload.orderParts));
-
-      return axios.post(`${process.env.REACT_APP_API_HOST}/api/orders`, data).then(res => res.data.order);
-    },
+    placeOrder: payload =>
+      axios.post(`${process.env.REACT_APP_API_HOST}/api/orders`, payload).then(res => res.data.order),
     addPart: payload => {
       const data = new FormData();
-      data.append('orderID', payload.orderID);
-      data.append('productID', payload.productID);
-      data.append('sizeID', payload.sizeID);
-      data.append('designID', payload.designID);
+      data.append('orderId', payload.orderId);
+      data.append('productId', payload.productId);
+      data.append('sizeId', payload.sizeId);
+      data.append('designId', payload.designId);
       data.append('quantity', payload.quantity);
       data.append('image', payload.image);
       data.append('portrait', payload.portrait);

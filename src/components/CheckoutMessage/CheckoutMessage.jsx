@@ -33,33 +33,34 @@ class CheckoutMessage extends Component {
         shippingCity: shipping.city,
         shippingState: shipping.state,
         shippingZip: shipping.zip,
-        orderParts: parts,
       })
-      .then(() => {
-        this.setState({ loading: false });
+      .then(order => {
+        console.log(order);
+        Promise.all(
+          parts.map(
+            part =>
+              new Promise((resolve, reject) => {
+                api.order
+                  .addPart({
+                    orderId: order.id,
+                    ...part,
+                  })
+                  .then(() => {
+                    resolve();
+                  })
+                  .catch(err => {
+                    reject(err);
+                  });
+              })
+          )
+        ).then(() => {
+          this.setState({ loading: false });
+          this.props.resetCart();
+          setTimeout(() => {
+            this.props.history.push('/dashboard');
+          }, 3000);
+        });
       });
-    // .then(order => {
-    //   cart.byId.forEach((item, index) => {
-    //     api.order
-    //       .addPart({
-    //         orderId: order.id,
-    //         productId: cart.byHash[item].product.productId,
-    //         sizeId: cart.byHash[item].size.sizeId,
-    //         designId: cart.byHash[item].design.designId,
-    //         quantity: cart.byHash[item].quantity,
-    //         name: cart.byHash[item].inputs.name,
-    //         date: cart.byHash[item].inputs.date,
-    //         image: cart.byHash[item].image,
-    //         portrait: cart.byHash[item].portrait,
-    //       })
-    //       .then(() => {
-    //         if (index === cart.byId.length - 1) {
-    //           this.setState({ loading: false });
-    //         }
-    //       });
-    //   });
-    // });
-    this.props.resetCart();
   }
 
   render() {

@@ -36,7 +36,8 @@ class Dashboard extends Component {
         });
       })
       .catch(err => {
-        this.props.logout();
+        console.log(err);
+        // this.props.logout();
       });
   }
 
@@ -81,49 +82,49 @@ class Dashboard extends Component {
               style={{ left: '50%', position: 'absolute', transform: 'translateX(-50%)', marginTop: '50px' }}
             />
           ) : (
-            <div>
-              <SectionHeader>
-                <SectionIcon src={AnalyticsSvg} alt="Analytics Icon" />Analytics
+              <div>
+                <SectionHeader>
+                  <SectionIcon src={AnalyticsSvg} alt="Analytics Icon" />Analytics
               </SectionHeader>
-              <SectionDescription>Quantities By Category</SectionDescription>
-              <Flex>
-                <ChartContainer>
-                  <SubHeading>By Month</SubHeading>
-                  <ResponsiveContainer width={'100%'} height={150}>
-                    <BarChart data={data}>
-                      <XAxis dataKey="name" hide />
-                      <Tooltip />
-                      <Bar dataKey="Qty" fill="fill" />
-                    </BarChart>
-                  </ResponsiveContainer>
-                </ChartContainer>
-                <ChartContainer>
-                  <SubHeading>By Design</SubHeading>
-                  <ResponsiveContainer width={'100%'} height={150}>
-                    <BarChart data={designData}>
-                      <XAxis dataKey="name" hide />
-                      <Tooltip />
-                      <Bar dataKey="Qty" fill={data.fill} />
-                    </BarChart>
-                  </ResponsiveContainer>
-                </ChartContainer>
-                <ChartContainer>
-                  <SubHeading>By Product</SubHeading>
-                  <ResponsiveContainer width={'100%'} height={150}>
-                    <BarChart data={sizeData}>
-                      <XAxis dataKey="name" hide />
-                      <Tooltip />
-                      <Bar dataKey="Qty" fill={data.fill} />
-                    </BarChart>
-                  </ResponsiveContainer>
-                </ChartContainer>
-              </Flex>
-              <Flex>
-                <PaginatedTable />
-                <RecentOrder />
-              </Flex>
-            </div>
-          )}
+                <SectionDescription>Quantities By Category</SectionDescription>
+                <Flex>
+                  <ChartContainer>
+                    <SubHeading>By Month</SubHeading>
+                    <ResponsiveContainer width={'100%'} height={150}>
+                      <BarChart data={data}>
+                        <XAxis dataKey="name" hide />
+                        <Tooltip />
+                        <Bar dataKey="Qty" fill="fill" />
+                      </BarChart>
+                    </ResponsiveContainer>
+                  </ChartContainer>
+                  <ChartContainer>
+                    <SubHeading>By Design</SubHeading>
+                    <ResponsiveContainer width={'100%'} height={150}>
+                      <BarChart data={designData}>
+                        <XAxis dataKey="name" hide />
+                        <Tooltip />
+                        <Bar dataKey="Qty" fill={data.fill} />
+                      </BarChart>
+                    </ResponsiveContainer>
+                  </ChartContainer>
+                  <ChartContainer>
+                    <SubHeading>By Product</SubHeading>
+                    <ResponsiveContainer width={'100%'} height={150}>
+                      <BarChart data={sizeData}>
+                        <XAxis dataKey="name" hide />
+                        <Tooltip />
+                        <Bar dataKey="Qty" fill={data.fill} />
+                      </BarChart>
+                    </ResponsiveContainer>
+                  </ChartContainer>
+                </Flex>
+                <Flex>
+                  <PaginatedTable />
+                  <RecentOrder />
+                </Flex>
+              </div>
+            )}
         </Container>
       </Wrapper>
     );

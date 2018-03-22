@@ -9,6 +9,10 @@ export const Container = styled.div`
   margin-bottom: 70px;
 `;
 
+export const PartItems = styled.div`
+  flex: 1;
+`;
+
 export const HeadingIcon = styled.img`
   margin-top: 5px;
   height: 40px;
@@ -45,10 +49,10 @@ export const ShippingList = styled.ul`
   display: block;
   list-style-type: none;
   padding: 0;
-  margin: 0 0 50px 0;
+  margin: 0 0 50px 70px;
 `;
 
-export const ShippingHeading = styled.li`
+export const SectionHeading = styled.h2`
   color: ${constants.almostBlack};
   font-size: 1.25em;
   font-weight: ${constants.fontWeightLight};
@@ -57,9 +61,19 @@ export const ShippingHeading = styled.li`
   margin-top: 0;
 `;
 
+export const ShippingHeading = styled.li`
+  color: ${constants.almostBlack};
+  font-size: 1.25em;
+  font-weight: ${constants.fontWeightLight};
+  font-family: ${constants.fontFamily};
+  margin-bottom: 20px;
+  margin-top: 0;
+`;
+
 export const ShippingListItem = styled.li`
   color: ${constants.almostBlack};
   font-size: 1em;
+  line-height: 26px;
   font-weight: ${constants.fontWeightNormal};
   font-family: ${constants.fontFamily};
 `;
