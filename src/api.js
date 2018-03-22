@@ -62,7 +62,11 @@ export default {
       data.append('date', payload.date);
       return axios.post(`${process.env.REACT_APP_API_HOST}/api/orders/part`, data).then(res => res.data.part);
     },
-    getOrders: () => axios.get(`${process.env.REACT_APP_API_HOST}/api/orders`, {}).then(res => res.data.orders),
+    getOrders: () =>
+      axios
+        .get(`${process.env.REACT_APP_API_HOST}/api/orders`, {})
+        .then(res => res.data.orders)
+        .catch(err => err),
     getOrder: id =>
       axios
         .get(`${process.env.REACT_APP_API_HOST}/api/orders/order`, { params: { id } })
@@ -78,5 +82,6 @@ export default {
         .get(`${process.env.REACT_APP_API_HOST}/api/orders/part`, { params: { id } })
         .then(res => res.data.part)
         .catch(err => ''),
+    sendConfirmation: order => axios.post(`${process.env.REACT_APP_API_HOST}/api/orders/confirm`, { order }),
   },
 };

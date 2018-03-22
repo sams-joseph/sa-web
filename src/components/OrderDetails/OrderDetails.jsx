@@ -60,7 +60,7 @@ class OrderDetails extends Component {
           </PartItems>
           <ShippingList>
             <ShippingHeading>
-              <SectionIcon src={ShippingSvg} alt="Shipping" />Shipping Address
+              <SectionIcon src={ShippingSvg} alt="Shipping" />Shipping
             </ShippingHeading>
             <ShippingListItem>{order.shippingName}</ShippingListItem>
             <ShippingListItem>{order.shippingAddress}</ShippingListItem>

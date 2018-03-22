@@ -35,7 +35,6 @@ class CheckoutMessage extends Component {
         shippingZip: shipping.zip,
       })
       .then(order => {
-        console.log(order);
         Promise.all(
           parts.map(
             part =>
@@ -54,6 +53,7 @@ class CheckoutMessage extends Component {
               })
           )
         ).then(() => {
+          api.order.sendConfirmation(order);
           this.setState({ loading: false });
           this.props.resetCart();
           setTimeout(() => {
