@@ -1,11 +1,11 @@
 # Stage 1 - the build process
 FROM node:9-alpine as build-deps
 RUN apk update && apk add bash && apk add curl && apk add git
-RUN mkdir -p /usr/src/
-WORKDIR /usr/src/
-COPY package.json yarn.lock /usr/src/
+RUN mkdir -p /usr/src
+WORKDIR /usr/src
+COPY package.json /usr/src/
 RUN npm install
-COPY . /usr/src/
+COPY . /usr/src
 RUN npm run build
 
 # Stage 2 - the production environment
