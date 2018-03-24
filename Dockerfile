@@ -5,7 +5,7 @@ RUN mkdir -p /usr/src/
 WORKDIR /usr/src/
 COPY package.json yarn.lock /usr/src/
 RUN npm install
-COPY . usr/src
+COPY . /usr/src/
 RUN npm run build
 
 # Stage 2 - the production environment
