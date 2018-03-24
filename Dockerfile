@@ -2,7 +2,7 @@
 FROM node:9-alpine as build-deps
 RUN apk update && apk add bash && apk add curl && apk add git
 WORKDIR /usr/src/
-COPY package.json yarn.lock ./
+COPY package.json yarn.lock .
 RUN npm install
 COPY . .
 RUN npm run build
