@@ -54,12 +54,12 @@ export const updateCart = (id, payload) => dispatch => {
     ...cart.byHash[id],
     ...payload,
   };
-  localStorage.setItem(
-    'cartItems',
-    JSON.stringify({
-      ...cart,
-    })
-  );
+  // localStorage.setItem(
+  //   'cartItems',
+  //   JSON.stringify({
+  //     ...cart,
+  //   })
+  // );
   dispatch(update(id, payload));
 };
 
