@@ -35,10 +35,10 @@ if (localStorage.sepsisJWT) {
   store.dispatch(userLoggedIn(user));
 }
 
-if (localStorage.cartItems) {
-  const cart = JSON.parse(localStorage.getItem('cartItems'));
-  store.dispatch(loadCart(cart));
-}
+// if (localStorage.cartItems) {
+//   const cart = JSON.parse(localStorage.getItem('cartItems'));
+//   store.dispatch(loadCart(cart));
+// }
 
 injectGlobal([
   `

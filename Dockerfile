@@ -1,10 +1,11 @@
 # Stage 1 - the build process
-FROM node:6-alpine as build-deps
+FROM node:9-alpine as build-deps
+RUN apk update && apk add bash && apk add curl && apk add git
 WORKDIR /usr/src/
 COPY package.json yarn.lock ./
-RUN yarn
-COPY . ./
-RUN yarn build
+RUN npm install
+COPY . .
+RUN npm run build
 
 # Stage 2 - the production environment
 FROM nginx:1.12-alpine

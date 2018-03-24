@@ -176,9 +176,29 @@ class Order extends Component {
 
   handleBack = () => {
     const { activeStep } = this.state;
-    this.setState({
-      activeStep: activeStep - 1,
-    });
+    if (activeStep - 1 === 2) {
+      this.setState({
+        activeStep: activeStep - 1,
+        checkedDesign: 0,
+      });
+    } else if (activeStep - 1 === 1) {
+      this.setState({
+        activeStep: activeStep - 1,
+        checkedSize: 0,
+        checkedDesign: 0,
+      });
+    } else if (activeStep - 1 === 0) {
+      this.setState({
+        activeStep: activeStep - 1,
+        checkedProduct: 0,
+        checkedSize: 0,
+        checkedDesign: 0,
+      });
+    } else {
+      this.setState({
+        activeStep: activeStep - 1,
+      });
+    }
   };
 
   handleReset = () => {

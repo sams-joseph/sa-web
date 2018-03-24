@@ -13,3 +13,8 @@ export const SubHeading = styled.h2`
   margin-bottom: 20px;
   margin-top: 0;
 `;
+
+export const SectionIcon = styled.img`
+  height: 20px;
+  margin-right: 6px;
+`;

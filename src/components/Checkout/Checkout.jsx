@@ -139,7 +139,7 @@ class Checkout extends Component {
           <div>
             {activeStep === steps.length ? (
               <ButtonGarden>
-                <CheckoutMessage headline="Complete" message="Order placed successfully" />
+                <CheckoutMessage history={this.props.history} headline="Complete" message="Order placed successfully" />
               </ButtonGarden>
             ) : (
               <div>

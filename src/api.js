@@ -40,21 +40,21 @@ export default {
         .then(res => res.data.design),
   },
   designSize: {
-    getDesignSizesById: (designID, sizeID) =>
+    getDesignSizesById: (designId, sizeId) =>
       axios
-        .get(`${process.env.REACT_APP_API_HOST}/api/design-sizes`, { params: { designID, sizeID } })
+        .get(`${process.env.REACT_APP_API_HOST}/api/design-sizes`, { params: { designId, sizeId } })
         .then(res => res.data.designSize)
         .catch(err => ''),
   },
   order: {
     placeOrder: payload =>
-      axios.post(`${process.env.REACT_APP_API_HOST}/api/orders`, { ...payload }).then(res => res.data.order),
+      axios.post(`${process.env.REACT_APP_API_HOST}/api/orders`, payload).then(res => res.data.order),
     addPart: payload => {
       const data = new FormData();
-      data.append('orderID', payload.orderID);
-      data.append('productID', payload.productID);
-      data.append('sizeID', payload.sizeID);
-      data.append('designID', payload.designID);
+      data.append('orderId', payload.orderId);
+      data.append('productId', payload.productId);
+      data.append('sizeId', payload.sizeId);
+      data.append('designId', payload.designId);
       data.append('quantity', payload.quantity);
       data.append('image', payload.image);
       data.append('portrait', payload.portrait);
@@ -62,7 +62,11 @@ export default {
       data.append('date', payload.date);
       return axios.post(`${process.env.REACT_APP_API_HOST}/api/orders/part`, data).then(res => res.data.part);
     },
-    getOrders: () => axios.get(`${process.env.REACT_APP_API_HOST}/api/orders`, {}).then(res => res.data.orders),
+    getOrders: () =>
+      axios
+        .get(`${process.env.REACT_APP_API_HOST}/api/orders`, {})
+        .then(res => res.data.orders)
+        .catch(err => err),
     getOrder: id =>
       axios
         .get(`${process.env.REACT_APP_API_HOST}/api/orders/order`, { params: { id } })
@@ -73,5 +77,11 @@ export default {
         .get(`${process.env.REACT_APP_API_HOST}/api/orders/parts`, { params: { orderID } })
         .then(res => res.data.parts)
         .catch(err => ''),
+    getOrderPart: id =>
+      axios
+        .get(`${process.env.REACT_APP_API_HOST}/api/orders/part`, { params: { id } })
+        .then(res => res.data.part)
+        .catch(err => ''),
+    sendConfirmation: order => axios.post(`${process.env.REACT_APP_API_HOST}/api/orders/confirm`, { order }),
   },
 };

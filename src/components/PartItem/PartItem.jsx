@@ -1,15 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Typography from 'material-ui/Typography';
-import IconButton from 'material-ui/IconButton';
-import ZoomIn from 'material-ui-icons/ZoomIn';
 import constants from '../constants';
-import { Thumbnail, ThumbnailContainer, Container, ItemDetails, Header, Body, Details, Actions } from './Styled';
+import { Thumbnail, ThumbnailContainer, Container, ItemDetails, Header, Body, Details } from './Styled';
 
 const styles = {
   heading: {
     fontWeight: 'bold',
-    fontSize: '16px',
     color: constants.almostBlack,
   },
   subTitle: {
@@ -29,7 +26,7 @@ const styles = {
   },
 };
 
-const RecentOrderItem = ({ item, product, size }) => (
+const PartItem = ({ item }) => (
   <Container>
     <ThumbnailContainer>
       <Thumbnail src={`${process.env.REACT_APP_API_HOST}/static/images/${item.image}.png`} alt="sepsis-design" />
@@ -39,7 +36,7 @@ const RecentOrderItem = ({ item, product, size }) => (
         <Typography style={styles.heading} variant="headline">
           {item.name || 'Blank'}
         </Typography>
-        <Typography style={{ ...styles.heading, marginRight: '12px' }} variant="headline">
+        <Typography style={{ marginRight: '12px' }} variant="headline">
           {item.date || 'Blank'}
         </Typography>
       </Header>
@@ -50,7 +47,7 @@ const RecentOrderItem = ({ item, product, size }) => (
               Product
             </Typography>
             <Typography style={styles.subHeading} variant="subheading">
-              {product.name}
+              {item.product.name}
             </Typography>
           </div>
           <div>
@@ -58,7 +55,7 @@ const RecentOrderItem = ({ item, product, size }) => (
               Size
             </Typography>
             <Typography style={styles.subHeading} variant="subheading">
-              {size.displayName}
+              {item.size.displayName}
             </Typography>
           </div>
           <div>
@@ -70,19 +67,14 @@ const RecentOrderItem = ({ item, product, size }) => (
             </Typography>
           </div>
         </Details>
-        <Actions>
-          <IconButton aria-label="Go To">
-            <ZoomIn />
-          </IconButton>
-        </Actions>
       </Body>
     </ItemDetails>
   </Container>
 );
 
 const { shape } = PropTypes;
-RecentOrderItem.propTypes = {
+PartItem.propTypes = {
   item: shape({}).isRequired,
 };
 
-export default RecentOrderItem;
+export default PartItem;

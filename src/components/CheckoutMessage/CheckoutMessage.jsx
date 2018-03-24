@@ -15,6 +15,17 @@ class CheckoutMessage extends Component {
 
   componentDidMount() {
     const { shipping, cart } = this.props;
+    const parts = cart.byId.map(item => ({
+      productId: cart.byHash[item].product.productID,
+      sizeId: cart.byHash[item].size.sizeID,
+      designId: cart.byHash[item].design.designID,
+      quantity: cart.byHash[item].quantity,
+      name: cart.byHash[item].inputs.name,
+      date: cart.byHash[item].inputs.date,
+      image: cart.byHash[item].image,
+      portrait: cart.byHash[item].portrait,
+    }));
+
     api.order
       .placeOrder({
         shippingName: shipping.name,
@@ -24,27 +35,32 @@ class CheckoutMessage extends Component {
         shippingZip: shipping.zip,
       })
       .then(order => {
-        cart.byId.forEach((item, index) => {
-          api.order
-            .addPart({
-              orderID: order.id,
-              productID: cart.byHash[item].product.productID,
-              sizeID: cart.byHash[item].size.sizeID,
-              designID: cart.byHash[item].design.designID,
-              quantity: cart.byHash[item].quantity,
-              name: cart.byHash[item].inputs.name,
-              date: cart.byHash[item].inputs.date,
-              image: cart.byHash[item].image,
-              portrait: cart.byHash[item].portrait,
-            })
-            .then(() => {
-              if (index === cart.byId.length - 1) {
-                this.setState({ loading: false });
-              }
-            });
+        Promise.all(
+          parts.map(
+            part =>
+              new Promise((resolve, reject) => {
+                api.order
+                  .addPart({
+                    orderId: order.id,
+                    ...part,
+                  })
+                  .then(() => {
+                    resolve();
+                  })
+                  .catch(err => {
+                    reject(err);
+                  });
+              })
+          )
+        ).then(() => {
+          api.order.sendConfirmation(order);
+          this.setState({ loading: false });
+          this.props.resetCart();
+          setTimeout(() => {
+            this.props.history.push('/dashboard');
+          }, 3000);
         });
       });
-    this.props.resetCart();
   }
 
   render() {

@@ -10,7 +10,9 @@ import Table, { TableBody, TableHead, TableCell, TableFooter, TablePagination, T
 import ZoomIn from 'material-ui-icons/ZoomIn';
 import Paper from 'material-ui/Paper';
 import TablePaginationActions from './TablePaginationActions';
-import { Container, SubHeading } from './Styled';
+import { Container, SubHeading, SectionIcon } from './Styled';
+
+import HistorySvg from './images/history-icon.svg';
 
 let counter = 0;
 function createData(orderNumber, shipTo, creationDate) {
@@ -84,7 +86,9 @@ class PaginatedTable extends React.Component {
 
     return (
       <Container>
-        <SubHeading>Order History</SubHeading>
+        <SubHeading>
+          <SectionIcon src={HistorySvg} alt="Order History" /> Order History
+        </SubHeading>
         <Paper className={classes.root} elevation={0}>
           <div className={classes.tableWrapper}>
             <Table className={classes.table}>
