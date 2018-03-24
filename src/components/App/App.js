@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Route } from 'react-router-dom';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import Reboot from 'material-ui/Reboot';
+import CssBaseline from 'material-ui/CssBaseline';
 import Snackbar from 'material-ui/Snackbar';
 import IconButton from 'material-ui/IconButton';
 import CheckCircle from 'material-ui-icons/CheckCircle';
@@ -59,7 +59,7 @@ class App extends Component {
             }
           />
         )}
-        <Reboot />
+        <CssBaseline />
         <TopNavigation location={location} />
         {isAuthenticated && <Announce />}
         {!isConfirmed &&
