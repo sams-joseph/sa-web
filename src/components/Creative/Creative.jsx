@@ -53,6 +53,7 @@ class Creative extends Component {
 
     upload
       .post(`${process.env.REACT_APP_API_HOST}/api/uploads/portrait`)
+      .set('Authorization', `Bearer ${this.props.token}`)
       .attach('portrait', acceptedFiles[0])
       .end((err, res) => {
         if (err) console.log(err);
@@ -177,6 +178,7 @@ function mapStateToProps(state) {
   return {
     order: state.order,
     designUrl: state.designSize,
+    token: state.user.token,
   };
 }
 

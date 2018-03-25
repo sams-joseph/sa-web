@@ -195,6 +195,7 @@ class Order extends Component {
 
     upload
       .post(`${process.env.REACT_APP_API_HOST}/api/uploads/mock`)
+      .set('Authorization', `Bearer ${this.props.token}`)
       .attach('image', blob, 'mockup.png')
       .end((err, res) => {
         if (err) {
@@ -275,43 +276,43 @@ class Order extends Component {
                 </Button>
               </ButtonGarden>
             ) : (
+              <div>
+                <div className={classes.instructions}>{this.getStepContent(activeStep)}</div>
                 <div>
-                  <div className={classes.instructions}>{this.getStepContent(activeStep)}</div>
-                  <div>
-                    <Button disabled={activeStep === 0} onClick={this.handleBack} className={classes.backButton}>
-                      Back
+                  <Button disabled={activeStep === 0} onClick={this.handleBack} className={classes.backButton}>
+                    Back
                   </Button>
-                    {activeStep === steps.length - 1 ? (
-                      <Button
-                        disabled={
-                          (activeStep === 0 && !order.product) ||
-                          (activeStep === 1 && !order.size) ||
-                          (activeStep === 2 && !order.design)
-                        }
-                        variant="raised"
-                        color="primary"
-                        onClick={this.addToCart}
-                      >
-                        <AddShoppingCart style={{ marginRight: '20px' }} />
-                        Add to Cart
+                  {activeStep === steps.length - 1 ? (
+                    <Button
+                      disabled={
+                        (activeStep === 0 && !order.product) ||
+                        (activeStep === 1 && !order.size) ||
+                        (activeStep === 2 && !order.design)
+                      }
+                      variant="raised"
+                      color="primary"
+                      onClick={this.addToCart}
+                    >
+                      <AddShoppingCart style={{ marginRight: '20px' }} />
+                      Add to Cart
                     </Button>
-                    ) : (
-                        <Button
-                          disabled={
-                            (activeStep === 0 && !order.product) ||
-                            (activeStep === 1 && !order.size) ||
-                            (activeStep === 2 && !order.design)
-                          }
-                          variant="raised"
-                          color="primary"
-                          onClick={this.handleNext}
-                        >
-                          Next
+                  ) : (
+                    <Button
+                      disabled={
+                        (activeStep === 0 && !order.product) ||
+                        (activeStep === 1 && !order.size) ||
+                        (activeStep === 2 && !order.design)
+                      }
+                      variant="raised"
+                      color="primary"
+                      onClick={this.handleNext}
+                    >
+                      Next
                     </Button>
-                      )}
-                  </div>
+                  )}
                 </div>
-              )}
+              </div>
+            )}
           </div>
         </Container>
       </div>
@@ -339,6 +340,7 @@ function mapStateToProps(state) {
     design: state.design,
     showAlertMessage: state.message.alert,
     order: state.order,
+    token: state.user.token,
   };
 }
 
