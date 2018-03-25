@@ -32,7 +32,7 @@ const styles = {
 const RecentOrderItem = ({ item, product, size }) => (
   <Container>
     <ThumbnailContainer>
-      <Thumbnail src={`${process.env.REACT_APP_API_HOST}/static/images/${item.image}.png`} alt="sepsis-design" />
+      <Thumbnail src={item.image} alt="sepsis-design" />
     </ThumbnailContainer>
     <ItemDetails>
       <Header>

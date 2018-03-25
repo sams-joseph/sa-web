@@ -10,8 +10,9 @@ class Completion extends Component {
   componentDidMount() {
     const id = this.props.cart.byId;
     const newId = id.length > 0 ? id[id.length - 1] : 0;
+
     this.props.addToCart(newId + 1, this.props.order).then(() => {
-      // localStorage.setItem('cartItems', JSON.stringify(this.props.cart));
+      localStorage.setItem('cartItems', JSON.stringify(this.props.cart));
     });
     this.props.resetOrder();
   }

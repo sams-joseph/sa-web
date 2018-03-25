@@ -2,13 +2,14 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import compose from 'recompose/compose';
 import PropTypes from 'prop-types';
+import upload from 'superagent';
 import { connect } from 'react-redux';
 import { withStyles } from 'material-ui/styles';
 import Stepper, { Step, StepLabel } from 'material-ui/Stepper';
 import AddShoppingCart from 'material-ui-icons/AddShoppingCart';
 import Button from 'material-ui/Button';
 import { getProducts } from '../../actions/product';
-import { setOrderProduct, setOrderSize, setOrderDesign, setOrderQuantity } from '../../actions/order';
+import { setOrderProduct, setOrderImage, setOrderSize, setOrderDesign, setOrderQuantity } from '../../actions/order';
 import { getSizeByProduct } from '../../actions/size';
 import { getDesignsByProduct } from '../../actions/design';
 import { getDesignBySize } from '../../actions/designSize';
@@ -40,6 +41,28 @@ const styles = theme => ({
     marginBottom: '70px',
   },
 });
+
+function b64toBlob(b64Data, contentType = '') {
+  const sliceSize = 512;
+  const byteCharacters = atob(b64Data);
+  const byteArrays = [];
+
+  for (let offset = 0; offset < byteCharacters.length; offset += sliceSize) {
+    const slice = byteCharacters.slice(offset, offset + sliceSize);
+
+    const byteNumbers = new Array(slice.length);
+    for (let i = 0; i < slice.length; i += 1) {
+      byteNumbers[i] = slice.charCodeAt(i);
+    }
+
+    const byteArray = new Uint8Array(byteNumbers);
+
+    byteArrays.push(byteArray);
+  }
+
+  const blob = new Blob(byteArrays, { type: 'image/png' });
+  return blob;
+}
 
 function getSteps() {
   return ['Select Product', 'Select Size', 'Select Design', 'Finalize Design'];
@@ -164,14 +187,28 @@ class Order extends Component {
 
     this.props.setOrderQuantity(1);
 
-    this.child.getImageData();
+    const data = this.child.getImageData();
+    const block = data.split(';');
+    const contentType = block[0].split(':')[1];
+    const realData = block[1].split(',')[1];
+    const blob = b64toBlob(realData, contentType);
 
-    this.setState({
-      activeStep: activeStep + 1,
-      checkedProduct: 0,
-      checkedSize: 0,
-      checkedDesign: 0,
-    });
+    upload
+      .post(`${process.env.REACT_APP_API_HOST}/api/uploads/mock`)
+      .attach('image', blob, 'mockup.png')
+      .end((err, res) => {
+        if (err) {
+          console.log(err);
+          return;
+        }
+        this.props.setOrderImage(res.body.file.location);
+        this.setState({
+          activeStep: activeStep + 1,
+          checkedProduct: 0,
+          checkedSize: 0,
+          checkedDesign: 0,
+        });
+      });
   };
 
   handleBack = () => {
@@ -238,43 +275,43 @@ class Order extends Component {
                 </Button>
               </ButtonGarden>
             ) : (
-              <div>
-                <div className={classes.instructions}>{this.getStepContent(activeStep)}</div>
                 <div>
-                  <Button disabled={activeStep === 0} onClick={this.handleBack} className={classes.backButton}>
-                    Back
+                  <div className={classes.instructions}>{this.getStepContent(activeStep)}</div>
+                  <div>
+                    <Button disabled={activeStep === 0} onClick={this.handleBack} className={classes.backButton}>
+                      Back
                   </Button>
-                  {activeStep === steps.length - 1 ? (
-                    <Button
-                      disabled={
-                        (activeStep === 0 && !order.product) ||
-                        (activeStep === 1 && !order.size) ||
-                        (activeStep === 2 && !order.design)
-                      }
-                      variant="raised"
-                      color="primary"
-                      onClick={this.addToCart}
-                    >
-                      <AddShoppingCart style={{ marginRight: '20px' }} />
-                      Add to Cart
+                    {activeStep === steps.length - 1 ? (
+                      <Button
+                        disabled={
+                          (activeStep === 0 && !order.product) ||
+                          (activeStep === 1 && !order.size) ||
+                          (activeStep === 2 && !order.design)
+                        }
+                        variant="raised"
+                        color="primary"
+                        onClick={this.addToCart}
+                      >
+                        <AddShoppingCart style={{ marginRight: '20px' }} />
+                        Add to Cart
                     </Button>
-                  ) : (
-                    <Button
-                      disabled={
-                        (activeStep === 0 && !order.product) ||
-                        (activeStep === 1 && !order.size) ||
-                        (activeStep === 2 && !order.design)
-                      }
-                      variant="raised"
-                      color="primary"
-                      onClick={this.handleNext}
-                    >
-                      Next
+                    ) : (
+                        <Button
+                          disabled={
+                            (activeStep === 0 && !order.product) ||
+                            (activeStep === 1 && !order.size) ||
+                            (activeStep === 2 && !order.design)
+                          }
+                          variant="raised"
+                          color="primary"
+                          onClick={this.handleNext}
+                        >
+                          Next
                     </Button>
-                  )}
+                      )}
+                  </div>
                 </div>
-              </div>
-            )}
+              )}
           </div>
         </Container>
       </div>
@@ -317,5 +354,6 @@ export default compose(
     setOrderDesign,
     getDesignBySize,
     setOrderQuantity,
+    setOrderImage,
   })
 )(Order);

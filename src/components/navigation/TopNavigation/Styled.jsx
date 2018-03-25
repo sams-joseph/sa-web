@@ -37,7 +37,7 @@ export const UserName = styled.span`
   padding: 0 20px;
 `;
 
-export const MainNavigationLink = styled(NavLink)`
+export const MainNavigationLink = styled(NavLink) `
   font-family: ${constants.fontFamily};
   border-bottom: 2px solid transparent;
   margin-right: 20px;
@@ -50,7 +50,7 @@ export const MainNavigationLink = styled(NavLink)`
 
   &:hover {
     color: ${constants.defaultPrimaryColor};
-    border-bottom: 2px solid ${constants.defaultPrimaryColorMuted};
+    border-bottom: 2px solid ${constants.defaultPrimaryColor};
     text-decoration: none;
   }
 
@@ -59,7 +59,7 @@ export const MainNavigationLink = styled(NavLink)`
   }
 `;
 
-export const CreateOrderBtn = styled(Link)`
+export const CreateOrderBtn = styled(Link) `
   border: 1px solid ${constants.defaultPrimaryColor};
   border-radius: 2px;
   color: ${constants.defaultPrimaryColor};
@@ -83,7 +83,7 @@ export const CreateOrderBtn = styled(Link)`
   }
 `;
 
-export const LoginBtn = styled(Link)`
+export const LoginBtn = styled(Link) `
   border: none;
   border-radius: 2px;
   color: #ffffff;
@@ -105,7 +105,7 @@ export const LoginBtn = styled(Link)`
   }
 `;
 
-export const MaterialAppBar = styled(AppBar)`
+export const MaterialAppBar = styled(AppBar) `
   & > header {
     box-shadow: none;
   }

@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import upload from 'superagent';
 import { FormControl } from 'material-ui/Form';
 import TextField from 'material-ui/TextField';
 import Toolbar from 'material-ui/Toolbar';
@@ -8,7 +9,7 @@ import AppBar from 'material-ui/AppBar';
 import Dropzone from 'react-dropzone';
 import InputGroup from '../inputs/InputGroup';
 import CanvasStage from '../Canvas';
-import { setOrderInputs } from '../../actions/order';
+import { setOrderInputs, setOrderPortrait } from '../../actions/order';
 
 import { Container, DropzoneText } from './Styled';
 import ColorSelect from '../ColorSelect';
@@ -45,18 +46,18 @@ class Creative extends Component {
       return;
     }
     acceptedFiles.forEach(file => {
-      const reader = new FileReader();
-      reader.onload = () => {
-        const fileAsBinaryString = reader.result;
-        this.setState({
-          image: `data:${file.type};base64,${btoa(fileAsBinaryString)}`,
-        });
-      };
-      reader.onabort = () => console.log('file reading was aborted');
-      reader.onerror = () => console.log('file reading has failed');
-
-      reader.readAsBinaryString(file);
+      this.setState({
+        image: file,
+      });
     });
+
+    upload
+      .post(`${process.env.REACT_APP_API_HOST}/api/uploads/portrait`)
+      .attach('portrait', acceptedFiles[0])
+      .end((err, res) => {
+        if (err) console.log(err);
+        this.props.setOrderPortrait(res.body.file.location);
+      });
   };
 
   onNextClick = () => {
@@ -70,8 +71,8 @@ class Creative extends Component {
   };
 
   getImageData = () => {
-    this.child.getData();
     this.props.setOrderInputs(this.state.text);
+    return this.child.getData();
   };
 
   render() {
@@ -179,4 +180,4 @@ function mapStateToProps(state) {
   };
 }
 
-export default connect(mapStateToProps, { setOrderInputs })(Creative);
+export default connect(mapStateToProps, { setOrderInputs, setOrderPortrait })(Creative);
