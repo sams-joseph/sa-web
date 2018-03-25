@@ -4,18 +4,14 @@ import { connect } from 'react-redux';
 import { Route, Redirect } from 'react-router-dom';
 import * as actions from '../../actions/auth';
 
-const UserRoute = ({ isAuthenticated, validateToken, token, component: Component, ...rest }) => {
-  const isAuth = isAuthenticated ? () => validateToken(token) : false;
+const UserRoute = ({ isAuthenticated, component: Component, ...rest }) => (
+  <Route {...rest} render={props => (isAuthenticated ? <Component {...props} /> : <Redirect to="/login" />)} />
+);
 
-  return <Route {...rest} render={props => (isAuth ? <Component {...props} /> : <Redirect to="/login" />)} />;
-};
-
-const { func, bool, string } = PropTypes;
+const { func, bool } = PropTypes;
 UserRoute.propTypes = {
   component: func.isRequired,
   isAuthenticated: bool.isRequired,
-  validateToken: func.isRequired,
-  token: string,
 };
 
 UserRoute.defaultProps = {
