@@ -5,7 +5,7 @@ export const Wrapper = styled.div``;
 
 export const Container = styled.div`
   width: 1140px;
-  margin: 0 auto;
+  margin: 0 auto 70px auto;
   padding: 0 20px;
 `;
 

@@ -6,8 +6,8 @@ import upload from 'superagent';
 import { connect } from 'react-redux';
 import { withStyles } from 'material-ui/styles';
 import Stepper, { Step, StepLabel } from 'material-ui/Stepper';
-import AddShoppingCart from 'material-ui-icons/AddShoppingCart';
 import Button from 'material-ui/Button';
+import { CircularProgress } from 'material-ui/Progress';
 import { getProducts } from '../../actions/product';
 import { setOrderProduct, setOrderImage, setOrderSize, setOrderDesign, setOrderQuantity } from '../../actions/order';
 import { getSizeByProduct } from '../../actions/size';
@@ -20,6 +20,8 @@ import Size from '../Size';
 import Design from '../Design';
 import Creative from '../Creative';
 import Completion from '../Completion';
+
+import constants from '../constants';
 
 const styles = theme => ({
   root: {
@@ -70,6 +72,7 @@ function getSteps() {
 
 class Order extends Component {
   state = {
+    uploading: false,
     activeStep: 0,
     checkedProduct: 0,
     checkedSize: 0,
@@ -184,6 +187,9 @@ class Order extends Component {
 
   addToCart = () => {
     const { activeStep } = this.state;
+    this.setState({
+      uploading: true,
+    });
 
     this.props.setOrderQuantity(1);
 
@@ -204,6 +210,7 @@ class Order extends Component {
         }
         this.props.setOrderImage(res.body.file.location);
         this.setState({
+          uploading: false,
           activeStep: activeStep + 1,
           checkedProduct: 0,
           checkedSize: 0,
@@ -276,43 +283,58 @@ class Order extends Component {
                 </Button>
               </ButtonGarden>
             ) : (
-              <div>
-                <div className={classes.instructions}>{this.getStepContent(activeStep)}</div>
                 <div>
-                  <Button disabled={activeStep === 0} onClick={this.handleBack} className={classes.backButton}>
-                    Back
+                  <div className={classes.instructions}>{this.getStepContent(activeStep)}</div>
+                  <div>
+                    <Button disabled={activeStep === 0} onClick={this.handleBack} className={classes.backButton}>
+                      Back
                   </Button>
-                  {activeStep === steps.length - 1 ? (
-                    <Button
-                      disabled={
-                        (activeStep === 0 && !order.product) ||
-                        (activeStep === 1 && !order.size) ||
-                        (activeStep === 2 && !order.design)
-                      }
-                      variant="raised"
-                      color="primary"
-                      onClick={this.addToCart}
-                    >
-                      <AddShoppingCart style={{ marginRight: '20px' }} />
-                      Add to Cart
+                    {activeStep === steps.length - 1 ? (
+                      <Button
+                        disabled={
+                          (activeStep === 0 && !order.product) ||
+                          (activeStep === 1 && !order.size) ||
+                          (activeStep === 2 && !order.design) ||
+                          this.state.uploading
+                        }
+                        variant="raised"
+                        color="primary"
+                        onClick={this.addToCart}
+                      >
+                        {this.state.uploading ? (
+                          <CircularProgress
+                            size={24}
+                            className={classes.buttonProgress}
+                            style={{
+                              color: constants.defaultPrimaryColor,
+                              position: 'absolute',
+                              top: '50%',
+                              left: '50%',
+                              marginTop: -12,
+                              marginLeft: -12,
+                            }}
+                          />
+                        ) : (
+                            'Add to Cart'
+                          )}
+                      </Button>
+                    ) : (
+                        <Button
+                          disabled={
+                            (activeStep === 0 && !order.product) ||
+                            (activeStep === 1 && !order.size) ||
+                            (activeStep === 2 && !order.design)
+                          }
+                          variant="raised"
+                          color="primary"
+                          onClick={this.handleNext}
+                        >
+                          Next
                     </Button>
-                  ) : (
-                    <Button
-                      disabled={
-                        (activeStep === 0 && !order.product) ||
-                        (activeStep === 1 && !order.size) ||
-                        (activeStep === 2 && !order.design)
-                      }
-                      variant="raised"
-                      color="primary"
-                      onClick={this.handleNext}
-                    >
-                      Next
-                    </Button>
-                  )}
+                      )}
+                  </div>
                 </div>
-              </div>
-            )}
+              )}
           </div>
         </Container>
       </div>

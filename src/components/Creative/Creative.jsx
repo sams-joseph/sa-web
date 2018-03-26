@@ -6,6 +6,7 @@ import { FormControl } from 'material-ui/Form';
 import TextField from 'material-ui/TextField';
 import Toolbar from 'material-ui/Toolbar';
 import AppBar from 'material-ui/AppBar';
+import { CircularProgress } from 'material-ui/Progress';
 import Dropzone from 'react-dropzone';
 import InputGroup from '../inputs/InputGroup';
 import CanvasStage from '../Canvas';
@@ -17,6 +18,7 @@ import constants from '../constants';
 
 class Creative extends Component {
   state = {
+    uploading: false,
     text: {
       name: '',
       date: '',
@@ -48,6 +50,7 @@ class Creative extends Component {
     acceptedFiles.forEach(file => {
       this.setState({
         image: file,
+        uploading: true,
       });
     });
 
@@ -58,6 +61,9 @@ class Creative extends Component {
       .end((err, res) => {
         if (err) console.log(err);
         this.props.setOrderPortrait(res.body.file.location);
+        this.setState({
+          uploading: false,
+        });
       });
   };
 
@@ -126,30 +132,49 @@ class Creative extends Component {
           </FormControl>
         </form>
         <InputGroup label="Image">
-          <Dropzone
-            accept="image/bmp, image/gif, image/jpeg, image/png"
-            onDrop={this.onDrop}
-            multiple={false}
-            style={{
-              marginTop: '10px',
-              marginBottom: '10px',
-              width: '100%',
-              height: '200px',
-              border: `1px dashed ${constants.almostBlack}`,
-              borderRadius: '2px',
-              background: '#F5F5F5',
-            }}
-            acceptStyle={{
-              border: `1px dashed ${constants.colorSuccess}`,
-              background: 'rgba(51, 178, 87, 0.25)',
-            }}
-            rejectStyle={{
-              border: `1px dashed ${constants.colorDanger}`,
-              background: 'rgba(234, 35, 63, 0.25)',
-            }}
-          >
-            <DropzoneText>Drop image or click to browse</DropzoneText>
-          </Dropzone>
+          {this.state.uploading ? (
+            <div
+              style={{
+                marginTop: '10px',
+                marginBottom: '10px',
+                width: '100%',
+                height: '200px',
+                border: `1px dashed ${constants.almostBlack}`,
+                borderRadius: '2px',
+                background: '#F5F5F5',
+                position: 'relative',
+              }}
+            >
+              <CircularProgress
+                style={{ left: '50%', top: '50%', position: 'absolute', transform: 'translate(-50%, -50%)' }}
+              />
+            </div>
+          ) : (
+            <Dropzone
+              accept="image/bmp, image/gif, image/jpeg, image/png"
+              onDrop={this.onDrop}
+              multiple={false}
+              style={{
+                marginTop: '10px',
+                marginBottom: '10px',
+                width: '100%',
+                height: '200px',
+                border: `1px dashed ${constants.almostBlack}`,
+                borderRadius: '2px',
+                background: '#F5F5F5',
+              }}
+              acceptStyle={{
+                border: `1px dashed ${constants.colorSuccess}`,
+                background: 'rgba(51, 178, 87, 0.25)',
+              }}
+              rejectStyle={{
+                border: `1px dashed ${constants.colorDanger}`,
+                background: 'rgba(234, 35, 63, 0.25)',
+              }}
+            >
+              <DropzoneText>Drop image or click to browse</DropzoneText>
+            </Dropzone>
+          )}
         </InputGroup>
       </Container>
     );
