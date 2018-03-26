@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import decode from 'jwt-decode';
 import { connect } from 'react-redux';
 import { Route, Redirect } from 'react-router-dom';
-import * as actions from '../../actions/auth';
 
 const checkAuth = () => {
   const token = localStorage.sepsisJWT;
@@ -43,4 +42,4 @@ function mapStateToProps(state) {
   };
 }
 
-export default connect(mapStateToProps, { validateToken: actions.validateToken })(UserRoute);
+export default connect(mapStateToProps)(UserRoute);
