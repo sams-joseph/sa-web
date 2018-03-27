@@ -2,13 +2,14 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import compose from 'recompose/compose';
 import PropTypes from 'prop-types';
+import upload from 'superagent';
 import { connect } from 'react-redux';
 import { withStyles } from 'material-ui/styles';
 import Stepper, { Step, StepLabel } from 'material-ui/Stepper';
-import AddShoppingCart from 'material-ui-icons/AddShoppingCart';
 import Button from 'material-ui/Button';
+import { CircularProgress } from 'material-ui/Progress';
 import { getProducts } from '../../actions/product';
-import { setOrderProduct, setOrderSize, setOrderDesign, setOrderQuantity } from '../../actions/order';
+import { setOrderProduct, setOrderImage, setOrderSize, setOrderDesign, setOrderQuantity } from '../../actions/order';
 import { getSizeByProduct } from '../../actions/size';
 import { getDesignsByProduct } from '../../actions/design';
 import { getDesignBySize } from '../../actions/designSize';
@@ -19,6 +20,8 @@ import Size from '../Size';
 import Design from '../Design';
 import Creative from '../Creative';
 import Completion from '../Completion';
+
+import constants from '../constants';
 
 const styles = theme => ({
   root: {
@@ -41,12 +44,35 @@ const styles = theme => ({
   },
 });
 
+function b64toBlob(b64Data, contentType = '') {
+  const sliceSize = 512;
+  const byteCharacters = atob(b64Data);
+  const byteArrays = [];
+
+  for (let offset = 0; offset < byteCharacters.length; offset += sliceSize) {
+    const slice = byteCharacters.slice(offset, offset + sliceSize);
+
+    const byteNumbers = new Array(slice.length);
+    for (let i = 0; i < slice.length; i += 1) {
+      byteNumbers[i] = slice.charCodeAt(i);
+    }
+
+    const byteArray = new Uint8Array(byteNumbers);
+
+    byteArrays.push(byteArray);
+  }
+
+  const blob = new Blob(byteArrays, { type: 'image/png' });
+  return blob;
+}
+
 function getSteps() {
   return ['Select Product', 'Select Size', 'Select Design', 'Finalize Design'];
 }
 
 class Order extends Component {
   state = {
+    uploading: false,
     activeStep: 0,
     checkedProduct: 0,
     checkedSize: 0,
@@ -161,17 +187,41 @@ class Order extends Component {
 
   addToCart = () => {
     const { activeStep } = this.state;
+    const data = this.child.getImageData();
+    if (data.errors) {
+      this.setState({
+        errors: data.errors,
+      });
+    } else {
+      this.setState({
+        uploading: true,
+      });
 
-    this.props.setOrderQuantity(1);
+      this.props.setOrderQuantity(1);
+      const block = data.split(';');
+      const contentType = block[0].split(':')[1];
+      const realData = block[1].split(',')[1];
+      const blob = b64toBlob(realData, contentType);
 
-    this.child.getImageData();
-
-    this.setState({
-      activeStep: activeStep + 1,
-      checkedProduct: 0,
-      checkedSize: 0,
-      checkedDesign: 0,
-    });
+      upload
+        .post(`${process.env.REACT_APP_API_HOST}/api/uploads/mock`)
+        .set('Authorization', `Bearer ${this.props.token}`)
+        .attach('image', blob, 'mockup.png')
+        .end((err, res) => {
+          if (err) {
+            console.log(err);
+            return;
+          }
+          this.props.setOrderImage(res.body.file.location);
+          this.setState({
+            uploading: false,
+            activeStep: activeStep + 1,
+            checkedProduct: 0,
+            checkedSize: 0,
+            checkedDesign: 0,
+          });
+        });
+    }
   };
 
   handleBack = () => {
@@ -249,14 +299,29 @@ class Order extends Component {
                       disabled={
                         (activeStep === 0 && !order.product) ||
                         (activeStep === 1 && !order.size) ||
-                        (activeStep === 2 && !order.design)
+                        (activeStep === 2 && !order.design) ||
+                        this.state.uploading
                       }
                       variant="raised"
                       color="primary"
                       onClick={this.addToCart}
                     >
-                      <AddShoppingCart style={{ marginRight: '20px' }} />
-                      Add to Cart
+                      {this.state.uploading ? (
+                        <CircularProgress
+                          size={24}
+                          className={classes.buttonProgress}
+                          style={{
+                            color: constants.defaultPrimaryColor,
+                            position: 'absolute',
+                            top: '50%',
+                            left: '50%',
+                            marginTop: -12,
+                            marginLeft: -12,
+                          }}
+                        />
+                      ) : (
+                        'Add to Cart'
+                      )}
                     </Button>
                   ) : (
                     <Button
@@ -302,6 +367,7 @@ function mapStateToProps(state) {
     design: state.design,
     showAlertMessage: state.message.alert,
     order: state.order,
+    token: state.user.token,
   };
 }
 
@@ -317,5 +383,6 @@ export default compose(
     setOrderDesign,
     getDesignBySize,
     setOrderQuantity,
+    setOrderImage,
   })
 )(Order);

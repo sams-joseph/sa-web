@@ -12,6 +12,7 @@ class CanvasStage extends Component {
   state = {
     image: new window.Image(),
     bkgImage: null,
+    portraitImg: null,
     dims: {
       height: 300,
       width: 300,
@@ -45,6 +46,17 @@ class CanvasStage extends Component {
         });
       };
     }
+
+    if (nextProps.portraitImage !== this.props.portraitImage) {
+      const portrait = new window.Image();
+      portrait.setAttribute('crossOrigin', 'anonymous');
+      portrait.src = nextProps.portraitImage.preview;
+      portrait.onload = () => {
+        this.setState({
+          portraitImg: portrait,
+        });
+      };
+    }
   }
 
   onClick = e => {
@@ -75,9 +87,7 @@ class CanvasStage extends Component {
       .find('Transformer')
       .destroy();
     this.layer.draw();
-    const dataUrl = this.stage.getStage().toDataURL();
-    this.props.setOrderImage(dataUrl);
-    this.props.setOrderPortrait(this.props.portraitImage);
+    return this.stage.getStage().toDataURL();
   };
 
   setRefImage = node => {
@@ -93,12 +103,10 @@ class CanvasStage extends Component {
   };
 
   render() {
-    const { name, date, width, height, bleed, portraitImage } = this.props;
+    const { name, date, width, height, bleed } = this.props;
     const { dims } = this.state;
     const scaledHeight = dims.width * (height / width);
     const safety = bleed * (height / width);
-    const image = new window.Image();
-    image.src = portraitImage;
 
     return (
       <StageContainer
@@ -135,7 +143,7 @@ class CanvasStage extends Component {
             onMouseEnter={this.mouseEnter}
             onMouseOut={this.mouseLeave}
           >
-            <KonvaImage name="selectable" setRef={this.setRefImage} image={image} />
+            <KonvaImage name="selectable" setRef={this.setRefImage} image={this.state.portraitImg} />
             <Text
               name="selectable"
               fill={this.props.color}

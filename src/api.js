@@ -49,19 +49,8 @@ export default {
   order: {
     placeOrder: payload =>
       axios.post(`${process.env.REACT_APP_API_HOST}/api/orders`, payload).then(res => res.data.order),
-    addPart: payload => {
-      const data = new FormData();
-      data.append('orderId', payload.orderId);
-      data.append('productId', payload.productId);
-      data.append('sizeId', payload.sizeId);
-      data.append('designId', payload.designId);
-      data.append('quantity', payload.quantity);
-      data.append('image', payload.image);
-      data.append('portrait', payload.portrait);
-      data.append('name', payload.name);
-      data.append('date', payload.date);
-      return axios.post(`${process.env.REACT_APP_API_HOST}/api/orders/part`, data).then(res => res.data.part);
-    },
+    addPart: payload =>
+      axios.post(`${process.env.REACT_APP_API_HOST}/api/orders/part`, payload).then(res => res.data.part),
     getOrders: () =>
       axios
         .get(`${process.env.REACT_APP_API_HOST}/api/orders`, {})

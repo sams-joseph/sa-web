@@ -1,21 +1,34 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import decode from 'jwt-decode';
 import { connect } from 'react-redux';
 import { Route, Redirect } from 'react-router-dom';
-import * as actions from '../../actions/auth';
 
-const UserRoute = ({ isAuthenticated, validateToken, token, component: Component, ...rest }) => {
-  const isAuth = isAuthenticated ? () => validateToken(token) : false;
+const checkAuth = () => {
+  const token = localStorage.sepsisJWT;
+  if (!token) {
+    return false;
+  }
+  try {
+    const { exp } = decode(token);
+    if (exp < new Date().getTime() / 1000) {
+      return false;
+    }
+  } catch (e) {
+    return false;
+  }
 
-  return <Route {...rest} render={props => (isAuth ? <Component {...props} /> : <Redirect to="/login" />)} />;
+  return true;
 };
 
-const { func, bool, string } = PropTypes;
+const UserRoute = ({ component: Component, ...rest }) => (
+  <Route {...rest} render={props => (checkAuth() ? <Component {...props} /> : <Redirect to="/login" />)} />
+);
+
+const { func, bool } = PropTypes;
 UserRoute.propTypes = {
   component: func.isRequired,
   isAuthenticated: bool.isRequired,
-  validateToken: func.isRequired,
-  token: string,
 };
 
 UserRoute.defaultProps = {
@@ -29,4 +42,4 @@ function mapStateToProps(state) {
   };
 }
 
-export default connect(mapStateToProps, { validateToken: actions.validateToken })(UserRoute);
+export default connect(mapStateToProps)(UserRoute);
