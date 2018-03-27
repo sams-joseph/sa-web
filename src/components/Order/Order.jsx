@@ -187,36 +187,41 @@ class Order extends Component {
 
   addToCart = () => {
     const { activeStep } = this.state;
-    this.setState({
-      uploading: true,
-    });
-
-    this.props.setOrderQuantity(1);
-
     const data = this.child.getImageData();
-    const block = data.split(';');
-    const contentType = block[0].split(':')[1];
-    const realData = block[1].split(',')[1];
-    const blob = b64toBlob(realData, contentType);
-
-    upload
-      .post(`${process.env.REACT_APP_API_HOST}/api/uploads/mock`)
-      .set('Authorization', `Bearer ${this.props.token}`)
-      .attach('image', blob, 'mockup.png')
-      .end((err, res) => {
-        if (err) {
-          console.log(err);
-          return;
-        }
-        this.props.setOrderImage(res.body.file.location);
-        this.setState({
-          uploading: false,
-          activeStep: activeStep + 1,
-          checkedProduct: 0,
-          checkedSize: 0,
-          checkedDesign: 0,
-        });
+    if (data.errors) {
+      this.setState({
+        errors: data.errors,
       });
+    } else {
+      this.setState({
+        uploading: true,
+      });
+
+      this.props.setOrderQuantity(1);
+      const block = data.split(';');
+      const contentType = block[0].split(':')[1];
+      const realData = block[1].split(',')[1];
+      const blob = b64toBlob(realData, contentType);
+
+      upload
+        .post(`${process.env.REACT_APP_API_HOST}/api/uploads/mock`)
+        .set('Authorization', `Bearer ${this.props.token}`)
+        .attach('image', blob, 'mockup.png')
+        .end((err, res) => {
+          if (err) {
+            console.log(err);
+            return;
+          }
+          this.props.setOrderImage(res.body.file.location);
+          this.setState({
+            uploading: false,
+            activeStep: activeStep + 1,
+            checkedProduct: 0,
+            checkedSize: 0,
+            checkedDesign: 0,
+          });
+        });
+    }
   };
 
   handleBack = () => {
@@ -283,58 +288,58 @@ class Order extends Component {
                 </Button>
               </ButtonGarden>
             ) : (
+              <div>
+                <div className={classes.instructions}>{this.getStepContent(activeStep)}</div>
                 <div>
-                  <div className={classes.instructions}>{this.getStepContent(activeStep)}</div>
-                  <div>
-                    <Button disabled={activeStep === 0} onClick={this.handleBack} className={classes.backButton}>
-                      Back
+                  <Button disabled={activeStep === 0} onClick={this.handleBack} className={classes.backButton}>
+                    Back
                   </Button>
-                    {activeStep === steps.length - 1 ? (
-                      <Button
-                        disabled={
-                          (activeStep === 0 && !order.product) ||
-                          (activeStep === 1 && !order.size) ||
-                          (activeStep === 2 && !order.design) ||
-                          this.state.uploading
-                        }
-                        variant="raised"
-                        color="primary"
-                        onClick={this.addToCart}
-                      >
-                        {this.state.uploading ? (
-                          <CircularProgress
-                            size={24}
-                            className={classes.buttonProgress}
-                            style={{
-                              color: constants.defaultPrimaryColor,
-                              position: 'absolute',
-                              top: '50%',
-                              left: '50%',
-                              marginTop: -12,
-                              marginLeft: -12,
-                            }}
-                          />
-                        ) : (
-                            'Add to Cart'
-                          )}
-                      </Button>
-                    ) : (
-                        <Button
-                          disabled={
-                            (activeStep === 0 && !order.product) ||
-                            (activeStep === 1 && !order.size) ||
-                            (activeStep === 2 && !order.design)
-                          }
-                          variant="raised"
-                          color="primary"
-                          onClick={this.handleNext}
-                        >
-                          Next
-                    </Button>
+                  {activeStep === steps.length - 1 ? (
+                    <Button
+                      disabled={
+                        (activeStep === 0 && !order.product) ||
+                        (activeStep === 1 && !order.size) ||
+                        (activeStep === 2 && !order.design) ||
+                        this.state.uploading
+                      }
+                      variant="raised"
+                      color="primary"
+                      onClick={this.addToCart}
+                    >
+                      {this.state.uploading ? (
+                        <CircularProgress
+                          size={24}
+                          className={classes.buttonProgress}
+                          style={{
+                            color: constants.defaultPrimaryColor,
+                            position: 'absolute',
+                            top: '50%',
+                            left: '50%',
+                            marginTop: -12,
+                            marginLeft: -12,
+                          }}
+                        />
+                      ) : (
+                        'Add to Cart'
                       )}
-                  </div>
+                    </Button>
+                  ) : (
+                    <Button
+                      disabled={
+                        (activeStep === 0 && !order.product) ||
+                        (activeStep === 1 && !order.size) ||
+                        (activeStep === 2 && !order.design)
+                      }
+                      variant="raised"
+                      color="primary"
+                      onClick={this.handleNext}
+                    >
+                      Next
+                    </Button>
+                  )}
                 </div>
-              )}
+              </div>
+            )}
           </div>
         </Container>
       </div>

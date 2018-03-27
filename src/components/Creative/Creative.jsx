@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import upload from 'superagent';
+import _ from 'lodash';
 import { FormControl } from 'material-ui/Form';
 import TextField from 'material-ui/TextField';
 import Toolbar from 'material-ui/Toolbar';
@@ -10,6 +11,7 @@ import { CircularProgress } from 'material-ui/Progress';
 import Dropzone from 'react-dropzone';
 import InputGroup from '../inputs/InputGroup';
 import CanvasStage from '../Canvas';
+import Alert from '../Alert';
 import { setOrderInputs, setOrderPortrait } from '../../actions/order';
 
 import { Container, DropzoneText } from './Styled';
@@ -24,7 +26,7 @@ class Creative extends Component {
       date: '',
     },
     fontColor: '#FFFFFF',
-    error: '',
+    errors: {},
   };
 
   componentDidMount() {
@@ -43,7 +45,7 @@ class Creative extends Component {
   onDrop = (acceptedFiles, rejectedFiles) => {
     if (rejectedFiles.length > 0) {
       this.setState({
-        error: 'This file type is not supported.',
+        errors: 'This file type is not supported.',
       });
       return;
     }
@@ -78,8 +80,23 @@ class Creative extends Component {
   };
 
   getImageData = () => {
-    this.props.setOrderInputs(this.state.text);
-    return this.child.getData();
+    const errors = this.validate(this.state.text);
+    this.setState({ errors });
+    if (_.isEmpty(errors)) {
+      this.props.setOrderInputs(this.state.text);
+      return this.child.getData();
+    }
+
+    return { errors };
+  };
+
+  validate = data => {
+    const errors = {};
+    if (!data.name) errors.name = 'Name cannot be blank';
+    if (!data.date) errors.date = 'Date cannot be blank';
+    if (!data.date || !data.name) errors.global = 'Name and date Cannot be blank';
+
+    return errors;
   };
 
   render() {
@@ -98,18 +115,20 @@ class Creative extends Component {
           color={this.state.fontColor}
           bleed={12}
         />
-        <AppBar position="static" color="default" elevation={1} square>
+        <AppBar position="static" color="default" elevation={0} square>
           <Toolbar>
             <div style={{ flex: 1, display: 'flex' }}>
               <ColorSelect onSelect={this.setColor} />
             </div>
           </Toolbar>
         </AppBar>
+        {this.state.errors.global && <Alert margin type="danger" text={this.state.errors.global} />}
         <form style={{ display: 'flex', marginTop: '20px' }}>
           <FormControl fullWidth margin="normal" style={{ marginRight: '10px', marginTop: '10px' }}>
             <TextField
               id="name"
               label="Name"
+              error={!!this.state.errors.name}
               placeholder="John Doe"
               value={this.state.text.name}
               onChange={this.onChange('name')}
@@ -122,6 +141,7 @@ class Creative extends Component {
             <TextField
               id="date"
               label="Date"
+              error={!!this.state.errors.date}
               placeholder="1987-2018"
               value={this.state.text.date}
               onChange={this.onChange('date')}
