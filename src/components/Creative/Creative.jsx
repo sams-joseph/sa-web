@@ -45,7 +45,7 @@ class Creative extends Component {
   onDrop = (acceptedFiles, rejectedFiles) => {
     if (rejectedFiles.length > 0) {
       this.setState({
-        errors: 'This file type is not supported.',
+        errors: { global: 'This file type is not supported.' },
       });
       return;
     }
@@ -94,7 +94,11 @@ class Creative extends Component {
     const errors = {};
     if (!data.name) errors.name = 'Name cannot be blank';
     if (!data.date) errors.date = 'Date cannot be blank';
-    if (!data.date || !data.name) errors.global = 'Name and date Cannot be blank';
+    if (!data.date || !data.name) errors.global = 'Name and date Cannot be blank.';
+    if (!this.props.order.portrait)
+      errors.global = errors.global
+        ? 'Name and date Cannot be blank. Portrait image must also be uploaded.'
+        : 'Portrait image must be uploaded.';
 
     return errors;
   };
