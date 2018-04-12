@@ -8,7 +8,6 @@ import IconButton from 'material-ui/IconButton';
 import CheckCircle from 'material-ui-icons/CheckCircle';
 import Alert from '../Alert';
 import Announce from '../Announce';
-import Home from '../Home';
 import Login from '../Login';
 import Dashboard from '../Dashboard';
 import ResetPassword from '../ResetPassword';
@@ -67,7 +66,7 @@ class App extends Component {
           alertMessage && (
             <Alert closable type="info" text="Your email has not been verified" toggleMessage={this.toggleMessage} />
           )}
-        <Route location={location} path="/" exact component={Home} />
+        <Route location={location} path="/" exact component={Dashboard} />
         <Route location={location} path="/confirmation/:token" exact component={Confirmation} />
         <GuestRoute location={location} path="/login" exact component={Login} />
         <Route location={location} path="/reset-password" exact component={ResetPassword} />
