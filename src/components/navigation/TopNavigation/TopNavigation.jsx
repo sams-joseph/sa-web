@@ -57,9 +57,6 @@ class TopNavigation extends Component {
       <AppBar style={style.appBar} position="static" elevation={0}>
         <ToolBar style={{ maxWidth: '1140px', margin: '0 auto', width: '100%' }}>
           <div style={{ flex: 1 }}>
-            <MainNavigationLink exact to="/">
-              Home
-            </MainNavigationLink>
             {isAuthenticated && <MainNavigationLink to="/dashboard">Dashboard</MainNavigationLink>}
           </div>
           {isAuthenticated ? (
