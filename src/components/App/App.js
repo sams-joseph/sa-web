@@ -66,7 +66,7 @@ class App extends Component {
           alertMessage && (
             <Alert closable type="info" text="Your email has not been verified" toggleMessage={this.toggleMessage} />
           )}
-        <Route location={location} path="/" exact component={Dashboard} />
+        <UserRoute location={location} path="/" exact component={Dashboard} />
         <Route location={location} path="/confirmation/:token" exact component={Confirmation} />
         <GuestRoute location={location} path="/login" exact component={Login} />
         <Route location={location} path="/reset-password" exact component={ResetPassword} />
