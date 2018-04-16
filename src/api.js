@@ -26,12 +26,14 @@ export default {
         .then(res => res.data.product),
   },
   size: {
+    getSizes: () => axios.get(`${process.env.REACT_APP_API_HOST}/api/sizes/all`).then(res => res.data.sizes),
     getSizeByProduct: id =>
       axios.get(`${process.env.REACT_APP_API_HOST}/api/sizes`, { params: { id } }).then(res => res.data.sizes),
     getSizeByID: id =>
       axios.get(`${process.env.REACT_APP_API_HOST}/api/sizes/size`, { params: { id } }).then(res => res.data.size),
   },
   design: {
+    getAllDesigns: () => axios.get(`${process.env.REACT_APP_API_HOST}/api/designs/all`).then(res => res.data.designs),
     getDesignsByProduct: id =>
       axios.get(`${process.env.REACT_APP_API_HOST}/api/designs`, { params: { id } }).then(res => res.data.designs),
     getDesignByID: id =>
@@ -72,5 +74,20 @@ export default {
         .then(res => res.data.part)
         .catch(err => ''),
     sendConfirmation: order => axios.post(`${process.env.REACT_APP_API_HOST}/api/orders/confirm`, { order }),
+    getOrdersByMonth: year =>
+      axios
+        .get(`${process.env.REACT_APP_API_HOST}/api/orders/monthly`, { params: { year } })
+        .then(res => res.data.monthlyData)
+        .catch(err => ''),
+    getOrdersByDesign: () =>
+      axios
+        .get(`${process.env.REACT_APP_API_HOST}/api/orders/parts/designs`)
+        .then(res => res.data.designData)
+        .catch(err => ''),
+    getOrdersByProduct: () =>
+      axios
+        .get(`${process.env.REACT_APP_API_HOST}/api/orders/parts/products`)
+        .then(res => res.data.sizeData)
+        .catch(err => ''),
   },
 };
