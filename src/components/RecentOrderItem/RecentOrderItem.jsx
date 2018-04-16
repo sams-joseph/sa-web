@@ -1,8 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Typography from 'material-ui/Typography';
-import IconButton from 'material-ui/IconButton';
-import ZoomIn from 'material-ui-icons/ZoomIn';
 import constants from '../constants';
 import { Thumbnail, ThumbnailContainer, Container, ItemDetails, Header, Body, Details, Actions } from './Styled';
 
@@ -70,11 +68,7 @@ const RecentOrderItem = ({ item, product, size }) => (
             </Typography>
           </div>
         </Details>
-        <Actions>
-          <IconButton aria-label="Go To">
-            <ZoomIn />
-          </IconButton>
-        </Actions>
+        <Actions />
       </Body>
     </ItemDetails>
   </Container>
