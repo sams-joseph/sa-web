@@ -90,7 +90,7 @@ class TopNavigation extends Component {
                 open={open}
                 onClose={this.handleClose}
               >
-                <MenuItem onClick={this.handleClose}>
+                <MenuItem component={Link} to="/account" onClick={this.handleClose}>
                   <ListItemIcon style={{ width: '18px', height: '18px' }}>
                     <Settings />
                   </ListItemIcon>
