@@ -8,6 +8,7 @@ import Button from 'material-ui/Button';
 import { Link } from 'react-router-dom';
 import AccountCircle from 'material-ui-icons/AccountCircle';
 import Settings from 'material-ui-icons/Settings';
+import Security from 'material-ui-icons/Security';
 import PowerSettingsNew from 'material-ui-icons/PowerSettingsNew';
 import { MenuItem } from 'material-ui/Menu';
 import Popover from 'material-ui/Popover';
@@ -90,6 +91,14 @@ class TopNavigation extends Component {
                 open={open}
                 onClose={this.handleClose}
               >
+                {this.props.isAdmin && (
+                  <MenuItem component={Link} to="/admin" onClick={this.handleClose}>
+                    <ListItemIcon style={{ width: '18px', height: '18px' }}>
+                      <Security />
+                    </ListItemIcon>
+                    <ListItemText inset primary="Admin" />
+                  </MenuItem>
+                )}
                 <MenuItem component={Link} to="/account" onClick={this.handleClose}>
                   <ListItemIcon style={{ width: '18px', height: '18px' }}>
                     <Settings />
@@ -114,12 +123,14 @@ class TopNavigation extends Component {
 const { bool, func } = PropTypes;
 TopNavigation.propTypes = {
   isAuthenticated: bool.isRequired,
+  isAdmin: bool.isRequired,
   logout: func.isRequired,
 };
 
 function mapStateToProps(state) {
   return {
     isAuthenticated: !!state.user.token,
+    isAdmin: state.user.roleId === 1,
   };
 }
 

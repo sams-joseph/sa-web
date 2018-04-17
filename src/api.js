@@ -18,6 +18,10 @@ export default {
         .then(res => res.data.user),
     validateToken: token => axios.post(`${process.env.REACT_APP_API_HOST}/api/auth/validate-token`, { token }),
   },
+  csr: {
+    getCsrById: id =>
+      axios.get(`${process.env.REACT_APP_API_HOST}/api/csrs/csr`, { params: { id } }).then(res => res.data.csr),
+  },
   product: {
     getProducts: () => axios.get(`${process.env.REACT_APP_API_HOST}/api/products`, {}).then(res => res.data.products),
     getProductByID: id =>

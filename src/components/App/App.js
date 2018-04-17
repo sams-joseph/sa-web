@@ -19,7 +19,11 @@ import Cart from '../Cart';
 import Checkout from '../Checkout';
 import OrderDetails from '../OrderDetails';
 import Account from '../Account';
+import Admin from '../Admin';
 
+import Footer from '../Footer';
+
+import AdminRoute from '../routes/AdminRoute';
 import UserRoute from '../routes/UserRoute';
 import GuestRoute from '../routes/GuestRoute';
 
@@ -78,6 +82,8 @@ class App extends Component {
         <UserRoute location={location} path="/checkout" exact component={Checkout} />
         <UserRoute location={location} path="/order/:id" exact component={OrderDetails} />
         <UserRoute location={location} path="/account" exact component={Account} />
+        <AdminRoute location={location} path="/admin" exact component={Admin} />
+        <Footer />
       </div>
     );
   }
