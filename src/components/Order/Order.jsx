@@ -14,7 +14,7 @@ import { getSizeByProduct } from '../../actions/size';
 import { getDesignsByProduct } from '../../actions/design';
 import { getDesignBySize } from '../../actions/designSize';
 import { logout } from '../../actions/auth';
-import { FlexContainer, ButtonGarden, StepperContainer, Container } from './Styled';
+import { FlexContainer, ButtonGarden, StepperContainer, Container, Wrapper } from './Styled';
 import Product from '../Product';
 import Size from '../Size';
 import Design from '../Design';
@@ -263,7 +263,7 @@ class Order extends Component {
     const { activeStep } = this.state;
 
     return (
-      <div>
+      <Wrapper>
         <StepperContainer>
           <Container>
             <Stepper activeStep={activeStep} className={classes.stepper}>
@@ -342,7 +342,7 @@ class Order extends Component {
             )}
           </div>
         </Container>
-      </div>
+      </Wrapper>
     );
   }
 }

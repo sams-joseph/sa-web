@@ -2,7 +2,11 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import Validator from 'validator';
 import PropTypes from 'prop-types';
-import { Header, Message, Segment, Grid, Form, Button } from 'semantic-ui-react';
+import TextField from 'material-ui/TextField';
+import { FormControl } from 'material-ui/Form';
+import Button from 'material-ui/Button';
+import Alert from '../Alert';
+import { StyledLink, Form, Heading } from './Styled';
 
 class ResetPasswordForm extends Component {
   state = {
@@ -13,9 +17,9 @@ class ResetPasswordForm extends Component {
     errors: {},
   };
 
-  onChange = e =>
+  onChange = name => e =>
     this.setState({
-      data: { ...this.state.data, [e.target.name]: e.target.value },
+      data: { ...this.state.data, [name]: e.target.value },
       errors: { ...this.state.errors, [e.target.name]: '' },
     });
 
@@ -38,42 +42,31 @@ class ResetPasswordForm extends Component {
   render() {
     const { data, errors } = this.state;
     return (
-      <div className="login-form">
-        <style>{`
-        body > div,
-        body > div > div,
-        body > div > div > div.login-form {
-          height: 100%;
-        }
-      `}</style>
-        <Grid textAlign="center" style={{ height: '100%' }} verticalAlign="middle">
-          <Grid.Column style={{ maxWidth: 450 }}>
-            <Form size="large" onSubmit={this.onSubmit}>
-              <Header as="h2" color="blue" textAlign="center">
-                Enter your email address
-              </Header>
-              <Segment stacked>
-                <Form.Input
-                  icon="user"
-                  iconPosition="left"
-                  type="email"
-                  name="email"
-                  placeholder="example@example.com"
-                  value={data.email}
-                  onChange={this.onChange}
-                  error={errors.email}
-                />
-                <Button fluid color="blue">
-                  Login
-                </Button>
-              </Segment>
-            </Form>
-            <Message>
-              Know your password? <Link to="/login">Login</Link>
-            </Message>
-          </Grid.Column>
-        </Grid>
-      </div>
+      <Form onSubmit={this.onSubmit}>
+        <Heading as="h2" textAlign="center">
+          Reset Password
+        </Heading>
+        <div>
+          {errors.global && <Alert margin type="danger" text={errors.global} />}
+          <FormControl fullWidth margin="normal">
+            <TextField
+              label={errors.email ? errors.email : 'Email'}
+              type="email"
+              name="email"
+              placeholder="example@example.com"
+              value={data.email}
+              onChange={this.onChange('email')}
+              error={!!errors.email}
+              InputLabelProps={{
+                shrink: true,
+              }}
+            />
+          </FormControl>
+          <Button style={{ marginTop: '20px' }} variant="raised" color="primary" type="submit" fullWidth>
+            Reset Password
+          </Button>
+        </div>
+      </Form>
     );
   }
 }

@@ -30,6 +30,8 @@ if (localStorage.sepsisJWT) {
     firstName: payload.firstName,
     lastName: payload.lastName,
     email: payload.email,
+    csrId: payload.csrId,
+    roleId: payload.roleId,
     confirmed: payload.confirmed,
   };
   store.dispatch(userLoggedIn(user));

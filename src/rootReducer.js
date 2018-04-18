@@ -11,6 +11,7 @@ import cart from './reducers/cart';
 import shipping from './reducers/shipping';
 import orderHistory from './reducers/orderHistory';
 import analytics from './reducers/analytics';
+import csr from './reducers/csr';
 
 export default combineReducers({
   user,
@@ -24,4 +25,5 @@ export default combineReducers({
   shipping,
   orderHistory,
   analytics,
+  csr,
 });

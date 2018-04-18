@@ -2,6 +2,7 @@ import axios from 'axios';
 
 export default {
   user: {
+    getAll: () => axios.get(`${process.env.REACT_APP_API_HOST}/api/users`).then(res => res.data.users),
     login: credentials =>
       axios
         .post(`${process.env.REACT_APP_API_HOST}/api/auth`, {
@@ -17,6 +18,11 @@ export default {
         })
         .then(res => res.data.user),
     validateToken: token => axios.post(`${process.env.REACT_APP_API_HOST}/api/auth/validate-token`, { token }),
+  },
+  csr: {
+    getAll: () => axios.get(`${process.env.REACT_APP_API_HOST}/api/csrs`).then(res => res.data.csrs),
+    getCsrById: id =>
+      axios.get(`${process.env.REACT_APP_API_HOST}/api/csrs/csr`, { params: { id } }).then(res => res.data.csr),
   },
   product: {
     getProducts: () => axios.get(`${process.env.REACT_APP_API_HOST}/api/products`, {}).then(res => res.data.products),
