@@ -44,7 +44,7 @@ class Account extends Component {
           ) : (
             <div>
               <Tabs
-                style={{ width: '100%' }}
+                style={{ width: '100%', borderBottom: '1px solid #e0e0e0' }}
                 value={value}
                 onChange={this.handleChange}
                 indicatorColor="primary"
