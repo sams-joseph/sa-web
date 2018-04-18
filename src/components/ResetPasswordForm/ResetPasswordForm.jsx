@@ -1,12 +1,11 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
 import Validator from 'validator';
 import PropTypes from 'prop-types';
 import TextField from 'material-ui/TextField';
 import { FormControl } from 'material-ui/Form';
 import Button from 'material-ui/Button';
 import Alert from '../Alert';
-import { StyledLink, Form, Heading } from './Styled';
+import { Form, Heading } from './Styled';
 
 class ResetPasswordForm extends Component {
   state = {

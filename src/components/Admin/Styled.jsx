@@ -50,3 +50,11 @@ export const StyledListItem = styled.li`
 export const ListHeading = styled.div`
   font-weight: ${constants.fontWeightMedium};
 `;
+
+export const DropzoneText = styled.p`
+  color: ${constants.almostBlack};
+  line-height: 150px;
+  margin: 0;
+  padding: 0;
+  text-align: center;
+`;

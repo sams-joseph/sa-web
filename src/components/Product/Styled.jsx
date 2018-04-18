@@ -28,7 +28,7 @@ export const ProductContainer = styled.div`
 `;
 
 export const ProductMeta = styled.footer`
-  background: linear-gradient(to top, rgba(0, 103, 249, 0.75) 50%, rgba(0, 103, 249, 0.05));
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0));
   width: 100%;
   padding: 20px;
   display: flex;

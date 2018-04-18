@@ -1,16 +1,21 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import Table, { TableBody, TableCell, TableHead, TableRow } from 'material-ui/Table';
 import Popover from 'material-ui/Popover';
 import { CircularProgress } from 'material-ui/Progress';
-import Button from 'material-ui/Button';
-import AddIcon from 'material-ui-icons/Add';
 import moment from 'moment';
-import api from '../../api';
+import api from '../../../api';
+import CreateProduct from './CreateProduct';
 
 class Products extends Component {
   state = { loading: true, products: [], anchorEl: null, image: null };
 
   componentWillMount() {
+    this.refresh();
+  }
+
+  refresh = () => {
+    this.setState({ loading: true });
     api.product
       .getProducts()
       .then(products => {
@@ -30,7 +35,7 @@ class Products extends Component {
       .catch(() => {
         this.props.logout();
       });
-  }
+  };
 
   handlePopoverOpen = event => {
     this.setState({ anchorEl: event.target, image: event.target.innerText });
@@ -93,14 +98,17 @@ class Products extends Component {
                 <img style={{ margin: '5px 5px 3px 5px' }} src={this.state.image} alt="Thumbnail" height="150" />
               </Popover>
             </Table>
-            <Button variant="fab" color="primary" aria-label="add" style={{ marginTop: '40px' }}>
-              <AddIcon />
-            </Button>
+            <CreateProduct refresh={this.refresh} />
           </div>
         )}
       </div>
     );
   }
 }
+
+const { func } = PropTypes;
+Products.propTypes = {
+  logout: func.isRequired,
+};
 
 export default Products;

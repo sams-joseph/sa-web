@@ -1,15 +1,20 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import Table, { TableBody, TableCell, TableHead, TableRow } from 'material-ui/Table';
 import { CircularProgress } from 'material-ui/Progress';
-import Button from 'material-ui/Button';
-import AddIcon from 'material-ui-icons/Add';
 import moment from 'moment';
-import api from '../../api';
+import api from '../../../api';
+import CreateCsr from './CreateCsr';
 
 class Csrs extends Component {
   state = { loading: true, csrs: [] };
 
   componentWillMount() {
+    this.refresh();
+  }
+
+  refresh = () => {
+    this.setState({ loading: true });
     api.csr
       .getAll()
       .then(csrs => {
@@ -30,7 +35,7 @@ class Csrs extends Component {
       .catch(() => {
         this.props.logout();
       });
-  }
+  };
 
   render() {
     const { loading, csrs } = this.state;
@@ -64,14 +69,17 @@ class Csrs extends Component {
                 ))}
               </TableBody>
             </Table>
-            <Button variant="fab" color="primary" aria-label="add" style={{ marginTop: '40px' }}>
-              <AddIcon />
-            </Button>
+            <CreateCsr refresh={this.refresh} />
           </div>
         )}
       </div>
     );
   }
 }
+
+const { func } = PropTypes;
+Csrs.propTypes = {
+  logout: func.isRequired,
+};
 
 export default Csrs;

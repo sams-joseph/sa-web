@@ -1,15 +1,21 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import Table, { TableBody, TableCell, TableHead, TableRow } from 'material-ui/Table';
 import { CircularProgress } from 'material-ui/Progress';
-import Button from 'material-ui/Button';
-import AddIcon from 'material-ui-icons/Add';
 import moment from 'moment';
-import api from '../../api';
+import CreateSize from './CreateSize';
+import api from '../../../api';
 
 class Sizes extends Component {
   state = { loading: true, sizes: [] };
 
   componentWillMount() {
+    this.refresh();
+  }
+
+  refresh = () => {
+    this.setState({ loading: true });
+
     api.size
       .getSizes()
       .then(sizes => {
@@ -29,7 +35,7 @@ class Sizes extends Component {
       .catch(() => {
         this.props.logout();
       });
-  }
+  };
 
   render() {
     const { loading, sizes } = this.state;
@@ -61,14 +67,17 @@ class Sizes extends Component {
                 ))}
               </TableBody>
             </Table>
-            <Button variant="fab" color="primary" aria-label="add" style={{ marginTop: '40px' }}>
-              <AddIcon />
-            </Button>
+            <CreateSize refresh={this.refresh} />
           </div>
         )}
       </div>
     );
   }
 }
+
+const { func } = PropTypes;
+Sizes.propTypes = {
+  logout: func.isRequired,
+};
 
 export default Sizes;

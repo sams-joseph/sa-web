@@ -3,6 +3,8 @@ import axios from 'axios';
 export default {
   user: {
     getAll: () => axios.get(`${process.env.REACT_APP_API_HOST}/api/users`).then(res => res.data.users),
+    create: credentials =>
+      axios.post(`${process.env.REACT_APP_API_HOST}/api/users`, credentials).then(res => res.data.user),
     login: credentials =>
       axios
         .post(`${process.env.REACT_APP_API_HOST}/api/auth`, {
@@ -21,6 +23,8 @@ export default {
   },
   csr: {
     getAll: () => axios.get(`${process.env.REACT_APP_API_HOST}/api/csrs`).then(res => res.data.csrs),
+    create: credentials =>
+      axios.post(`${process.env.REACT_APP_API_HOST}/api/csrs`, credentials).then(res => res.data.csr),
     getCsrById: id =>
       axios.get(`${process.env.REACT_APP_API_HOST}/api/csrs/csr`, { params: { id } }).then(res => res.data.csr),
   },
@@ -30,6 +34,7 @@ export default {
       axios
         .get(`${process.env.REACT_APP_API_HOST}/api/products/product`, { params: { id } })
         .then(res => res.data.product),
+    create: data => axios.post(`${process.env.REACT_APP_API_HOST}/api/products`, data).then(res => res.data.product),
   },
   size: {
     getSizes: () => axios.get(`${process.env.REACT_APP_API_HOST}/api/sizes/all`).then(res => res.data.sizes),
@@ -37,6 +42,7 @@ export default {
       axios.get(`${process.env.REACT_APP_API_HOST}/api/sizes`, { params: { id } }).then(res => res.data.sizes),
     getSizeByID: id =>
       axios.get(`${process.env.REACT_APP_API_HOST}/api/sizes/size`, { params: { id } }).then(res => res.data.size),
+    create: data => axios.post(`${process.env.REACT_APP_API_HOST}/api/sizes`, data).then(res => res.data.size),
   },
   design: {
     getAllDesigns: () => axios.get(`${process.env.REACT_APP_API_HOST}/api/designs/all`).then(res => res.data.designs),
@@ -46,6 +52,7 @@ export default {
       axios
         .get(`${process.env.REACT_APP_API_HOST}/api/designs/design`, { params: { id } })
         .then(res => res.data.design),
+    create: data => axios.post(`${process.env.REACT_APP_API_HOST}/api/designs`, data).then(res => res.data.design),
   },
   designSize: {
     getDesignSizesById: (designId, sizeId) =>
@@ -95,5 +102,8 @@ export default {
         .get(`${process.env.REACT_APP_API_HOST}/api/orders/parts/products`)
         .then(res => res.data.sizeData)
         .catch(err => ''),
+  },
+  role: {
+    getAll: () => axios.get(`${process.env.REACT_APP_API_HOST}/api/roles`).then(res => res.data.roles),
   },
 };

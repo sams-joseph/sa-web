@@ -1,15 +1,23 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import Table, { TableBody, TableCell, TableHead, TableRow } from 'material-ui/Table';
 import { CircularProgress } from 'material-ui/Progress';
-import Button from 'material-ui/Button';
-import AddIcon from 'material-ui-icons/Add';
 import moment from 'moment';
-import api from '../../api';
+import CreateUser from './CreateUser';
+import api from '../../../api';
 
 class Users extends Component {
   state = { loading: true, users: [] };
 
   componentWillMount() {
+    this.refresh();
+  }
+
+  refresh = () => {
+    this.setState({
+      loading: true,
+    });
+
     api.user
       .getAll()
       .then(users => {
@@ -31,7 +39,7 @@ class Users extends Component {
       .catch(() => {
         this.props.logout();
       });
-  }
+  };
 
   render() {
     const { loading, users } = this.state;
@@ -67,14 +75,17 @@ class Users extends Component {
                 ))}
               </TableBody>
             </Table>
-            <Button variant="fab" color="primary" aria-label="add" style={{ marginTop: '40px' }}>
-              <AddIcon />
-            </Button>
+            <CreateUser refresh={this.refresh} />
           </div>
         )}
       </div>
     );
   }
 }
+
+const { func } = PropTypes;
+Users.propTypes = {
+  logout: func.isRequired,
+};
 
 export default Users;
