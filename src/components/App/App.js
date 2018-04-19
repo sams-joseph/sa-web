@@ -10,6 +10,7 @@ import Alert from '../Alert';
 import Announce from '../Announce';
 import Login from '../Login';
 import Dashboard from '../Dashboard';
+import ForgotPassword from '../ForgotPassword';
 import ResetPassword from '../ResetPassword';
 import Confirmation from '../Confirmation';
 import TopNavigation from '../navigation/TopNavigation';
@@ -18,7 +19,12 @@ import Order from '../Order';
 import Cart from '../Cart';
 import Checkout from '../Checkout';
 import OrderDetails from '../OrderDetails';
+import Account from '../Account';
+import Admin from '../Admin';
 
+import Footer from '../Footer';
+
+import AdminRoute from '../routes/AdminRoute';
 import UserRoute from '../routes/UserRoute';
 import GuestRoute from '../routes/GuestRoute';
 
@@ -66,16 +72,20 @@ class App extends Component {
           alertMessage && (
             <Alert closable type="info" text="Your email has not been verified" toggleMessage={this.toggleMessage} />
           )}
-        <UserRoute location={location} path="/" exact component={Dashboard} />
         <Route location={location} path="/confirmation/:token" exact component={Confirmation} />
+        <Route location={location} path="/reset-password" exact component={ForgotPassword} />
+        <Route location={location} path="/reset-password/:token" exact component={ResetPassword} />
         <GuestRoute location={location} path="/login" exact component={Login} />
-        <Route location={location} path="/reset-password" exact component={ResetPassword} />
+        <UserRoute location={location} path="/" exact component={Dashboard} />
         <UserRoute location={location} path="/dashboard" exact component={Dashboard} />
         <UserRoute location={location} path="/products" exact component={Products} />
         <UserRoute location={location} path="/create-order" exact component={Order} />
         <UserRoute location={location} path="/cart" exact component={Cart} />
         <UserRoute location={location} path="/checkout" exact component={Checkout} />
         <UserRoute location={location} path="/order/:id" exact component={OrderDetails} />
+        <UserRoute location={location} path="/account" exact component={Account} />
+        <AdminRoute location={location} path="/admin" exact component={Admin} />
+        <Footer />
       </div>
     );
   }
