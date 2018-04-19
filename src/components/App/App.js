@@ -73,6 +73,7 @@ class App extends Component {
           )}
         <UserRoute location={location} path="/" exact component={Dashboard} />
         <Route location={location} path="/confirmation/:token" exact component={Confirmation} />
+        <Route location={location} path="/reset-password/:token" exact component={Confirmation} />
         <GuestRoute location={location} path="/login" exact component={Login} />
         <Route location={location} path="/reset-password" exact component={ResetPassword} />
         <UserRoute location={location} path="/dashboard" exact component={Dashboard} />

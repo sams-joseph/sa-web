@@ -11,7 +11,7 @@ export const Form = styled.form`
   display: block;
 `;
 
-export const StyledLink = styled(Link) `
+export const StyledLink = styled(Link)`
   color: ${constants.defaultPrimaryColorMuted};
   margin-top: 20px;
   display: block;

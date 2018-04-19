@@ -60,6 +60,9 @@ export default {
         .get(`${process.env.REACT_APP_API_HOST}/api/design-sizes`, { params: { designId, sizeId } })
         .then(res => res.data.designSize)
         .catch(err => ''),
+    getAll: () => axios.get(`${process.env.REACT_APP_API_HOST}/api/design-sizes/all`).then(res => res.data.designSizes),
+    create: data =>
+      axios.post(`${process.env.REACT_APP_API_HOST}/api/design-sizes`, data).then(res => res.data.designSize),
   },
   order: {
     placeOrder: payload =>
