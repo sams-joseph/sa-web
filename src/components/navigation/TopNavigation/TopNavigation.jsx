@@ -16,6 +16,7 @@ import { ListItemIcon, ListItemText } from 'material-ui/List';
 import { logout } from '../../../actions/auth';
 import CartBadge from '../../CartBadge';
 import { NavigationGroupRight, MainNavigationLink, CreateOrderBtn } from './Styled';
+import Logo from './images/mmt-logo.svg';
 
 const style = {
   appBar: {
@@ -57,6 +58,7 @@ class TopNavigation extends Component {
     return (
       <AppBar style={style.appBar} position="static" elevation={0}>
         <ToolBar style={{ maxWidth: '1140px', margin: '0 auto', width: '100%' }}>
+          <img src={Logo} alt="MMT" height="40" width="40" style={{ marginRight: '20px', marginLeft: '-5px' }} />
           <div style={{ flex: 1 }}>
             {isAuthenticated && <MainNavigationLink to="/dashboard">Dashboard</MainNavigationLink>}
           </div>
