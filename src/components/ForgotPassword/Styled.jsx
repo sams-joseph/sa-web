@@ -2,6 +2,10 @@ import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 import constants from '../constants';
 
+export const Wrapper = styled.div`
+  min-height: calc(100vh - 435px);
+`;
+
 export const Form = styled.form`
   font-family: ${constants.fontFamily};
   font-size: ${constants.fontSizeMedium};

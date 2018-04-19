@@ -39,7 +39,7 @@ class Alert extends Component {
 
 const { func, string, bool } = PropTypes;
 Alert.propTypes = {
-  toggleMessage: func.isRequired,
+  toggleMessage: func,
   type: string.isRequired,
   text: string.isRequired,
   closable: bool.isRequired,
@@ -51,6 +51,7 @@ Alert.defaultProps = {
   closable: false,
   margin: false,
   topMargin: true,
+  toggleMessage: undefined,
 };
 
 export default Alert;

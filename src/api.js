@@ -13,12 +13,18 @@ export default {
         .then(res => res.data.user),
     confirm: token =>
       axios.post(`${process.env.REACT_APP_API_HOST}/api/auth/confirmation`, { token }).then(res => res.data.user),
-    resetPassword: credentials =>
+    forgotPassword: credentials =>
       axios
         .post(`${process.env.REACT_APP_API_HOST}/api/auth/forgot-password`, {
           credentials,
         })
-        .then(res => res.data.user),
+        .then(res => res.data.message),
+    resetPassword: credentials =>
+      axios
+        .post(`${process.env.REACT_APP_API_HOST}/api/auth/reset-password`, {
+          credentials,
+        })
+        .then(res => res.data.message),
     validateToken: token => axios.post(`${process.env.REACT_APP_API_HOST}/api/auth/validate-token`, { token }),
   },
   csr: {

@@ -7,7 +7,7 @@ import Button from 'material-ui/Button';
 import Alert from '../Alert';
 import { Form, Heading } from './Styled';
 
-class ResetPasswordForm extends Component {
+class ForgotPasswordForm extends Component {
   state = {
     data: {
       email: '',
@@ -27,7 +27,9 @@ class ResetPasswordForm extends Component {
     const errors = this.validate(this.state.data);
     this.setState({ errors });
     if (Object.keys(errors).length === 0) {
-      this.props.submit(this.state.data);
+      this.props.submit(this.state.data).catch(err => {
+        this.setState({ errors: err.response.data.errors });
+      });
     }
   };
 
@@ -71,8 +73,8 @@ class ResetPasswordForm extends Component {
 }
 
 const { func } = PropTypes;
-ResetPasswordForm.propTypes = {
+ForgotPasswordForm.propTypes = {
   submit: func.isRequired,
 };
 
-export default ResetPasswordForm;
+export default ForgotPasswordForm;

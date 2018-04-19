@@ -1,16 +1,15 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import ResetPasswordForm from './ResetPasswordForm';
+import ForgotPasswordForm from './ForgotPasswordForm';
 import Success from '../Success';
-import { resetPassword } from '../../actions/auth';
+import { forgotPassword } from '../../actions/auth';
 import { Wrapper } from './Styled';
 
-class ResetPassword extends Component {
+class ForgotPassword extends Component {
   state = { reset: false, message: '' };
-
   submit = data =>
-    this.props.resetPassword({ password: data, token: this.props.match.params.token }).then(res => {
+    this.props.forgotPassword(data).then(res => {
       this.setState({ reset: true, message: res });
     });
 
@@ -20,7 +19,7 @@ class ResetPassword extends Component {
         {this.state.reset ? (
           <Success headline="Password Reset" message={this.state.message} redirect={{ text: 'Login', to: '/login' }} />
         ) : (
-          <ResetPasswordForm submit={this.submit} />
+          <ForgotPasswordForm submit={this.submit} />
         )}
       </Wrapper>
     );
@@ -28,8 +27,8 @@ class ResetPassword extends Component {
 }
 
 const { func } = PropTypes;
-ResetPassword.propTypes = {
-  resetPassword: func.isRequired,
+ForgotPassword.propTypes = {
+  forgotPassword: func.isRequired,
 };
 
-export default connect(null, { resetPassword })(ResetPassword);
+export default connect(null, { forgotPassword })(ForgotPassword);
