@@ -7,6 +7,7 @@ export const Container = styled.div`
   padding: 0 20px;
   width: 100%;
   margin-bottom: 70px;
+  min-height: calc(100vh - 435px);
 `;
 
 export const PartItems = styled.div`

@@ -279,13 +279,15 @@ class Order extends Component {
           <div>
             {this.state.activeStep === steps.length ? (
               <ButtonGarden>
-                <Completion headline="Success!" message="Your item has been added to your cart" />
-                <Button style={{ marginRight: '10px' }} color="primary" component={Link} to="/cart">
-                  To Cart
-                </Button>
-                <Button style={{ marginLeft: '10px' }} variant="raised" color="primary" onClick={this.handleReset}>
-                  New Order
-                </Button>
+                <div style={{ minHeight: 'calc(100vh - 435px)' }}>
+                  <Completion headline="Success!" message="Your item has been added to your cart" />
+                  <Button style={{ marginRight: '10px' }} color="primary" component={Link} to="/cart">
+                    To Cart
+                  </Button>
+                  <Button style={{ marginLeft: '10px' }} variant="raised" color="primary" onClick={this.handleReset}>
+                    New Order
+                  </Button>
+                </div>
               </ButtonGarden>
             ) : (
               <div>
