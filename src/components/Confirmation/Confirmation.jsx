@@ -21,7 +21,7 @@ class Confirmation extends Component {
   render() {
     const { loading, success } = this.state;
     return (
-      <div>
+      <div style={{ minHeight: 'calc(100vh - 435px)' }}>
         {loading && (
           <Message icon>
             <Icon name="circle notched" loading />
