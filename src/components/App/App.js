@@ -10,6 +10,7 @@ import Alert from '../Alert';
 import Announce from '../Announce';
 import Login from '../Login';
 import Dashboard from '../Dashboard';
+import ForgotPassword from '../ForgotPassword';
 import ResetPassword from '../ResetPassword';
 import Confirmation from '../Confirmation';
 import TopNavigation from '../navigation/TopNavigation';
@@ -71,11 +72,11 @@ class App extends Component {
           alertMessage && (
             <Alert closable type="info" text="Your email has not been verified" toggleMessage={this.toggleMessage} />
           )}
-        <UserRoute location={location} path="/" exact component={Dashboard} />
         <Route location={location} path="/confirmation/:token" exact component={Confirmation} />
-        <Route location={location} path="/reset-password/:token" exact component={Confirmation} />
+        <Route location={location} path="/reset-password" exact component={ForgotPassword} />
+        <Route location={location} path="/reset-password/:token" exact component={ResetPassword} />
         <GuestRoute location={location} path="/login" exact component={Login} />
-        <Route location={location} path="/reset-password" exact component={ResetPassword} />
+        <UserRoute location={location} path="/" exact component={Dashboard} />
         <UserRoute location={location} path="/dashboard" exact component={Dashboard} />
         <UserRoute location={location} path="/products" exact component={Products} />
         <UserRoute location={location} path="/create-order" exact component={Order} />

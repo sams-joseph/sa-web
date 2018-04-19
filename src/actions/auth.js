@@ -1,4 +1,4 @@
-import { USER_LOGGED_IN, USER_LOGGED_OUT, USER_RESET_PASSWORD } from '../types';
+import { USER_LOGGED_IN, USER_LOGGED_OUT, USER_FORGOT_PASSWORD } from '../types';
 import setAuthorizationHeader from '../utils/setAuthorizationHeader';
 import api from '../api';
 
@@ -11,8 +11,8 @@ export const userLoggedOut = () => ({
   type: USER_LOGGED_OUT,
 });
 
-export const userResetPassword = user => ({
-  type: USER_RESET_PASSWORD,
+export const userForgotPassword = user => ({
+  type: USER_FORGOT_PASSWORD,
   user,
 });
 
@@ -29,8 +29,9 @@ export const logout = () => dispatch => {
   dispatch(userLoggedOut());
 };
 
-export const resetPassword = credentials => dispatch =>
-  api.user.resetPassword(credentials).then(user => dispatch(userResetPassword(user)));
+export const forgotPassword = credentials => () => api.user.forgotPassword(credentials).then(res => res);
+
+export const resetPassword = credentials => () => api.user.resetPassword(credentials).then(res => res);
 
 export const confirm = token => dispatch =>
   api.user.confirm(token).then(user => {
