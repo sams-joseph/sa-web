@@ -1,9 +1,7 @@
 import styled from 'styled-components';
 import constants from '../constants';
 
-export const Wrapper = styled.div`
-  min-height: calc(100vh - 435px);
-`;
+export const Wrapper = styled.div``;
 
 export const Container = styled.div`
   font-family: ${constants.fontFamily};

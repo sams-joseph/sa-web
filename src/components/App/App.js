@@ -29,6 +29,7 @@ import UserRoute from '../routes/UserRoute';
 import GuestRoute from '../routes/GuestRoute';
 
 import { closeAlertMessage, closeLoginMessage } from '../../actions/message';
+import { Wrapper } from '../Styled';
 
 class App extends Component {
   onClose = () => {
@@ -44,47 +45,49 @@ class App extends Component {
 
     return (
       <div>
-        {isAuthenticated && (
-          <Snackbar
-            anchorOrigin={{
-              vertical: 'bottom',
-              horizontal: 'right',
-            }}
-            open={loginMessage}
-            onClose={this.onClose}
-            autoHideDuration={5000}
-            SnackbarContentProps={{
-              'aria-describedby': 'message-id',
-            }}
-            message={<span id="message-id">Successfully logged in</span>}
-            action={
-              <IconButton>
-                <CheckCircle style={{ color: '#00E676' }} />
-              </IconButton>
-            }
-          />
-        )}
-        <CssBaseline />
-        <TopNavigation location={location} />
-        {isAuthenticated && <Announce />}
-        {!isConfirmed &&
-          isAuthenticated &&
-          alertMessage && (
-            <Alert closable type="info" text="Your email has not been verified" toggleMessage={this.toggleMessage} />
+        <Wrapper>
+          {isAuthenticated && (
+            <Snackbar
+              anchorOrigin={{
+                vertical: 'bottom',
+                horizontal: 'right',
+              }}
+              open={loginMessage}
+              onClose={this.onClose}
+              autoHideDuration={5000}
+              SnackbarContentProps={{
+                'aria-describedby': 'message-id',
+              }}
+              message={<span id="message-id">Successfully logged in</span>}
+              action={
+                <IconButton>
+                  <CheckCircle style={{ color: '#00E676' }} />
+                </IconButton>
+              }
+            />
           )}
-        <Route location={location} path="/confirmation/:token" exact component={Confirmation} />
-        <Route location={location} path="/reset-password" exact component={ForgotPassword} />
-        <Route location={location} path="/reset-password/:token" exact component={ResetPassword} />
-        <GuestRoute location={location} path="/login" exact component={Login} />
-        <UserRoute location={location} path="/" exact component={Dashboard} />
-        <UserRoute location={location} path="/dashboard" exact component={Dashboard} />
-        <UserRoute location={location} path="/products" exact component={Products} />
-        <UserRoute location={location} path="/create-order" exact component={Order} />
-        <UserRoute location={location} path="/cart" exact component={Cart} />
-        <UserRoute location={location} path="/checkout" exact component={Checkout} />
-        <UserRoute location={location} path="/order/:id" exact component={OrderDetails} />
-        <UserRoute location={location} path="/account" exact component={Account} />
-        <AdminRoute location={location} path="/admin" exact component={Admin} />
+          <CssBaseline />
+          <TopNavigation location={location} />
+          {isAuthenticated && <Announce />}
+          {!isConfirmed &&
+            isAuthenticated &&
+            alertMessage && (
+              <Alert closable type="info" text="Your email has not been verified" toggleMessage={this.toggleMessage} />
+            )}
+          <Route location={location} path="/confirmation/:token" exact component={Confirmation} />
+          <Route location={location} path="/reset-password" exact component={ForgotPassword} />
+          <Route location={location} path="/reset-password/:token" exact component={ResetPassword} />
+          <GuestRoute location={location} path="/login" exact component={Login} />
+          <UserRoute location={location} path="/" exact component={Dashboard} />
+          <UserRoute location={location} path="/dashboard" exact component={Dashboard} />
+          <UserRoute location={location} path="/products" exact component={Products} />
+          <UserRoute location={location} path="/create-order" exact component={Order} />
+          <UserRoute location={location} path="/cart" exact component={Cart} />
+          <UserRoute location={location} path="/checkout" exact component={Checkout} />
+          <UserRoute location={location} path="/order/:id" exact component={OrderDetails} />
+          <UserRoute location={location} path="/account" exact component={Account} />
+          <AdminRoute location={location} path="/admin" exact component={Admin} />
+        </Wrapper>
         <Footer />
       </div>
     );
