@@ -77,6 +77,7 @@ class Order extends Component {
     checkedProduct: 0,
     checkedSize: 0,
     checkedDesign: 0,
+    loading: true,
   };
 
   componentWillMount() {
@@ -260,90 +261,103 @@ class Order extends Component {
   render() {
     const { classes, order } = this.props;
     const steps = getSteps();
-    const { activeStep } = this.state;
+    const { activeStep, loading } = this.state;
 
     return (
       <Wrapper>
-        <StepperContainer>
-          <Container>
-            <Stepper activeStep={activeStep} className={classes.stepper}>
-              {steps.map(label => (
-                <Step key={label}>
-                  <StepLabel>{label}</StepLabel>
-                </Step>
-              ))}
-            </Stepper>
-          </Container>
-        </StepperContainer>
-        <Container>
+        {loading ? (
+          <CircularProgress
+            style={{ left: '50%', position: 'absolute', transform: 'translateX(-50%)', marginTop: '50px' }}
+          />
+        ) : (
           <div>
-            {this.state.activeStep === steps.length ? (
-              <ButtonGarden>
-                <div style={{ minHeight: 'calc(100vh - 435px)' }}>
-                  <Completion headline="Success!" message="Your item has been added to your cart" />
-                  <Button style={{ marginRight: '10px' }} color="primary" component={Link} to="/cart">
-                    To Cart
-                  </Button>
-                  <Button style={{ marginLeft: '10px' }} variant="raised" color="primary" onClick={this.handleReset}>
-                    New Order
-                  </Button>
-                </div>
-              </ButtonGarden>
-            ) : (
+            <StepperContainer>
+              <Container>
+                <Stepper activeStep={activeStep} className={classes.stepper}>
+                  {steps.map(label => (
+                    <Step key={label}>
+                      <StepLabel>{label}</StepLabel>
+                    </Step>
+                  ))}
+                </Stepper>
+              </Container>
+            </StepperContainer>
+            <Container>
               <div>
-                <div className={classes.instructions}>{this.getStepContent(activeStep)}</div>
-                <div>
-                  <Button disabled={activeStep === 0} onClick={this.handleBack} className={classes.backButton}>
-                    Back
-                  </Button>
-                  {activeStep === steps.length - 1 ? (
-                    <Button
-                      disabled={
-                        (activeStep === 0 && !order.product) ||
-                        (activeStep === 1 && !order.size) ||
-                        (activeStep === 2 && !order.design) ||
-                        this.state.uploading
-                      }
-                      variant="raised"
-                      color="primary"
-                      onClick={this.addToCart}
-                    >
-                      {this.state.uploading ? (
-                        <CircularProgress
-                          size={24}
-                          className={classes.buttonProgress}
-                          style={{
-                            color: constants.defaultPrimaryColor,
-                            position: 'absolute',
-                            top: '50%',
-                            left: '50%',
-                            marginTop: -12,
-                            marginLeft: -12,
-                          }}
-                        />
+                {this.state.activeStep === steps.length ? (
+                  <ButtonGarden>
+                    <div style={{ minHeight: 'calc(100vh - 435px)' }}>
+                      <Completion headline="Success!" message="Your item has been added to your cart" />
+                      <Button style={{ marginRight: '10px' }} color="primary" component={Link} to="/cart">
+                        To Cart
+                      </Button>
+                      <Button
+                        style={{ marginLeft: '10px' }}
+                        variant="raised"
+                        color="primary"
+                        onClick={this.handleReset}
+                      >
+                        New Order
+                      </Button>
+                    </div>
+                  </ButtonGarden>
+                ) : (
+                  <div>
+                    <div className={classes.instructions}>{this.getStepContent(activeStep)}</div>
+                    <div>
+                      <Button disabled={activeStep === 0} onClick={this.handleBack} className={classes.backButton}>
+                        Back
+                      </Button>
+                      {activeStep === steps.length - 1 ? (
+                        <Button
+                          disabled={
+                            (activeStep === 0 && !order.product) ||
+                            (activeStep === 1 && !order.size) ||
+                            (activeStep === 2 && !order.design) ||
+                            this.state.uploading
+                          }
+                          variant="raised"
+                          color="primary"
+                          onClick={this.addToCart}
+                        >
+                          {this.state.uploading ? (
+                            <CircularProgress
+                              size={24}
+                              className={classes.buttonProgress}
+                              style={{
+                                color: constants.defaultPrimaryColor,
+                                position: 'absolute',
+                                top: '50%',
+                                left: '50%',
+                                marginTop: -12,
+                                marginLeft: -12,
+                              }}
+                            />
+                          ) : (
+                            'Add to Cart'
+                          )}
+                        </Button>
                       ) : (
-                        'Add to Cart'
+                        <Button
+                          disabled={
+                            (activeStep === 0 && !order.product) ||
+                            (activeStep === 1 && !order.size) ||
+                            (activeStep === 2 && !order.design)
+                          }
+                          variant="raised"
+                          color="primary"
+                          onClick={this.handleNext}
+                        >
+                          Next
+                        </Button>
                       )}
-                    </Button>
-                  ) : (
-                    <Button
-                      disabled={
-                        (activeStep === 0 && !order.product) ||
-                        (activeStep === 1 && !order.size) ||
-                        (activeStep === 2 && !order.design)
-                      }
-                      variant="raised"
-                      color="primary"
-                      onClick={this.handleNext}
-                    >
-                      Next
-                    </Button>
-                  )}
-                </div>
+                    </div>
+                  </div>
+                )}
               </div>
-            )}
+            </Container>
           </div>
-        </Container>
+        )}
       </Wrapper>
     );
   }
