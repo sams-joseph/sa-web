@@ -60,19 +60,24 @@ class TopNavigation extends Component {
         <ToolBar style={{ maxWidth: '1140px', margin: '0 auto', width: '100%' }}>
           <img src={Logo} alt="MMT" height="40" width="40" style={{ marginRight: '20px', marginLeft: '-5px' }} />
           <div style={{ flex: 1 }}>
-            {isAuthenticated && <MainNavigationLink to="/dashboard">Dashboard</MainNavigationLink>}
+            {isAuthenticated && (
+              <div>
+                <MainNavigationLink to="/dashboard">Dashboard</MainNavigationLink>
+                <MainNavigationLink to="/orders">Orders</MainNavigationLink>
+              </div>
+            )}
           </div>
           {isAuthenticated ? (
             <NavigationGroupRight>
               <CreateOrderBtn to="/create-order">Order</CreateOrderBtn>
             </NavigationGroupRight>
           ) : (
-            <NavigationGroupRight>
-              <Button variant="raised" color="primary" component={Link} to="/login">
-                Login
+              <NavigationGroupRight>
+                <Button variant="raised" color="primary" component={Link} to="/login">
+                  Login
               </Button>
-            </NavigationGroupRight>
-          )}
+              </NavigationGroupRight>
+            )}
           {isAuthenticated && (
             <div>
               <CartBadge />

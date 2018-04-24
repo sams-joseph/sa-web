@@ -104,7 +104,7 @@ class Dashboard extends Component {
                 </ChartContainer>
               </Flex>
               <Flex>
-                <PaginatedTable />
+                <PaginatedTable rowsPerPage={5} subHeading />
                 <RecentOrder />
               </Flex>
             </div>
