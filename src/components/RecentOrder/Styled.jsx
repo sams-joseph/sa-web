@@ -6,6 +6,12 @@ export const Container = styled.div`
   max-width: 400px;
   width: 100%;
   margin-left: 40px;
+
+  @media (max-width: 900px) {
+    margin-left: 0;
+    max-width: 100%;
+    order: -1;
+  }
 `;
 
 export const SubHeading = styled.h2`
@@ -17,7 +23,7 @@ export const SubHeading = styled.h2`
   margin-top: 0;
 `;
 
-export const OrderLink = styled(Link)`
+export const OrderLink = styled(Link) `
   display: inline-block;
   margin-bottom: 20px;
 `;

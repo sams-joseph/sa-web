@@ -18,6 +18,10 @@ export const Flex = styled.div`
   display: flex;
   margin-bottom: 50px;
   justify-content: space-between;
+
+  @media (max-width: 900px) {
+    flex-wrap: wrap;
+  }
 `;
 
 export const SectionHeader = styled.h2`
