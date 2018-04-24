@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { CircularProgress } from 'material-ui/Progress';
 import api from '../../api';
 import PartItem from '../PartItem';
 
@@ -27,6 +28,7 @@ class OrderDetails extends Component {
       byId: [],
       byHash: {},
     },
+    loading: true,
   };
 
   componentWillMount() {
@@ -35,6 +37,7 @@ class OrderDetails extends Component {
         ...this.state,
         order,
         orderParts: order.parts,
+        loading: false,
       });
     });
   }
@@ -51,24 +54,30 @@ class OrderDetails extends Component {
             <SubHeading>Order Number</SubHeading>
           </div>
         </Flex>
-        <Flex>
-          <PartItems>
-            <SectionHeading>
-              <SectionIcon src={ListSvg} alt="Order Parts" />Order Parts
-            </SectionHeading>
-            {orderParts.map(part => <PartItem key={part.id} item={part} />)}
-          </PartItems>
-          <ShippingList>
-            <ShippingHeading>
-              <SectionIcon src={ShippingSvg} alt="Shipping" />Shipping
-            </ShippingHeading>
-            <ShippingListItem>{order.shippingName}</ShippingListItem>
-            <ShippingListItem>{order.shippingAddress}</ShippingListItem>
-            <ShippingListItem>
-              {order.shippingCity}, {order.shippingState}, {order.shippingZip}
-            </ShippingListItem>
-          </ShippingList>
-        </Flex>
+        {this.state.loading ? (
+          <CircularProgress
+            style={{ left: '50%', position: 'absolute', transform: 'translateX(-50%)', marginTop: '50px' }}
+          />
+        ) : (
+          <Flex>
+            <PartItems>
+              <SectionHeading>
+                <SectionIcon src={ListSvg} alt="Order Parts" />Order Parts
+              </SectionHeading>
+              {orderParts.map(part => <PartItem key={part.id} item={part} />)}
+            </PartItems>
+            <ShippingList>
+              <ShippingHeading>
+                <SectionIcon src={ShippingSvg} alt="Shipping" />Shipping
+              </ShippingHeading>
+              <ShippingListItem>{order.shippingName}</ShippingListItem>
+              <ShippingListItem>{order.shippingAddress}</ShippingListItem>
+              <ShippingListItem>
+                {order.shippingCity}, {order.shippingState}, {order.shippingZip}
+              </ShippingListItem>
+            </ShippingList>
+          </Flex>
+        )}
       </Container>
     );
   }

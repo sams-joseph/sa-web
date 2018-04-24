@@ -24,6 +24,7 @@ export const Flex = styled.div`
   margin-top: 70px;
   margin-bottom: 50px;
   display: flex;
+  flex-wrap: wrap;
 `;
 
 export const Heading = styled.h1`
@@ -51,6 +52,12 @@ export const ShippingList = styled.ul`
   list-style-type: none;
   padding: 0;
   margin: 0 0 50px 70px;
+
+  @media (max-width: 1040px) {
+    flex: 0 0 100%;
+    margin: 0 0 40px 0;
+    order: -1;
+  }
 `;
 
 export const SectionHeading = styled.h2`
