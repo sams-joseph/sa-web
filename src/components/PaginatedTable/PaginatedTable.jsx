@@ -64,7 +64,7 @@ class PaginatedTable extends React.Component {
 
     this.state = {
       page: 0,
-      rowsPerPage: 5,
+      rowsPerPage: this.props.rowsPerPage,
     };
   }
 
@@ -77,7 +77,7 @@ class PaginatedTable extends React.Component {
   };
 
   render() {
-    const { classes, orderHistory } = this.props;
+    const { classes, orderHistory, subHeading } = this.props;
     const { rowsPerPage, page } = this.state;
     const data = orderHistory
       .map(order => createData(order.id + 100000, order.shippingName, order.createdAt))
@@ -86,9 +86,11 @@ class PaginatedTable extends React.Component {
 
     return (
       <Container>
-        <SubHeading>
-          <SectionIcon src={HistorySvg} alt="Order History" /> Order History
-        </SubHeading>
+        {subHeading && (
+          <SubHeading>
+            <SectionIcon src={HistorySvg} alt="Order History" /> Order History
+          </SubHeading>
+        )}
         <Paper className={classes.root} elevation={0}>
           <div className={classes.tableWrapper}>
             <Table className={classes.table}>

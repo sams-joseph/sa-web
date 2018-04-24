@@ -21,6 +21,7 @@ import Checkout from '../Checkout';
 import OrderDetails from '../OrderDetails';
 import Account from '../Account';
 import Admin from '../Admin';
+import Orders from '../Orders';
 
 import Footer from '../Footer';
 
@@ -86,6 +87,7 @@ class App extends Component {
           <UserRoute location={location} path="/checkout" exact component={Checkout} />
           <UserRoute location={location} path="/order/:id" exact component={OrderDetails} />
           <UserRoute location={location} path="/account" exact component={Account} />
+          <UserRoute location={location} path="/orders" exact component={Orders} />
           <AdminRoute location={location} path="/admin" exact component={Admin} />
         </Wrapper>
         <Footer />
