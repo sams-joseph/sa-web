@@ -190,7 +190,7 @@ export const SearchContainer = styled.div`
 export const SearchResults = styled.div`
   position: absolute;
   min-width: 200px;
-  top: 110px;
+  top: 75px;
   border-radius: 2px;
   box-shadow: 0 3px 15px 3px rgba(0, 0, 0, 0.2);
   color: ${constants.almostBlack};
@@ -234,5 +234,29 @@ export const CloseButton = styled.div`
 
   &:hover {
     opacity: 0.8;
+  }
+`;
+
+export const FormGroup = styled.div`
+  display: flex;
+  align-items: center;
+
+  @media (max-width: 500px) {
+    display: block;
+  }
+`;
+
+export const FlexField = styled.div`
+  flex: 1;
+  margin-right: 20px;
+
+  @media (max-width: 500px) {
+    margin-right: 0;
+  }
+`;
+
+export const FlexButton = styled.div`
+  @media (max-width: 500px) {
+    width: 100%;
   }
 `;

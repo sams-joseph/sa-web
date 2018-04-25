@@ -9,13 +9,25 @@ import { Link } from 'react-router-dom';
 import AccountCircle from 'material-ui-icons/AccountCircle';
 import Settings from 'material-ui-icons/Settings';
 import Security from 'material-ui-icons/Security';
+import Dashboard from 'material-ui-icons/Dashboard';
+import CreateNewFolder from 'material-ui-icons/CreateNewFolder';
+import LibraryBooks from 'material-ui-icons/LibraryBooks';
 import PowerSettingsNew from 'material-ui-icons/PowerSettingsNew';
+import Dehaze from 'material-ui-icons/Dehaze';
 import { MenuItem } from 'material-ui/Menu';
 import Popover from 'material-ui/Popover';
 import { ListItemIcon, ListItemText } from 'material-ui/List';
 import { logout } from '../../../actions/auth';
 import CartBadge from '../../CartBadge';
-import { NavigationGroupRight, MainNavigationLink, CreateOrderBtn } from './Styled';
+import {
+  NavigationGroupRight,
+  MainNavigationLink,
+  CreateOrderBtn,
+  AuthNavigation,
+  MobileNavButton,
+  ScreenNav,
+  MobileNav,
+} from './Styled';
 import Logo from './images/mmt-logo.svg';
 
 const style = {
@@ -61,10 +73,10 @@ class TopNavigation extends Component {
           <img src={Logo} alt="MMT" height="40" width="40" style={{ marginRight: '20px', marginLeft: '-5px' }} />
           <div style={{ flex: 1 }}>
             {isAuthenticated && (
-              <div>
+              <AuthNavigation>
                 <MainNavigationLink to="/dashboard">Dashboard</MainNavigationLink>
                 <MainNavigationLink to="/orders">Orders</MainNavigationLink>
-              </div>
+              </AuthNavigation>
             )}
           </div>
           {isAuthenticated ? (
@@ -72,18 +84,25 @@ class TopNavigation extends Component {
               <CreateOrderBtn to="/create-order">Order</CreateOrderBtn>
             </NavigationGroupRight>
           ) : (
-              <NavigationGroupRight>
-                <Button variant="raised" color="primary" component={Link} to="/login">
-                  Login
+            <NavigationGroupRight>
+              <Button variant="raised" color="primary" component={Link} to="/login">
+                Login
               </Button>
-              </NavigationGroupRight>
-            )}
+            </NavigationGroupRight>
+          )}
           {isAuthenticated && (
             <div>
               <CartBadge />
-              <IconButton aria-owns={open ? 'menu-appbar' : null} aria-haspopup="true" onClick={this.handleMenu}>
-                <AccountCircle />
-              </IconButton>
+              <ScreenNav>
+                <IconButton aria-owns={open ? 'menu-appbar' : null} aria-haspopup="true" onClick={this.handleMenu}>
+                  <AccountCircle />
+                </IconButton>
+              </ScreenNav>
+              <MobileNavButton>
+                <IconButton aria-owns={open ? 'menu-appbar' : null} aria-haspopup="true" onClick={this.handleMenu}>
+                  <Dehaze />
+                </IconButton>
+              </MobileNavButton>
               <Popover
                 id="menu-appbar"
                 anchorEl={anchorEl}
@@ -106,6 +125,26 @@ class TopNavigation extends Component {
                     <ListItemText inset primary="Admin" />
                   </MenuItem>
                 )}
+                <MobileNav>
+                  <MenuItem component={Link} to="/dashboard" onClick={this.handleClose}>
+                    <ListItemIcon style={{ width: '18px', height: '18px' }}>
+                      <Dashboard />
+                    </ListItemIcon>
+                    <ListItemText inset primary="Dashboard" />
+                  </MenuItem>
+                  <MenuItem component={Link} to="/orders" onClick={this.handleClose}>
+                    <ListItemIcon style={{ width: '18px', height: '18px' }}>
+                      <LibraryBooks />
+                    </ListItemIcon>
+                    <ListItemText inset primary="Orders" />
+                  </MenuItem>
+                  <MenuItem component={Link} to="/create-order" onClick={this.handleClose}>
+                    <ListItemIcon style={{ width: '18px', height: '18px' }}>
+                      <CreateNewFolder />
+                    </ListItemIcon>
+                    <ListItemText inset primary="Order" />
+                  </MenuItem>
+                </MobileNav>
                 <MenuItem component={Link} to="/account" onClick={this.handleClose}>
                   <ListItemIcon style={{ width: '18px', height: '18px' }}>
                     <Settings />
