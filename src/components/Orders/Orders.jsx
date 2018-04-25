@@ -2,8 +2,11 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { CircularProgress } from 'material-ui/Progress';
 import TextField from 'material-ui/TextField';
+import IconButton from 'material-ui/IconButton';
 import Button from 'material-ui/Button';
 import { InputAdornment } from 'material-ui/Input';
+import NavigateNext from 'material-ui-icons/NavigateNext';
+import NavigateBefore from 'material-ui-icons/NavigateBefore';
 import Search from 'material-ui-icons/Search';
 import { connect } from 'react-redux';
 import { getOrderHistory } from '../../actions/orderHistory';
@@ -27,7 +30,7 @@ import {
 } from './Styled';
 
 class Orders extends Component {
-  state = { loading: true, search: '', orders: [], searchLoading: true, showResults: false };
+  state = { loading: true, search: '', orders: [], searchLoading: true, showResults: false, offset: 0 };
 
   componentWillMount() {
     this.props
@@ -42,13 +45,18 @@ class Orders extends Component {
       });
   }
 
-  onClick = e => {
+  onSubmit = e => {
     e.preventDefault();
-    this.setState({ searchLoading: true, showResults: true });
+    this.setState({ searchLoading: true, showResults: true, isEnd: false, offset: 0 });
 
     api.search
       .byNameDate(this.state.search, 5, 0)
-      .then(orders => this.setState({ orders, searchLoading: false }))
+      .then(orders => {
+        if (orders.length < 5) {
+          this.setState({ isEnd: true });
+        }
+        this.setState({ orders, searchLoading: false });
+      })
       .catch(() => {
         this.props.logout();
       });
@@ -64,6 +72,35 @@ class Orders extends Component {
     this.setState({ showResults: false });
   };
 
+  handleNext = () => {
+    const nextSet = this.state.offset + 5;
+    this.setState({ searchLoading: true, offset: nextSet });
+    api.search
+      .byNameDate(this.state.search, 5, nextSet)
+      .then(orders => {
+        if (orders.length < 5) {
+          this.setState({ isEnd: true });
+        }
+        this.setState({ orders, searchLoading: false });
+      })
+      .catch(() => {
+        this.props.logout();
+      });
+  };
+
+  handlePrev = () => {
+    const prevSet = this.state.offset - 5;
+    this.setState({ searchLoading: true, offset: prevSet, isEnd: false });
+    api.search
+      .byNameDate(this.state.search, 5, prevSet)
+      .then(orders => {
+        this.setState({ orders, searchLoading: false });
+      })
+      .catch(() => {
+        this.props.logout();
+      });
+  };
+
   render() {
     const { showAlertMessage } = this.props;
 
@@ -74,7 +111,7 @@ class Orders extends Component {
             <DashboardIconSmall src={OrderIcon} alt="Empty Cart" />Orders
           </Heading>
           <SearchContainer>
-            <form onSubmit={this.onClick}>
+            <form onSubmit={this.onSubmit}>
               <FormGroup>
                 <FlexField>
                   <TextField
@@ -104,6 +141,14 @@ class Orders extends Component {
             {this.state.showResults && (
               <SearchResults>
                 <Results loading={this.state.searchLoading} orders={this.state.orders} />
+                <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                  <IconButton aria-label="Previous" onClick={this.handlePrev} disabled={this.state.offset <= 0}>
+                    <NavigateBefore />
+                  </IconButton>
+                  <IconButton aria-label="Next" disabled={this.state.isEnd} onClick={this.handleNext}>
+                    <NavigateNext />
+                  </IconButton>
+                </div>
                 <CloseButton onClick={this.handleClose}>Close</CloseButton>
               </SearchResults>
             )}
