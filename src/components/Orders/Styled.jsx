@@ -194,6 +194,28 @@ export const SearchResults = styled.div`
   box-shadow: 0 3px 15px 3px rgba(0, 0, 0, 0.2);
   color: ${constants.almostBlack};
   background: white;
-  padding: 5px 20px;
+  padding: 5px 15px 5px 15px;
   z-index: 1000;
+  font-size: ${constants.fontSizeMedium};
+`;
+
+export const ResultRow = styled.div`
+  display: flex;
+  border-bottom: 1px solid ${constants.almostWhite};
+
+  &:last-child {
+    border: none;
+  }
+`;
+
+export const PartItem = styled.div`
+  margin-top: 5px;
+`;
+
+export const PartNumber = styled.span`
+  font-weight: ${constants.fontWeightMedium};
+`;
+
+export const PartDetails = styled.span`
+  margin-left: 10px;
 `;

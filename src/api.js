@@ -116,7 +116,9 @@ export default {
     getAll: () => axios.get(`${process.env.REACT_APP_API_HOST}/api/roles`).then(res => res.data.roles),
   },
   search: {
-    byNameDate: query =>
-      axios.get(`${process.env.REACT_APP_API_HOST}/api/search`, { params: { query } }).then(res => res.data.orders),
+    byNameDate: (query, limit, offset) =>
+      axios
+        .get(`${process.env.REACT_APP_API_HOST}/api/search`, { params: { query, limit, offset } })
+        .then(res => res.data.orders),
   },
 };
