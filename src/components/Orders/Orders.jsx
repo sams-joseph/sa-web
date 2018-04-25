@@ -82,7 +82,7 @@ class Orders extends Component {
                     ),
                   }}
                 />
-                <Button variant="raised" color="primary">
+                <Button type="submit" variant="raised" color="primary">
                   <Search />
                 </Button>
               </FormGroup>
