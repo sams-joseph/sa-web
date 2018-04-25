@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { CircularProgress } from 'material-ui/Progress';
 import TextField from 'material-ui/TextField';
-import { FormGroup } from 'material-ui/Form';
 import Button from 'material-ui/Button';
 import { InputAdornment } from 'material-ui/Input';
 import Search from 'material-ui-icons/Search';
@@ -15,7 +14,17 @@ import Results from './Results';
 import constants from '../constants';
 import api from '../../api';
 
-import { CloseButton, Wrapper, DashboardIconSmall, Container, Heading, SearchContainer, SearchResults } from './Styled';
+import {
+  FlexField,
+  CloseButton,
+  Wrapper,
+  DashboardIconSmall,
+  Container,
+  Heading,
+  SearchContainer,
+  SearchResults,
+  FormGroup,
+} from './Styled';
 
 class Orders extends Component {
   state = { loading: true, search: '', orders: [], searchLoading: true, showResults: false };
@@ -67,24 +76,29 @@ class Orders extends Component {
           <SearchContainer>
             <form onSubmit={this.onClick}>
               <FormGroup>
-                <TextField
-                  id="search"
-                  margin="normal"
-                  autoComplete="off"
-                  name="search"
-                  onChange={this.handleChange}
-                  placeholder="Search"
-                  InputProps={{
-                    startAdornment: (
-                      <InputAdornment position="start">
-                        <Search style={{ fill: constants.almostBlack }} />
-                      </InputAdornment>
-                    ),
-                  }}
-                />
-                <Button type="submit" variant="raised" color="primary">
-                  <Search />
-                </Button>
+                <FlexField>
+                  <TextField
+                    id="search"
+                    margin="normal"
+                    autoComplete="off"
+                    name="search"
+                    fullWidth
+                    onChange={this.handleChange}
+                    placeholder="Name or Date"
+                    InputProps={{
+                      startAdornment: (
+                        <InputAdornment position="start">
+                          <Search style={{ fill: constants.almostBlack }} />
+                        </InputAdornment>
+                      ),
+                    }}
+                  />
+                </FlexField>
+                <div>
+                  <Button fullWidth type="submit" variant="raised" color="primary">
+                    <Search />
+                  </Button>
+                </div>
               </FormGroup>
             </form>
             {this.state.showResults && (

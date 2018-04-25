@@ -37,7 +37,7 @@ export const UserName = styled.span`
   padding: 0 20px;
 `;
 
-export const MainNavigationLink = styled(NavLink) `
+export const MainNavigationLink = styled(NavLink)`
   font-family: ${constants.fontFamily};
   border-bottom: 2px solid transparent;
   margin-right: 20px;
@@ -59,7 +59,7 @@ export const MainNavigationLink = styled(NavLink) `
   }
 `;
 
-export const CreateOrderBtn = styled(Link) `
+export const CreateOrderBtn = styled(Link)`
   border: 1px solid ${constants.defaultPrimaryColor};
   border-radius: 2px;
   color: ${constants.defaultPrimaryColor};
@@ -81,9 +81,13 @@ export const CreateOrderBtn = styled(Link) `
   &:focus {
     outline: none;
   }
+
+  @media (max-width: 600px) {
+    display: none;
+  }
 `;
 
-export const LoginBtn = styled(Link) `
+export const LoginBtn = styled(Link)`
   border: none;
   border-radius: 2px;
   color: #ffffff;
@@ -105,8 +109,36 @@ export const LoginBtn = styled(Link) `
   }
 `;
 
-export const MaterialAppBar = styled(AppBar) `
+export const MaterialAppBar = styled(AppBar)`
   & > header {
     box-shadow: none;
+  }
+`;
+
+export const AuthNavigation = styled.div`
+  @media (max-width: 600px) {
+    display: none;
+  }
+`;
+
+export const ScreenNav = styled.span`
+  @media (max-width: 600px) {
+    display: none;
+  }
+`;
+
+export const MobileNavButton = styled.span`
+  display: none;
+
+  @media (max-width: 600px) {
+    display: inline;
+  }
+`;
+
+export const MobileNav = styled.span`
+  display: none;
+
+  @media (max-width: 600px) {
+    display: inline;
   }
 `;
