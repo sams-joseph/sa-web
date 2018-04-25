@@ -29,7 +29,7 @@ class Results extends Component {
           </ResultRow>
         ))
       ) : (
-        <div style={{ margin: '15px 0' }}>No match</div>
+        <div style={{ margin: '15px 0' }}>End of results</div>
       );
 
     return <div>{this.props.loading ? <CircularProgress /> : <div>{orderResults}</div>}</div>;
