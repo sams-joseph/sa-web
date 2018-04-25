@@ -202,6 +202,7 @@ export const SearchResults = styled.div`
 
 export const ResultRow = styled.div`
   display: flex;
+  justify-content: space-between;
   border-bottom: 1px solid ${constants.almostWhite};
 
   &:last-child {
