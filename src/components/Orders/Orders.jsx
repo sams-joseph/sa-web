@@ -30,7 +30,7 @@ import {
 } from './Styled';
 
 class Orders extends Component {
-  state = { loading: true, search: '', orders: [], searchLoading: true, showResults: false, offset: 0 };
+  state = { loading: true, search: '', orders: [], searchLoading: true, showResults: false, offset: 0, errors: {} };
 
   componentWillMount() {
     this.props
@@ -47,19 +47,34 @@ class Orders extends Component {
 
   onSubmit = e => {
     e.preventDefault();
-    this.setState({ searchLoading: true, showResults: true, isEnd: false, offset: 0 });
-
-    api.search
-      .byNameDate(this.state.search, 5, 0)
-      .then(orders => {
-        if (orders.length < 5) {
-          this.setState({ isEnd: true });
-        }
-        this.setState({ orders, searchLoading: false });
-      })
-      .catch(() => {
-        this.props.logout();
+    this.setState({ errors: {} });
+    const errors = this.validate(this.state.search);
+    if (Object.keys(errors).length === 0) {
+      this.setState({ searchLoading: true, showResults: true, isEnd: false, offset: 0 });
+      api.search
+        .byNameDate(this.state.search, 5, 0)
+        .then(orders => {
+          if (orders.length < 5) {
+            this.setState({ isEnd: true });
+          }
+          this.setState({ orders, searchLoading: false });
+        })
+        .catch(() => {
+          this.props.logout();
+        });
+    } else {
+      this.setState({
+        errors,
       });
+      this.handleClose();
+    }
+  };
+
+  validate = search => {
+    const errors = {};
+    if (search.length === 0) errors.search = 'Search field left blank';
+
+    return errors;
   };
 
   handleChange = e => {
@@ -119,7 +134,9 @@ class Orders extends Component {
                     margin="normal"
                     autoComplete="off"
                     name="search"
+                    error={!!this.state.errors.search}
                     fullWidth
+                    label={this.state.errors.search ? this.state.errors.search : ''}
                     onChange={this.handleChange}
                     placeholder="Name or Date"
                     InputProps={{
