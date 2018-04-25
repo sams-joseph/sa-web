@@ -39,9 +39,9 @@ class Results extends Component {
             </IconButton>
             <div style={{ padding: '10px 0' }}>
               <Link to={`/order/${order.id + 100000}`}>{order.id + 100000}</Link>
-              {order.parts.map(part => (
+              {order.parts.map((part, index) => (
                 <PartItem key={part.id}>
-                  <PartNumber>{this.pad(part.id)}</PartNumber>
+                  <PartNumber>{this.pad(index + 1)}</PartNumber>
                   <PartDetails>{`${part.name} ${part.date}`}</PartDetails>
                 </PartItem>
               ))}
