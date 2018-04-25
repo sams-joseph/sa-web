@@ -190,11 +190,12 @@ export const SearchContainer = styled.div`
 export const SearchResults = styled.div`
   position: absolute;
   min-width: 200px;
+  top: 110px;
   border-radius: 2px;
   box-shadow: 0 3px 15px 3px rgba(0, 0, 0, 0.2);
   color: ${constants.almostBlack};
   background: white;
-  padding: 5px 15px 5px 15px;
+  padding: 5px 15px 15px 15px;
   z-index: 1000;
   font-size: ${constants.fontSizeMedium};
 `;
@@ -218,4 +219,20 @@ export const PartNumber = styled.span`
 
 export const PartDetails = styled.span`
   margin-left: 10px;
+`;
+
+export const CloseButton = styled.div`
+  background: ${constants.almostWhite};
+  padding: 6px;
+  border-radius: 3px;
+  border: none;
+  outline: none;
+  margin-top: 10px;
+  color: ${constants.almostBlack};
+  cursor: pointer;
+  text-align: center;
+
+  &:hover {
+    opacity: 0.8;
+  }
 `;
